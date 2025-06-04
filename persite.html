@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Left Sidebar Site</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,ro,fr,de,it,es,ru',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <style>
+    :root {
+      --header-height: 60px;
+      --footer-height: 40px;
+      --section-offset: 80px;
+      --gradient-hover: linear-gradient(135deg, #00f2fe, #a100fe, #ff6a00, #ff2b80);
+    }
+
+    * {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Tahoma, sans-serif;
+      background-color: #F4F4F9;
+      color: #1a1a1a;
+    }
+
+    header {
+      height: var(--header-height);
+      background-color: #21A0A0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 20px;
+      color: white;
+    }
+
+    .lang-switcher {
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 80px;
+      height: 100vh;
+      background-color: #2F4550;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .sidebar a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      text-decoration: none;
+      padding: 20px 0;
+    }
+
+    .sidebar i {
+      font-size: 34px;
+      color: white;
+      transition: background 0.6s ease-in-out, -webkit-text-fill-color 0.6s ease-in-out;
+    }
+
+    .sidebar a:hover i {
+      background: var(--gradient-hover);
+      background-size: 300% 300%;
+      animation: gradientShift 3s ease infinite;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .resources-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .resources-dropdown {
+      display: none;
+      position: absolute;
+      left: 100%;
+      bottom: 0;
+      background-color: #222;
+      border-radius: 6px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+      min-width: 160px;
+      transition: all 0.3s ease;
+    }
+
+    .resources-dropdown a {
+      display: block;
+      color: white;
+      padding: 12px 20px;
+      text-decoration: none;
+      background-color: #333;
+      transition: all 0.3s ease;
+      border-bottom: 1px solid #444;
+      font-weight: normal;
+    }
+
+    .resources-dropdown a:last-child {
+      border-bottom: none;
+    }
+
+    .resources-container:hover .resources-dropdown {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .resources-dropdown a:hover {
+      background: var(--gradient-hover);
+      background-size: 300% 300%;
+      animation: gradientShift 3s ease infinite;
+      color: white;
+    }
+
+    .content {
+      margin-left: 80px;
+      padding: 0;
+    }
+
+    section {
+      margin: 50px auto;
+      max-width: 800px;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    section h2 {
+      font-size: 32px;
+      margin-bottom: 24px;
+      color: #111;
+    }
+
+    section p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    footer {
+      background-color: #1D3354;
+      color: white;
+      padding: 20px 10px;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-main {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      padding: 0 100px;
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-right i {
+      font-size: 20px;
+      padding: 0 5px;
+      color: white;
+      transition: color 0.3s;
+    }
+
+    .footer-right i:hover {
+      color: #00f2fe;
+    }
+
+    .footer-note {
+      font-size: 12px;
+      text-align: center;
+      opacity: 0.85;
+    }
+
+    @media (max-width: 600px) {
+      .sidebar {
+        width: 60px;
+      }
+
+      .sidebar i {
+        font-size: 28px;
+      }
+
+      .content {
+        margin-left: 60px;
+      }
+
+      .resources-dropdown {
+        left: 100%;
+        margin-left: 5px;
+      }
+
+      .footer-main {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    .animated-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 200px; /* Set a fixed width for consistency */
+      padding: 14px 0; /* Adjust padding for button appearance */
+      text-decoration: none;
+      color: white; /* Keep text color consistent */
+      background-color: #333; /* Base background color */
+      border-radius: 6px; /* Rounded corners */
+      transition: background 0.6s ease-in-out;
+      position: relative; /* For hover effect */
+      overflow: hidden; /* To contain the gradient */
+      margin: 0 10px; /* Add margin for spacing between buttons */
+    }
+
+    .animated-button:hover {
+      background: var(--gradient-hover);
+      background-size: 300% 300%;
+      animation: gradientShift 3s ease infinite;
+    }
+
+    .animated-button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--gradient-hover);
+      z-index: -1; /* Behind the text */
+      transition: all 0.4s ease;
+      opacity: 0; /* Initially hidden */
+    }
+
+    .animated-button:hover::after {
+      opacity: 1; /* Show on hover */
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="lang-switcher" id="google_translate_element"></div>
+  </header>
+
+  <div class="sidebar">
+    <a href="#user" title="About Me"><i class="fas fa-user"></i></a>
+    <a href="#education" title="Education"><i class="fas fa-graduation-cap"></i></a>
+    <a href="#informatics1" title="Informatics"><i class="fas fa-desktop"></i></a>
+    <a href="#thesis" title="Scientific Thesis"><i class="fas fa-file-alt"></i></a>
+    <div class="resources-container">
+      <a href="#resources" title="Resources"><i class="fas fa-book"></i></a>
+      <div class="resources-dropdown">
+        <a href="#astronomy">Astronomy</a>
+        <a href="#physics">Physics</a>
+        <a href="#mathematics">Mathematics</a>
+        <a href="#informatics2">Computer Science</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <section id="user">
+      <h2>About Me</h2>
+      <p style="text-align: justify;"><img src="persphoto.jpg" alt="Image of me" style="float:left; width:150px; margin-bottom:10px; margin-right:10px;">Hello! My name is Mîrza Damian. I was born in Chișinău, Republic of Moldova. I am a student at the moment, more information about that you can see in <a href="#education">Education Section</a>. I have been fascinated by Mathematics, Physics, Informatics and recently Astronomy. I express my interest by participating in different olympiads and competitions. Even if there is no competition for Quantum Physics in High School, I got really attracted to it, when I first time read about the Interpretation Copenhagen, Schrodinger's Cat and the EPR Paradox. I hope in my near future to get to a prestigious university and follow my dreams in Quantum Physics.</p>
+    </section>
+
+    <section id="education">
+      <h2>Education</h2>
+      <h3 style="text-align: left; font-size:20px;">Primary School</h3>
+      <p style="text-align: justify;"><img src="schoolelementary.jpg" alt="Theoretical Lyceum „Ștefan Cel Mare”" style="float:left; width: 200px; height: 105px; object-fit: cover; margin-bottom:10px; margin-right:10px;">I attended <a href="https://ltstefancelmare.md/" style="color:black;"><b>Theoretical Lyceum „Ștefan Cel Mare”</b></a> middle school by putting a base in Mathematics, Romanian, Science, English and other main school subjects. For a start it wasn't a bad option, I would say it was one of the best options I had and by trying to accomplish myself I got the best scholar results between my colleagues. This was reflected in the awards I received:</p>
+      <ul style="text-align: justify; font-size:18px;">
+          <li><b>1st Place</b> - 2017/2018 <a href="https://www.concursurilecomper.ro/">Comper</a> Mathematics Competition</li>
+          <li><b>Certificate of Participation</b> - 2018 The 72nd Edition of the "Constantin Spătaru" Memorial Mathematics Competition</li>
+          <li><b>1st Place</b> - 2018/2019 <a href="https://www.concursurilecomper.ro/">Comper</a> Mathematics Competition</li>
+          <li><b>Diploma of Merit</b> - 2018/2019 <a href="https://gazetamatematicajunior.ro/">"Gazeta Matematică Junior"</a> Competition</li>
+      </ul>
+      <h3 style="text-align: left; font-size:20px; padding-top:20px;">Middle School</h3>
+      <p style="text-align: justify;"><img src="schoolmiddle.jpg" alt="Public Institution Theoretical Lyceum „Ion Creangă”" style="float:left; width: 210px; height: 130px; object-fit: cover; margin-bottom:10px; margin-right:10px;">Afterwards, I finished my Middle School studies at <a href="https://creanga.md/" style="color:black;"><b>Public Institution Theoretical Lyceum „Ion Creangă”</b></a> where I developed my skills and found out some of my great passions like Mathematics and Physics. Between September 2019 and May 2024 I accomplished many and tried out many new things, including leadership skills within my class and community. This school was a step foward to my personal development and I am glad I had such opportunity. Nevertheless I achieved some impressing awards, such as:</p>
+      <ul style="text-align: justify; font-size:18px;">
+          <li><b>Certificate of Completion</b> - 2019 <a href="https://hourofcode.com/us">"The Hour of Code"</a></li>
+          <li><b>3rd Place</b> - 2019 The 73rd Edition of the "Constantin Spătaru" Memorial Mathematics Competition</li>
+          <li><b>Honorable Mention Diploma</b> - 2021 The 10th Edition of the <a href="https://fizica.utm.md/data/concurs_marinciuc.php">"Mihai Marinciuc"</a> Memorial Physics Competition</li>
+          <li><b>Honorable Mention Diploma</b> - 2023 The 12th Edition of the <a href="https://fizica.utm.md/data/concurs_marinciuc.php">"Mihai Marinciuc"</a> Memorial Physics Competition</li>
+          <li><b>Honorable Mention Diploma</b> - 2024 Municipal Mathematics Olympiad</li>
+          <li><b>Honorable Mention Diploma</b> - 2024 Municipal Physics Olympiad</li>
+          <li><b>Honorable Mention Diploma</b> - 2024 The 13th Edition of the <a href="https://fizica.utm.md/data/concurs_marinciuc.php">"Mihai Marinciuc"</a> Memorial Physics Competition</li>
+      </ul>
+      <h3 style="text-align: left; font-size:20px; padding-top:20px;">High School</h3>
+      <p style="text-align: justify;"><img src="schoolhigh.jpg" alt="Public Institution Republican Theoretical Lyceum „Aristotel”" style="float:left; width: 300px; height:130px; object-fit: cover; margin-bottom:10px; margin-right:10px;">And the final step of undergraduate education, I am making it at <a href="https://aristotel.md/" style="color:black;"><b>Public Institution Republican Theoretical Lyceum „Aristotel”</b></a> where I am getting ready for my future university life and professional career. There are many special things about this school, some of the greatest being: only 10th, 11th and 12th classes, compared to the rest of schools; also the ability to choose your school subjects you want study in depth and get rid of the troubling ones; compared to other school, it has one of the best developed democratic systems where the senate makes many events; and last but not least is the ammount of attention school gives toward volunteering. This was a great place to achive some new grounds and get new experience:</p>
+      <ul style="text-align: justify; font-size:18px;">
+          <li><b>2nd Place</b> - 2025 Republican Astronomy and Astrophysics Olympiad</li>
+          <li><b>Honorable Mention Diploma</b> - 2025 The 14th Edition of the <a href="https://fizica.utm.md/data/concurs_marinciuc.php">"Mihai Marinciuc"</a> Memorial Physics Competition</li>
+          <li><b>Honorable Mention Diploma</b> - 2025 Municipal Mathematics Olympiad</li>
+          <li><b>Honorable Mention Diploma</b> - 2025 Municipal Physics Olympiad</li>
+          <li><b>Honorable Mention Diploma</b> - 2025 District Computer Science Olympiad</li>
+          <li><b>... and many more to come ...</b></li>
+      </ul>
+    </section>
+
+    <section id="informatics1">
+      <h2>Computer Science Projects</h2>
+      <p style="text-align: justify;">Until the time of the creation of this site, I did only one major project at Computer Science (at school), which was a site written in raw code with strict requirements. The site and the requirements can be downloaded below.</p>
+
+      <div style="display: flex; justify-content: space-between; width: 100%; max-width: 400px; margin: 0 auto;">
+        <a href="project.zip" class="animated-button">
+          Project
+        </a>
+
+        <a href="requirements.pdf" class="animated-button">
+          Requirements
+        </a>
+      </div>
+      <p style="text-align: center; font-size:14px;"><i>The Files are not public yet.</i></p>
+    </section>
+
+    <section id="thesis">
+      <h2>Scientific Thesis</h2>
+      <p style="text-align: justify;">Until the time of the creation of this site, there are no Scientific Thesis created, yet, but expect in the nearest future (until May 2026) at least one Scientific Thesis.</p>
+    </section>
+
+    <section id="resources">
+      <h2>Resources</h2>
+      <p style="text-align: justify;">From 2024, as I started the participation in Olympiads I have found some great resources which helped me a lot. Sadly I didn't have enough time to finish reading all of them but hope for someone else it would be helpful. Please take in serious each message regarding copyright, to avoid any issues.</p>
+    </section>
+
+    <section id="astronomy">
+      <h2>Astronomy</h2>
+      <p style="text-align: justify;">I have some amazing resources in Astronomy, one of which is quite hard to find.</p>
+      <ol><li><p style="text-align: justify;">First book is <b>Star Charts 101</b> by <i>Fahim Rajit Hossain Shwadhin</i>. It is a great book with many stellar maps and you can find more practice mute maps on the github of this book <a href="https://github.com/Rajit13/Star-Maps-101-and-Practices">here</a>. It also has nice explanations. <br><b style="color:red;">PLEASE READ THE COPYRIGHT BEFORE YOU USE IT (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>)</b></p></li>
+      <li><p style="text-align: justify;">Next book is hard to find. <b>Handbook of Space Astronomy and Astrophysics</b> by <i>Martin V. Zombeck</i> is a Cambrdige book which has some rare informtation, but also gives some deep insights in the domain. Similar to the previous book <br><b style="color:red;">PLEASE READ THE COPYRIGHT BEFORE YOU USE IT</b>.</p></li></ol>
+    <div style="display: flex; justify-content: space-between; width: 100%; max-width: 400px; margin: 0 auto;">
+        <a href="astronomy1.pdf" class="animated-button">
+          Star Charts 101
+        </a>
+
+        <a href="astronomy2.pdf" class="animated-button">
+          Handbook of Space Astronomy and Astrophysics
+        </a>
+      </div>
+    </section>
+
+    <section id="physics">
+      <h2>Physics</h2>
+      <p style="text-align: justify;">This domain fascinated me and it determined me to find some of the best resources I could use in my personal development.</p>
+      <ol><li><p style="text-align: justify;">For start is the common <b>Fundamentals of Physics 12th Edition</b> by <i>D. Halliday, R. Resnick and J. Walker</i>. This book is the usual book you would like to start with by including all basis and demonstrations required to understand each topic. Please note that it has strict copyright rules and the edition is hard to find.<br><b style="color:red;">PLEASE READ THE COPYRIGHT BEFORE YOU USE IT (<a href="https://www.law.cornell.edu/uscode/text/17/107">Sections 107 or 108 of the 1976 United States Copyright Act</a>)</b></p></li>
+      <li><p style="text-align: justify;">Second book is <b>Handbook of Physics</b> by <i>B. Yavorsky and A. Detlaf</i> an old classic, soviet book which compared with contemporary books, is quite better. The special thing about it is the depth of the theory it goes including rare exceptions.</p></li></ol>
+    <div style="display: flex; justify-content: space-between; width: 100%; max-width: 400px; margin: 0 auto;">
+        <a href="physics1.zip" class="animated-button">
+          Fundamentals of Physics 12th Edition
+        </a>
+
+        <a href="https://drive.google.com/file/d/1wbIhrKBeTzOWWNRgizurIotfuKld6KXU/view?usp=drive_link" class="animated-button">
+          Handbook of Physics
+        </a>
+      </div>
+    </section>
+
+    <section id="mathematics">
+      <h2>Mathematics</h2>
+      <p style="text-align: justify;">Here we have many resources from A to Z, but I got two favourites between all the books about mathematics.</p>
+      <ol><li><p style="text-align: justify;">First one is <b>Mathematical Handbook Elementary Mathematics</b> by <i>M. Vygodsky</i> which is very insightful having summarised all the content from addition up to complex numbers. Comparing with the curriculum in the Republic of Moldova, the book contains information from 5th class up to 11th class.</p></li>
+      <li><p style="text-align: justify;">Second one is <b>Mathematical Handbook Higher Mathematics</b> also by <i>M. Vygodsky</i> but this time there are more information and is more in depth. If we make the same comperation again with the curriculum, this time it goes from 9th class up to 1st year of university or even more.</p></li></ol>
+    <div style="display: flex; justify-content: space-between; width: 100%; max-width: 400px; margin: 0 auto;">
+        <a href="math1.pdf" class="animated-button">
+          Mathematical Handbook Elementary Mathematics
+        </a>
+
+        <a href="math2.pdf" class="animated-button">
+          Mathematical Handbook Higher Mathematics
+        </a>
+      </div>
+    </section>
+
+    <section id="informatics2">
+      <h2>Computer Science</h2>
+      <p style="text-align: justify;">There are a few resources, especially about C++, because of that there are more sites that hold such information than books.</p>
+      <ol><li><p style="text-align: justify;">The only worthy book around there in Computer Science in C++ is the <b>CSES book</b> which holds some the most complex algoritms and explanations for each which is rarely found in any site, even ChatGPT.</p></li>
+      <li><p style="text-align: justify;">In the whole internet there is one site which puts the basis to any computer science language you want, and that is <b>W3School Website</b>. There you can find easy, full tutorials for any language with step-by-step learning.</p></li></ol>
+    <div style="display: flex; justify-content: space-between; width: 100%; max-width: 400px; margin: 0 auto;">
+        <a href="info1.pdf" class="animated-button">
+          CSES Book
+        </a>
+
+        <a href="https://www.w3schools.com/" class="animated-button">
+          W3School Website
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-note">Translation provided via Google Translate. Results may not be 100% accurate. Original language: English.</div>
+
+    <div class="footer-main">
+      <div class="footer-left">
+        &copy; 2025 All rights reserved to <strong>&nbsp;Mîrza Damian</strong>
+      </div>
+      <div class="footer-right">
+        <div id="google_translate_element"></div>
+        <a href="mailto:damian.mirza2009@gmail.com"><i class="fas fa-envelope"></i></a>
+        <a href="https://www.facebook.com/damian.mirza.5/" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/damian_w_m/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://t.me/D4m14nM" target="_blank"><i class="fab fa-telegram"></i></a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
