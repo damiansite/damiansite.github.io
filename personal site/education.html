@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Education</title>
+
+<link rel="icon" href="iconss.ico" type="image/x-icon" />
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    background-color: #E3E3E3;
+    font-family: 'Quicksand', sans-serif;
+  }
+
+  /* HEADER */
+  header {
+    background-color: #4D3A21;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 60px;
+    position: relative;
+  }
+
+  .brand-header a {
+    font-family: 'Monoton', cursive;
+    font-size: 2.4em;
+    letter-spacing: 2px;
+    text-decoration: none;
+    color: white;
+  }
+
+  /* NAVIGATION */
+  .nav-links {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 60px;
+  }
+
+  .nav-links a {
+    position: relative;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    font-size: 1.05em;
+    letter-spacing: 0.5px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .nav-links a:hover {
+    background-color: rgba(255,255,255,0.1);
+  }
+
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 4px;
+    width: 0%;
+    height: 2px;
+    background-color: white;
+    transition: width 0.3s ease, left 0.3s ease;
+    transform: translateX(-50%);
+  }
+
+  .nav-links a:hover::after {
+    width: 60%;
+  }
+
+  /* GOOGLE TRANSLATE */
+  #google_translate_element {
+    background-color: #4D3A21;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 5px;
+    padding: 5px 10px;
+  }
+
+  .goog-te-gadget {
+    color: white !important;
+    font-size: 0.9em !important;
+  }
+
+  select.goog-te-combo {
+    background-color: #6E542F !important;
+    color: white !important;
+    border: none !important;
+    padding: 5px 8px !important;
+    border-radius: 4px;
+    font-family: 'Quicksand', sans-serif;
+    cursor: pointer;
+  }
+
+  /* MAIN */
+  main {
+    min-height: 60vh;
+    padding: 60px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 80px; /* Space between sections */
+  }
+
+  /* Common section styles for first two sections: image left, text right */
+  .section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px;
+    width: 100%;
+    max-width: 1200px; /* Limit width for readability */
+  }
+
+  .section-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .section-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  }
+
+  .section-text {
+    flex: 1;
+    text-align: left;
+    color: #2E2E2E;
+    font-size: 1.2em;
+    line-height: 1.6em;
+  }
+
+  .section-text h2 {
+    color: #4D3A21;
+    font-family: 'Newsreader', serif;
+    margin-bottom: 20px;
+  }
+
+  /* Last section: Centered image (wide panorama), text below */
+  .section:last-of-type {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 40px;
+  }
+
+  .section:last-of-type .section-image {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .section:last-of-type .section-image img {
+    max-width: 100%; /* Allows full width for 3000x900 panorama */
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  }
+
+  .section:last-of-type .section-text {
+    text-align: center;
+    max-width: 800px;
+  }
+
+  /* Achievements Section */
+  .achievements-section {
+    width: 100%;
+    max-width: 1200px;
+    text-align: center;
+    margin-top: 40px; /* Little space after Section 3 text */
+  }
+
+  .achievements-title {
+    color: #4D3A21;
+    font-family: 'Newsreader', serif;
+    font-size: 2.2em;
+    margin-bottom: 30px;
+  }
+
+  .achievements-list {
+    list-style: none; /* Remove default bullets */
+    padding: 0;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .achievements-list li {
+    display: flex;
+    flex-direction: column; /* Stack achievement on top, sub-info below */
+    gap: 8px; /* Small space between achievement and sub-info */
+    padding: 20px 0; /* Increased vertical padding for better separation */
+    font-size: 1.1em;
+    line-height: 1.6em;
+    color: #2E2E2E;
+    border-bottom: 1px solid rgba(77, 58, 33, 0.1); /* Subtle separator */
+    transition: color 0.3s ease;
+  }
+
+  .achievements-list li:last-child {
+    border-bottom: none; /* No border on last item */
+  }
+
+  .achievements-list li:hover {
+    color: #4D3A21; /* Hover effect for engagement */
+  }
+
+  /* Achievement as main focus: Bold, larger, brown accent */
+  .achievements-list .achievement {
+    font-weight: 600;
+    font-size: 1.15em;
+    color: #4D3A21;
+    text-align: left;
+    margin: 0;
+  }
+
+  /* Sub-info: Date and location below achievement */
+  .achievements-list .sub-info {
+    display: flex;
+    gap: 20px; /* Space between date and location */
+    font-size: 0.95em;
+    color: #666; /* Lighter gray for secondary info */
+    align-items: center;
+    flex-wrap: nowrap; /* Prevent wrapping to keep date and location on the same line */
+    width: 100%; /* Take full width to anchor positioning */
+  }
+
+  .achievements-list .date {
+    font-weight: 500;
+    min-width: fit-content; /* Auto-width based on content */
+    flex-shrink: 0; /* Prevent date from shrinking */
+    white-space: nowrap; /* Keep date on one line */
+  }
+
+  .achievements-list .location {
+    flex: 1; /* Take remaining space */
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Add "..." for truncated text */
+    white-space: nowrap; /* Prevent wrapping within location */
+    font-style: italic; /* Italic for location to distinguish */
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    main {
+      padding: 40px 20px;
+      gap: 60px;
+    }
+
+    .section {
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      text-align: center;
+    }
+
+    .section-image img {
+      max-width: 80%;
+    }
+
+    .section-text {
+      text-align: center;
+    }
+
+    .achievements-section {
+      margin-top: 30px;
+    }
+
+    .achievements-title {
+      font-size: 1.8em;
+    }
+
+    .achievements-list li {
+      gap: 5px;
+      padding: 15px 0;
+      text-align: left;
+    }
+
+    .achievements-list .achievement {
+      font-size: 1.1em;
+      text-align: left;
+    }
+
+    .achievements-list .sub-info {
+      flex-direction: column; /* Stack date and location on mobile */
+      align-items: flex-start;
+      gap: 5px;
+      text-align: left;
+      flex-wrap: wrap; /* Allow wrapping on mobile if needed */
+    }
+
+    .achievements-list .date,
+    .achievements-list .location {
+      min-width: auto;
+      flex: none; /* Reset flex on mobile */
+      white-space: normal; /* Allow wrapping on mobile for readability */
+      overflow: visible; /* Show full text on mobile */
+      text-overflow: clip; /* No ellipsis on mobile */
+    }
+  }
+
+  /* FOOTER */
+  footer {
+    background-color: #4D3A21;
+    color: white;
+    position: relative;
+    padding: 60px 60px 120px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .brand-footer {
+    font-family: 'Monoton', cursive;
+    font-size: 4em;
+    padding-top: 50px;
+    letter-spacing: 3px;
+  }
+
+  .technologies {
+    text-align: center;
+    flex: 1;
+  }
+
+  .technologies img {
+    margin: 10px 20px;
+    height: 55px;
+    vertical-align: middle;
+    opacity: 0.95;
+  }
+
+  .contact {
+    text-align: right;
+    font-size: 1.2em;
+    line-height: 2em;
+    min-width: 200px;
+  }
+
+  .contact a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .social-icons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+  }
+
+  .social-icons a {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+  }
+
+  .social-icons a img {
+    width: 100%;
+    height: auto;
+    opacity: 0.85;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .social-icons a:hover img {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  .social-icons a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 2px;
+    width: 0%;
+    height: 2px;
+    background-color: white;
+    transition: width 0.3s ease, left 0.3s ease;
+    transform: translateX(-50%);
+  }
+
+  .social-icons a:hover::after {
+    width: 60%;
+  }
+
+  .copyright {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Newsreader', serif;
+    font-size: 0.9em;
+    opacity: 0.8;
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand-header"><a href="index.html">Damian</a></div>
+
+  <nav class="nav-links">
+    <a href="education.html">Education</a>
+    <a href="photography.html">Photography</a>
+    <a href="resources.html">Resources</a>
+  </nav>
+
+  <div id="google_translate_element"></div>
+</header>
+
+<main>
+  <!-- Section 1: Image left, text right -->
+  <section class="section">
+    <div class="section-image">
+      <img src="school1.svg" alt="P.I. Theoretical Lyceum 'Stefan Cel Mare'">
+    </div>
+    <div class="section-text">
+      <h2>Primary Education</h2>
+      <p>
+        I did my first years of school here, where I first found my passion towards mathematics. Here also is where I first time felt the joy participating competitions. Here I have put my base in every fundamental academic subject, which afterwards was developed.
+      </p>
+      <p>
+        <b>Public Institution Theoretical Lyceum „Ștefan Cel Mare”</b>
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 2: Image left, text right -->
+  <section class="section">
+    <div class="section-image">
+      <img src="school2.svg" alt="P.I. Theoretical Lyceum 'Ion Creanga'">
+    </div>
+    <div class="section-text">
+      <h2>Lower Secondary Education</h2>
+      <p>
+        During Secondary Education I understood the meaning and the power of participating and taking places at competitions. At this lyceum I further advanced my mathematics and as well places fundamental basis in physics, chemistry and informatics which resulted to be very useful in my general development.
+      </p>
+      <p>
+        <b>Public Institution Theoretical Lyceum „Ion Creangă”</b>
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 3: Centered wide image, text below (centered) -->
+  <section class="section">
+    <div class="section-image">
+      <img src="school3.svg" alt="P.I. Republican Theoretical Lyceum 'Aristotel'">
+    </div>
+    <div class="section-text">
+      <h2>Higher Secondary Education</h2>
+      <p>
+        This lyceum was previously known as Lyceum of the Academy of Sciences of Moldova, which lately changed under the supervision of Ministry of Education, and became P.I.R.T.L. „Aristotel”. This felt as one of the biggest achievements to get here, where the target is not to learn everything but to become proficient in what you love the most. This given me the chance to focus more on physics, informatics and mathematics rather than history, geography or biology. As my journey here is not finished yet, there is much more to come. 
+      </p>
+      <p>
+        <b>Public Institution Republican Theoretical Lyceum „Aristotel”</b>
+      </p>
+    </div>
+  </section>
+
+  <!-- Achievements Section: Added after Section 3 with little space -->
+  <div class="achievements-section">
+    <h2 class="achievements-title">Achievements</h2>
+    <ul class="achievements-list">
+      <li>
+        <span class="achievement">Silver Medal at the Republican Astronomy and Astrophysics Olympiad</span>
+        <div class="sub-info">
+          <span class="date">26.02.2025 - <i>Astronomy and Astrophysics Association of Moldova</i></span>
+        </div>
+      </li>
+      <li>
+        <span class="achievement">Multiple Honorable Mention Diplomas, „Mihai Marinciuc” Memorial Physics Contest</span>
+        <div class="sub-info">
+          <span class="date">14.04.2023, 20.04.2024, 12.04.2025 - <i>Technical University of Moldova</i></span>
+        </div>
+      </li>
+      <li>
+        <span class="achievement">Multiple Honorable Mention Diplomas, Municipal Physics Olympiad</span>
+        <div class="sub-info">
+          <span class="date">14.02.2024, 14.02.2025 - <i>General Directorate of Education, Youth and Sports of the Chișinău Municipal Council</i></span>
+        </div>
+      </li>
+      <li>
+        <span class="achievement">Multiple Honorable Mention Diplomas, Municipal Mathematics Olympiad</span>
+        <div class="sub-info">
+          <span class="date">13.02.2024, 12.02.2025 - <i>General Directorate of Education, Youth and Sports of the Chișinău Municipal Council</i></span>
+        </div>
+      </li>
+      <li>
+        <span class="achievement">Honorable Mention Diploma, District Informatics Olympiad</span>
+        <div class="sub-info">
+          <span class="date">23.01.2025 - <i>General Directorate of Education, Youth and Sports of the Chișinău Municipal Council</i></span>
+        </div>
+      </li>
+      <li>
+        <span class="achievement">Honorable Mention Diploma, District Chemistry Olympiad</span>
+        <div class="sub-info">
+          <span class="date">21.01.2024 - <i>General Directorate of Education, Youth and Sports of the Chișinău Municipal Council</i></span>
+        </div>
+      </li>
+      <li>
+        <span class="achievement">Bronze Medal, „Constantin Spătaru” Memorial Mathematics Contest, Edition LXXIII</span>
+        <div class="sub-info">
+          <span class="date">01.01.2023 - <i>Mathematical Society of the Republic of Moldova</i></span>
+        </div>
+      </li>
+    </ul>
+  </div>
+	<!-- Achievements Section: Added after Section 3 with little space -->
+  <div class="achievements-section">
+    <h2 class="achievements-title">Events</h2>
+    <ul class="achievements-list">
+      <li>
+        <span class="achievement">The Hour of Code</span>
+        <div class="sub-info">
+          <span class="date">2019 - <i>code.org</i></span>
+        </div>
+      </li>
+      <li>
+        <span class="achievement">Summer School „Gender equality in STEM”</span>
+        <div class="sub-info">
+          <span class="date">17.06.2024-21.06.2024 - <i>Technical University of Moldova</i></span>
+        </div>
+      </li>
+      <li>
+        <span class="achievement">Summer School „The Path to Scientific Discoveries”</span>
+        <div class="sub-info">
+          <span class="date">23.06.2025-27.06.2025 - <i>Academy of Sciences of Moldova</i></span>
+        </div>
+      </li>
+      <li>
+        <span class="achievement">Second Balkan Student Summer School on Quantum Physics</span>
+        <div class="sub-info">
+          <span class="date">25.08.2025-29.08.2025 - <i>Balkan Physical Union</i></span>
+        </div>
+      </li>
+    </ul>
+  </div>
+<!-- Achievements Section: Added after Section 3 with little space -->
+  <div class="achievements-section">
+    <h2 class="achievements-title">Courses</h2>
+    <ul class="achievements-list">
+      <li>
+        <span class="achievement">The Hour of Code</span>
+        <div class="sub-info">
+          <span class="date">2019 - <i>code.org</i></span>
+        </div>
+      </li>
+      <li>
+        <span class="achievement">Summer School „Gender equality in STEM”</span>
+        <div class="sub-info">
+          <span class="date">17.06.2024-21.06.2024 - <i>Technical University of Moldova</i></span>
+        </div>
+      </li>
+      <li>
+        <span class="achievement">Summer School „The Path to Scientific Discoveries”</span>
+        <div class="sub-info">
+          <span class="date">23.06.2025-27.06.2025 - <i>Academy of Sciences of Moldova</i></span>
+        </div>
+      </li>
+      <li>
+        <span class="achievement">Second Balkan Student Summer School on Quantum Physics</span>
+        <div class="sub-info">
+          <span class="date">25.08.2025-29.08.2025 - <i>Balkan Physical Union</i></span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</main>
+
+
+
+<footer>
+  <div class="brand-footer">Damian</div>
+
+  <div class="technologies">
+    <p style="font-size: 1.2em; color: white; margin-bottom: 20px; margin-right: 50px; font-weight: 600;"><b>Realised with the help of:</b></p>
+    <img src="github-white.png" alt="GitHub">
+    <img src="cloudflare-white.png" alt="Cloudflare">
+    <img src="kittl-white.png" alt="Kittl">
+  </div>
+
+  <div class="contact">
+    <div><b>Contact:</b></div>
+    <div><a href="mailto:damian.mirza2009@gmail.com">damian.miza2009@gmail.com</a></div>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/damian_w_m/" target="_blank"><img src="instagram.png" alt="Instagram"></a>
+      <a href="https://www.facebook.com/damian.mirza.5/" target="_blank"><img src="facebook.png" alt="Facebook"></a>
+      <a href="https://www.linkedin.com/in/damian-m-a105971b7/" target="_blank"><img src="linkedin.png" alt="LinkedIn"></a>
+    </div>
+  </div>
+
+  <div class="translation-notice" style="position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); font-family: 'Newsreader', serif; font-size: 0.8em; color: rgba(255,255,255,0.7); text-align: center; max-width: 90%; line-height: 1.4em;">Translation provided via Google Translate. Results may not be 100% accurate. Original language: English.</div>
+  <div class="copyright">© 2025 M. Damian — All Rights Reserved</div>
+</footer>
+
+<!-- Google Translate -->
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      includedLanguages: 'en,ro,de,fr,el,ru',
+      layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL,
+      autoDisplay: false
+    }, 'google_translate_element');
+  }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const select = document.querySelector('.goog-te-combo');
+      if (!select) return;
+      const replacements = {
+        en: 'English',
+        ro: 'Română',
+        de: 'Deutsch',
+        fr: 'Français',
+        el: 'Ελληνικά',
+        ru: 'Русский'
+      };
+      [...select.options].forEach(opt => {
+        if (replacements[opt.value]) opt.text = replacements[opt.value];
+      });
+    }, 1000);
+  });
+</script>
+
+</body>
+</html>

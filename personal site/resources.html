@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resources</title>
+
+<link rel="icon" href="iconss.ico" type="image/x-icon" />
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    background-color: #E3E3E3;
+    font-family: 'Quicksand', sans-serif;
+  }
+
+  /* HEADER */
+  header {
+    background-color: #4D3A21;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 60px;
+    position: relative;
+  }
+
+  .brand-header a {
+    font-family: 'Monoton', cursive;
+    font-size: 2.4em;
+    letter-spacing: 2px;
+    text-decoration: none;
+    color: white;
+  }
+
+  /* NAVIGATION */
+  .nav-links {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 60px;
+  }
+
+  .nav-links a {
+    position: relative;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    font-size: 1.05em;
+    letter-spacing: 0.5px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .nav-links a:hover {
+    background-color: rgba(255,255,255,0.1);
+  }
+
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 4px;
+    width: 0%;
+    height: 2px;
+    background-color: white;
+    transition: width 0.3s ease, left 0.3s ease;
+    transform: translateX(-50%);
+  }
+
+  .nav-links a:hover::after {
+    width: 60%;
+  }
+
+  /* GOOGLE TRANSLATE */
+  #google_translate_element {
+    background-color: #4D3A21;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 5px;
+    padding: 5px 10px;
+  }
+
+  .goog-te-gadget {
+    color: white !important;
+    font-size: 0.9em !important;
+  }
+
+  select.goog-te-combo {
+    background-color: #6E542F !important;
+    color: white !important;
+    border: none !important;
+    padding: 5px 8px !important;
+    border-radius: 4px;
+    font-family: 'Quicksand', sans-serif;
+    cursor: pointer;
+  }
+
+  /* MAIN */
+  main {
+    min-height: 60vh;
+    padding: 60px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 80px; /* Space between sections */
+  }
+
+  /* Resource Sections */
+  .resource-section {
+    width: 100%;
+    max-width: 1200px;
+    text-align: left;
+  }
+
+  .resource-section h2 {
+    color: #4D3A21;
+    font-family: 'Newsreader', serif;
+    font-size: 2.2em;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .resource-section p.intro {
+    color: #2E2E2E;
+    font-size: 1.2em;
+    line-height: 1.6em;
+    text-align: justify;
+    margin-bottom: 30px;
+  }
+
+  .resource-section ol {
+    padding-left: 20px;
+    margin-bottom: 30px;
+  }
+
+  .resource-section ol li {
+    margin-bottom: 20px;
+    color: #2E2E2E;
+    font-size: 1.1em;
+    line-height: 1.6em;
+  }
+
+  .resource-section ol li p {
+    margin: 0;
+    text-align: justify;
+  }
+
+  .resource-section ol li b {
+    color: #4D3A21;
+  }
+
+  .resource-section ol li i {
+    font-style: italic;
+  }
+
+  .resource-section .warning {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
+  .resource-section .warning a {
+    color: red;
+    text-decoration: underline;
+  }
+
+  /* Buttons Container */
+  .buttons-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    gap: 20px;
+  }
+
+  .animated-button {
+    flex: 1;
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: #4D3A21;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+
+  .animated-button:hover {
+    background-color: #6E542F;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+    color: white;
+  }
+
+  .animated-button:active {
+    transform: translateY(0);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    main {
+      padding: 40px 20px;
+      gap: 60px;
+    }
+
+    .resource-section h2 {
+      font-size: 1.8em;
+      text-align: center;
+    }
+
+    .resource-section p.intro {
+      font-size: 1.1em;
+      text-align: left;
+    }
+
+    .resource-section ol {
+      padding-left: 15px;
+    }
+
+    .buttons-container {
+      flex-direction: column;
+      max-width: 100%;
+    }
+
+    .animated-button {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+
+  /* FOOTER */
+  footer {
+    background-color: #4D3A21;
+    color: white;
+    position: relative;
+    padding: 60px 60px 120px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .brand-footer {
+    font-family: 'Monoton', cursive;
+    font-size: 4em;
+    padding-top: 50px;
+    letter-spacing: 3px;
+  }
+
+  .technologies {
+    text-align: center;
+    flex: 1;
+  }
+
+  .technologies img {
+    margin: 10px 20px;
+    height: 55px;
+    vertical-align: middle;
+    opacity: 0.95;
+  }
+
+  .contact {
+    text-align: right;
+    font-size: 1.2em;
+    line-height: 2em;
+    min-width: 200px;
+  }
+
+  .contact a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .social-icons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+  }
+
+  .social-icons a {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+  }
+
+  .social-icons a img {
+    width: 100%;
+    height: auto;
+    opacity: 0.85;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .social-icons a:hover img {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  .social-icons a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 2px;
+    width: 0%;
+    height: 2px;
+    background-color: white;
+    transition: width 0.3s ease, left 0.3s ease;
+    transform: translateX(-50%);
+  }
+
+  .social-icons a:hover::after {
+    width: 60%;
+  }
+
+  .copyright {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Newsreader', serif;
+    font-size: 0.9em;
+    opacity: 0.8;
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand-header"><a href="index.html">Damian</a></div>
+
+  <nav class="nav-links">
+    <a href="education.html">Education</a>
+    <a href="photography.html">Photography</a>
+    <a href="resources.html">Resources</a>
+  </nav>
+
+  <div id="google_translate_element"></div>
+</header>
+
+<main>
+  <!-- Astronomy Section -->
+  <section class="resource-section" id="astronomy">
+    <h2>Astronomy</h2>
+    <p class="intro">I have some amazing resources in Astronomy, one of which is quite hard to find.</p>
+    <ol>
+      <li>
+        <p>First book is <b>Star Charts 101</b> by <i>Fahim Rajit Hossain Shwadhin</i>. It is a great book with many stellar maps and you can find more practice mute maps on the github of this book <a href="https://github.com/Rajit13/Star-Maps-101-and-Practices">here</a>. It also has nice explanations.<br>
+        <span class="warning">PLEASE READ THE COPYRIGHT BEFORE YOU USE IT (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>)</span></p>
+      </li>
+      <li>
+        <p>Next book is hard to find. <b>Handbook of Space Astronomy and Astrophysics</b> by <i>Martin V. Zombeck</i> is a Cambridge book which has some rare information, but also gives some deep insights in the domain. Similar to the previous book <br>
+        <span class="warning">PLEASE READ THE COPYRIGHT BEFORE YOU USE IT</span>.</p>
+      </li>
+    </ol>
+    <div class="buttons-container">
+      <a href="https://drive.google.com/file/d/1xlw5yY9mLPOiczMGW_TYeHBpHRvYC0wD/view?usp=drive_link" class="animated-button">
+        Star Charts 101
+      </a>
+      <a href="https://drive.google.com/file/d/1vxpJomk1zSaR9T1fQZglnUJK5meONS-j/view?usp=drive_link" class="animated-button">
+        Handbook of Space Astronomy and Astrophysics
+      </a>
+    </div>
+  </section>
+
+  <!-- Physics Section -->
+  <section class="resource-section" id="physics">
+    <h2>Physics</h2>
+    <p class="intro">This domain fascinated me and it determined me to find some of the best resources I could use in my personal development.</p>
+    <ol>
+      <li>
+        <p>For start is the common <b>Fundamentals of Physics 12th Edition</b> by <i>D. Halliday, R. Resnick and J. Walker</i>. This book is the usual book you would like to start with by including all basis and demonstrations required to understand each topic. Please note that it has strict copyright rules and the edition is hard to find.<br>
+        <span class="warning">PLEASE READ THE COPYRIGHT BEFORE YOU USE IT (<a href="https://www.law.cornell.edu/uscode/text/17/107">Sections 107 or 108 of the 1976 United States Copyright Act</a>)</span></p>
+      </li>
+      <li>
+        <p>Second book is <b>Handbook of Physics</b> by <i>B. Yavorsky and A. Detlaf</i> an old classic, soviet book which compared with contemporary books, is quite better. The special thing about it is the depth of the theory it goes including rare exceptions.</p>
+      </li>
+    </ol>
+    <div class="buttons-container">
+      <a href="https://drive.google.com/file/d/18LZQIM-N2gPUBoh2ep83jTVN2GlkljxH/view?usp=drive_link" class="animated-button">
+        Fundamentals of Physics 12th Edition
+      </a>
+      <a href="https://drive.google.com/file/d/1_bbT6rPI7IkRuOBbXSXQPpiRtyvaMSmE/view?usp=drive_link" class="animated-button">
+        Handbook of Physics
+      </a>
+    </div>
+  </section>
+
+  <!-- Mathematics Section -->
+  <section class="resource-section" id="mathematics">
+    <h2>Mathematics</h2>
+    <p class="intro">Here we have many resources from A to Z, but I got two favourites between all the books about mathematics.</p>
+    <ol>
+      <li>
+        <p>First one is <b>Mathematical Handbook Elementary Mathematics</b> by <i>M. Vygodsky</i> which is very insightful having summarised all the content from addition up to complex numbers. Comparing with the curriculum in the Republic of Moldova, the book contains information from 5th class up to 11th class.</p>
+      </li>
+      <li>
+        <p>Second one is <b>Mathematical Handbook Higher Mathematics</b> also by <i>M. Vygodsky</i> but this time there are more information and is more in depth. If we make the same comparison again with the curriculum, this time it goes from 9th class up to 1st year of university or even more.</p>
+      </li>
+    </ol>
+    <div class="buttons-container">
+      <a href="https://drive.google.com/file/d/16ovzxZtKUuTYmANiK7eWrjpNILM2-5MI/view?usp=drive_link" class="animated-button">
+        Mathematical Handbook Elementary Mathematics
+      </a>
+      <a href="https://drive.google.com/file/d/1C86wIJeHQAEBjr_7bDC_b2HI79fdmNkW/view?usp=drive_link" class="animated-button">
+        Mathematical Handbook Higher Mathematics
+      </a>
+    </div>
+  </section>
+
+  <!-- Computer Science Section -->
+  <section class="resource-section" id="informatics2">
+    <h2>Computer Science</h2>
+    <p class="intro">There are a few resources, especially about C++, because of that there are more sites that hold such information than books.</p>
+    <ol>
+      <li>
+        <p>The only worthy book around there in Computer Science in C++ is the <b>CSES book</b> which holds some the most complex algorithms and explanations for each which is rarely found in any site, even ChatGPT.</p>
+      </li>
+      <li>
+        <p>In the whole internet there is one site which puts the basis to any computer science language you want, and that is <b>W3School Website</b>. There you can find easy, full tutorials for any language with step-by-step learning.</p>
+      </li>
+    </ol>
+    <div class="buttons-container">
+      <a href="https://drive.google.com/file/d/1AWT1OlEsR8zTY3ZQCRLk11Yyl4zXhqZv/view?usp=drive_link" class="animated-button">
+        CSES Book
+      </a>
+      <a href="https://www.w3schools.com/" class="animated-button">
+        W3School Website
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="brand-footer">Damian</div>
+
+  <div class="technologies">
+    <p style="font-size: 1.2em; color: white; margin-bottom: 20px; margin-right: 50px; font-weight: 600;"><b>Realised with the help of:</b></p>
+    <img src="github-white.png" alt="GitHub">
+    <img src="cloudflare-white.png" alt="Cloudflare">
+    <img src="kittl-white.png" alt="Kittl">
+  </div>
+
+  <div class="contact">
+    <div><b>Contact:</b></div>
+    <div><a href="mailto:damian.mirza2009@gmail.com">damian.miza2009@gmail.com</a></div>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/damian_w_m/" target="_blank"><img src="instagram.png" alt="Instagram"></a>
+      <a href="https://www.facebook.com/damian.mirza.5/" target="_blank"><img src="facebook.png" alt="Facebook"></a>
+      <a href="https://www.linkedin.com/in/damian-m-a105971b7/" target="_blank"><img src="linkedin.png" alt="LinkedIn"></a>
+    </div>
+  </div>
+
+  <div class="translation-notice" style="position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); font-family: 'Newsreader', serif; font-size: 0.8em; color: rgba(255,255,255,0.7); text-align: center; max-width: 90%; line-height: 1.4em;">Translation provided via Google Translate. Results may not be 100% accurate. Original language: English.</div>
+  <div class="copyright">© 2025 M. Damian — All Rights Reserved</div>
+</footer>
+
+<!-- Google Translate -->
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      includedLanguages: 'en,ro,de,fr,el,ru',
+      layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL,
+      autoDisplay: false
+    }, 'google_translate_element');
+  }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const select = document.querySelector('.goog-te-combo');
+      if (!select) return;
+      const replacements = {
+        en: 'English',
+        ro: 'Română',
+        de: 'Deutsch',
+        fr: 'Français',
+        el: 'Ελληνικά',
+        ru: 'Русский'
+      };
+      [...select.options].forEach(opt => {
+        if (replacements[opt.value]) opt.text = replacements[opt.value];
+      });
+    }, 1000);
+  });
+</script>
+
+</body>
+</html>
