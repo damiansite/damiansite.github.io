@@ -31,6 +31,7 @@ body{
     line-height:1.6;
     user-select:none;
 }
+
 /* Header */
 header{
     background: var(--header-bg);
@@ -147,7 +148,6 @@ body{top:0!important;}
 </div>
 </footer>
 
-<!-- Google Translate -->
 <div id="google_translate_element" style="display:none"></div>
 <script type="text/javascript">
 function googleTranslateElementInit(){
@@ -161,16 +161,14 @@ function googleTranslateElementInit(){
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <script>
-/* Active menu */
+/* ===== Active menu ===== */
 document.querySelectorAll("nav a").forEach(link=>{
     if(location.pathname.endsWith(link.getAttribute("href"))) link.classList.add("active");
 });
 function toggleMenu(){document.getElementById("nav").classList.toggle("show");}
 
-/* Theme */
+/* ===== Theme ===== */
 const root=document.documentElement;
-const headerBtn=document.getElementById("modeIcon");
-const footerBtn=document.getElementById("footerMode");
 function toggleTheme(){
     const dark=root.getAttribute("data-theme")==="dark";
     root.setAttribute("data-theme",dark?"light":"dark");
@@ -179,12 +177,18 @@ if(window.matchMedia("(prefers-color-scheme: dark)").matches){
     root.setAttribute("data-theme","dark");
 }
 
-/* Language */
+/* ===== Language ===== */
 const langEN=document.getElementById("langEN");
 const langRO=document.getElementById("langRO");
-const langAUTO=document.getElementById("langAUTO");
 const footerLang=document.getElementById("footerLang");
 let currentLang="en";
+
+// Restore language preference after reload
+let savedLang = localStorage.getItem("preferredLang");
+if(savedLang){
+    currentLang = savedLang;
+    localStorage.removeItem("preferredLang");
+}
 
 function updateLangDisplay(){
     const activeColor = document.querySelector("nav a.active")?getComputedStyle(document.querySelector("nav a.active")).color:"var(--accent)";
@@ -196,31 +200,27 @@ function updateLangDisplay(){
 }
 
 function setLang(lang){
-    currentLang=lang;
-    updateLangDisplay();
-    const frame=document.querySelector('iframe.goog-te-menu-frame');
-    if(lang==="en"){ 
-        // Remove translation
-        if(document.querySelector('.goog-te-combo')) document.querySelector('.goog-te-combo').value='en';
-        // Reload Google Translate element
-        new google.translate.TranslateElement({pageLanguage:'en',includedLanguages:'ro',layout: google.translate.TranslateElement.InlineLayout.SIMPLE},'google_translate_element');
-    }else{
-        // Set combo to RO and simulate change
-        const combo=document.querySelector('.goog-te-combo');
-        if(combo){combo.value='ro'; combo.dispatchEvent(new Event('change'));}
+    if(lang==="en"){
+        localStorage.setItem("preferredLang","en");
+        location.reload();
+        return;
     }
+    currentLang = lang;
+    updateLangDisplay();
+    const combo = document.querySelector('.goog-te-combo');
+    if(combo){combo.value='ro'; combo.dispatchEvent(new Event('change'));}
 }
 
 updateLangDisplay();
 
-/* Auto detect device language */
+// Auto detect device language if not EN/RO
 const deviceLang=navigator.language.slice(0,2);
 if(!["en","ro"].includes(deviceLang)){
     currentLang=deviceLang;
     updateLangDisplay();
 }
 
-/* Protection */
+/* ===== Protection ===== */
 document.addEventListener("contextmenu",e=>e.preventDefault());
 document.addEventListener("copy",e=>e.preventDefault());
 document.addEventListener("selectstart",e=>e.preventDefault());
@@ -228,6 +228,5 @@ document.addEventListener("keydown",e=>{
     if((e.ctrlKey && ["c","u","s"].includes(e.key.toLowerCase()))|| e.key==="F12") e.preventDefault();
 });
 </script>
-
 </body>
 </html>
