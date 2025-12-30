@@ -205,10 +205,19 @@ function setLang(lang){
         location.reload();
         return;
     }
+
     currentLang = lang;
     updateLangDisplay();
-    const combo = document.querySelector('.goog-te-combo');
-    if(combo){combo.value='ro'; combo.dispatchEvent(new Event('change'));}
+
+    // Wait for Google Translate combo to appear
+    const waitGT = setInterval(()=>{
+        const combo = document.querySelector('.goog-te-combo');
+        if(combo){
+            combo.value = 'ro';
+            combo.dispatchEvent(new Event('change'));
+            clearInterval(waitGT);
+        }
+    }, 300);
 }
 
 updateLangDisplay();
