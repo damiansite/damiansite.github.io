@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Personal Site</title>
-
 <style>
 :root {
     --header-bg: #efe3d8;
@@ -15,7 +14,6 @@
     --btn-bg: rgba(255,255,255,0.3);
     --btn-color: var(--text);
 }
-
 [data-theme="dark"] {
     --header-bg: #1e1d1b;
     --body-bg: #161514;
@@ -25,185 +23,163 @@
     --btn-bg: rgba(255,255,255,0.1);
     --btn-color: var(--text);
 }
-
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-    font-family: system-ui,sans-serif;
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+    font-family:system-ui,sans-serif;
     background: var(--body-bg);
     color: var(--text);
     line-height:1.6;
     user-select:none;
 }
-
 /* Header */
-header {
+header{
     background: var(--header-bg);
     padding:2.2rem 0;
     border-bottom:1px solid rgba(0,0,0,0.08);
-    position:relative;
-    z-index:1000;
+    position:relative; z-index:1000;
 }
-.header-container {
+.header-container{
     width:min(1100px,92%);
     margin:auto;
     display:flex;
     justify-content:space-between;
     align-items:center;
 }
-nav {
-    display:flex;
-    gap:1.8rem;
-}
-nav a {
-    text-decoration:none;
-    color: var(--text);
-    font-weight:500;
-    position:relative;
-}
-nav a.active { color: var(--accent); }
-
+nav{display:flex;gap:1.8rem;}
+nav a{text-decoration:none;color:var(--text);font-weight:500;position:relative;}
+nav a.active{color:var(--accent);}
 @media (hover:hover) and (pointer:fine){
-    nav a::after{ content:""; position:absolute; left:0; bottom:-4px; width:0; height:1px; background: var(--accent); transition: width 0.3s ease;}
-    nav a:hover::after{ width:100%; }
-}
-
-/* Controls */
-.controls {
-    display:flex;
-    gap:1rem;
-    align-items:center;
-    min-width:160px;
-    justify-content:flex-end;
-}
-.controls span, .controls button {
-    cursor:pointer;
-    padding:0.3rem 0.6rem;
-    border-radius:4px;
-}
-.controls span:hover, .controls button:hover { background: var(--btn-bg); }
-
-/* Active language style */
-.controls .active-lang { font-weight:700; color: var(--accent); }
-
-/* Dark/Light button */
-.mode-btn {
+nav a::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:1px;background:var(--accent);transition:width 0.3s ease;}
+nav a:hover::after{width:100%;}}
+.controls{display:flex;gap:1rem;align-items:center;min-width:160px;justify-content:flex-end;}
+.controls span,.controls button{cursor:pointer;padding:0.3rem 0.6rem;border-radius:4px;}
+.controls span:hover,.controls button:hover{background: var(--btn-bg);}
+.controls .active-lang{font-weight:700;color: var(--accent);}
+.mode-btn{
     border:1px solid rgba(0,0,0,0.2);
     border-radius:4px;
-    padding:0.3rem 0.6rem;
+    padding:0.3rem;
     cursor:pointer;
     background: var(--btn-bg);
     color: var(--btn-color);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition: background 0.3s,color 0.3s;
+    width:32px;height:32px;
 }
-.mode-btn:hover { background: rgba(0,0,0,0.05); }
-
-/* Mobile menu */
-.menu-toggle { display:none; font-size:1.6rem; cursor:pointer; }
-@media (max-width:750px){ 
-    .menu-toggle{ display:block; } 
-    nav { position:absolute; top:100%; left:0; right:0; background:var(--header-bg); flex-direction:column; display:none; padding:1rem 0; z-index:2000; } 
-    nav.show{ display:flex; } 
-    nav a{ padding:0.6rem 1.5rem; }
+.mode-btn svg{width:20px;height:20px;}
+.mode-btn:hover{background: var(--accent); color:#fff;}
+.menu-toggle{display:none;font-size:1.6rem;cursor:pointer;}
+@media(max-width:750px){
+.menu-toggle{display:block;}
+nav{position:absolute;top:100%;left:0;right:0;background:var(--header-bg);flex-direction:column;display:none;padding:1rem 0;z-index:2000;}
+nav.show{display:flex;}
+nav a{padding:0.6rem 1.5rem;}
 }
-
-/* Main */
-main { width:min(1100px,92%); margin:auto; padding:4rem 0; }
-.content-block{ display:flex; gap:2rem; align-items:center; }
-.content-block img{ width:320px; max-width:100%; border-radius:6px; pointer-events:none; }
-@media (max-width:800px){ 
-    .content-block{ flex-direction:column; align-items:stretch; }
-    .content-block h1{ text-align:left; }
-    .content-block p{ text-align:justify; }
+main{width:min(1100px,92%);margin:auto;padding:4rem 0;}
+.content-block{display:flex;gap:2rem;align-items:center;}
+.content-block img{width:320px;max-width:100%;border-radius:6px;pointer-events:none;}
+@media(max-width:800px){.content-block{flex-direction:column;align-items:stretch;}.content-block h1{text-align:left;}.content-block p{text-align:justify;}
 }
-
-/* Footer */
-footer{ background: var(--footer-bg); color:#d0cbc5; padding:3rem 0; }
-.footer-container{ width:min(1100px,92%); margin:auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:2rem; }
-footer a{ color:#d8b4a0; text-decoration:none; display:block; margin-top:0.4rem; }
-footer a:hover{ text-decoration:underline; }
-.footer-note{ font-size:0.85rem; display:flex; flex-direction:column; gap:0.5rem; }
-.footer-controls { display:flex; gap:1rem; align-items:center; }
+footer{background:var(--footer-bg);color:#d0cbc5;padding:3rem 0;}
+.footer-container{width:min(1100px,92%);margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;}
+footer a{color:#d8b4a0;text-decoration:none;display:block;margin-top:0.4rem;}
+footer a:hover{text-decoration:underline;}
+.footer-note{font-size:0.85rem;display:flex;flex-direction:column;gap:0.5rem;}
+.footer-controls{display:flex;gap:1rem;align-items:center;}
+/* Hide Google Translate UI */
+.goog-te-banner-frame.skiptranslate{display:none!important;}
+body{top:0!important;}
 </style>
 </head>
 <body>
 
 <header>
-    <div class="header-container">
-        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-
-        <nav id="nav">
-            <a href="index.html">Home</a>
-            <a href="education.html">Education</a>
-            <a href="hobbies.html">Hobbies</a>
-            <a href="resources.html">Resources</a>
-        </nav>
-
-        <div class="controls">
-            <span id="langEN" onclick="setLang('en')">EN</span>|
-            <span id="langRO" onclick="setLang('ro')">RO</span>
-            <span id="langAUTO"></span>
-            <button class="mode-btn" id="modeIcon" onclick="toggleTheme()">☾</button>
-        </div>
+<div class="header-container">
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <nav id="nav">
+        <a href="index.html">Home</a>
+        <a href="education.html">Education</a>
+        <a href="hobbies.html">Hobbies</a>
+        <a href="resources.html">Resources</a>
+    </nav>
+    <div class="controls">
+        <span id="langEN" onclick="setLang('en')">EN</span>|
+        <span id="langRO" onclick="setLang('ro')">RO</span>
+        <span id="langAUTO"></span>
+        <button class="mode-btn" id="modeIcon" onclick="toggleTheme()">
+            <svg id="modeSVG" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6"/></svg>
+        </button>
     </div>
+</div>
 </header>
 
 <main>
-    <section class="content-block">
-        <img src="https://via.placeholder.com/400x250" alt="">
-        <div>
-            <h1>Responsive Layout</h1>
-            <p>
-                Images align left on large screens and above text on mobile. Text alignment and titles adapt automatically.
-            </p>
-        </div>
-    </section>
+<section class="content-block">
+<img src="https://via.placeholder.com/400x250" alt="">
+<div>
+<h1>Responsive Layout</h1>
+<p>Images align left on large screens and above text on mobile. Text alignment and titles adapt automatically.</p>
+</div>
+</section>
 </main>
 
 <footer>
-    <div class="footer-container">
-        <div>
-            <strong>Email</strong>
-            <a href="mailto:contact@example.com">contact@example.com</a>
-        </div>
-        <div>
-            <strong>Social</strong>
-            <a href="#">Instagram</a>
-            <a href="#">Facebook</a>
-            <a href="#">LinkedIn</a>
-        </div>
-        <div class="footer-note">
-            <div class="footer-controls">
-                <button class="mode-btn" id="footerMode" onclick="toggleTheme()">☾</button>
-                <span id="footerLang"></span>
-            </div>
-            © 2025 Mirza Damian. All rights reserved.
-        </div>
-    </div>
+<div class="footer-container">
+<div>
+<strong>Email</strong>
+<a href="mailto:contact@example.com">contact@example.com</a>
+</div>
+<div>
+<strong>Social</strong>
+<a href="#">Instagram</a>
+<a href="#">Facebook</a>
+<a href="#">LinkedIn</a>
+</div>
+<div class="footer-note">
+<div class="footer-controls">
+<button class="mode-btn" id="footerMode" onclick="toggleTheme()"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6"/></svg></button>
+<span id="footerLang"></span>
+</div>
+© 2025 Mirza Damian. All rights reserved.
+</div>
+</div>
 </footer>
 
+<!-- Google Translate -->
+<div id="google_translate_element" style="display:none"></div>
+<script type="text/javascript">
+function googleTranslateElementInit(){
+    new google.translate.TranslateElement({
+        pageLanguage:'en',
+        includedLanguages:'ro',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    },'google_translate_element');
+}
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 <script>
-/* ===== Active menu ===== */
+/* Active menu */
 document.querySelectorAll("nav a").forEach(link=>{
     if(location.pathname.endsWith(link.getAttribute("href"))) link.classList.add("active");
 });
+function toggleMenu(){document.getElementById("nav").classList.toggle("show");}
 
-/* ===== Mobile menu ===== */
-function toggleMenu(){ document.getElementById("nav").classList.toggle("show"); }
-
-/* ===== Theme ===== */
+/* Theme */
 const root=document.documentElement;
 const headerBtn=document.getElementById("modeIcon");
 const footerBtn=document.getElementById("footerMode");
 function toggleTheme(){
     const dark=root.getAttribute("data-theme")==="dark";
     root.setAttribute("data-theme",dark?"light":"dark");
-    headerBtn.textContent=footerBtn.textContent=dark?"☾":"☼";
 }
 if(window.matchMedia("(prefers-color-scheme: dark)").matches){
     root.setAttribute("data-theme","dark");
-    headerBtn.textContent=footerBtn.textContent="☼";
 }
 
-/* ===== Language ===== */
+/* Language */
 const langEN=document.getElementById("langEN");
 const langRO=document.getElementById("langRO");
 const langAUTO=document.getElementById("langAUTO");
@@ -211,42 +187,45 @@ const footerLang=document.getElementById("footerLang");
 let currentLang="en";
 
 function updateLangDisplay(){
-    const activeColor = document.querySelector("nav a.active") ? getComputedStyle(document.querySelector("nav a.active")).color : "var(--accent)";
+    const activeColor = document.querySelector("nav a.active")?getComputedStyle(document.querySelector("nav a.active")).color:"var(--accent)";
     langEN.style.color=currentLang==="en"?activeColor:"var(--text)";
     langRO.style.color=currentLang==="ro"?activeColor:"var(--text)";
     langEN.style.fontWeight=currentLang==="en"?"700":"400";
     langRO.style.fontWeight=currentLang==="ro"?"700":"400";
-    langAUTO.textContent=currentLang!=="en"&&currentLang!=="ro"?" | "+currentLang.toUpperCase():"";
     footerLang.textContent="Current: "+currentLang.toUpperCase();
 }
 
 function setLang(lang){
     currentLang=lang;
     updateLangDisplay();
-    if(lang==="ro") translateRO();
-}
-
-/* Google Translate redirect to Romanian */
-function translateRO(){
-    const url = "https://translate.google.com/translate?sl=en&tl=ro&u="+encodeURIComponent(window.location.href);
-    window.location.href=url;
+    const frame=document.querySelector('iframe.goog-te-menu-frame');
+    if(lang==="en"){ 
+        // Remove translation
+        if(document.querySelector('.goog-te-combo')) document.querySelector('.goog-te-combo').value='en';
+        // Reload Google Translate element
+        new google.translate.TranslateElement({pageLanguage:'en',includedLanguages:'ro',layout: google.translate.TranslateElement.InlineLayout.SIMPLE},'google_translate_element');
+    }else{
+        // Set combo to RO and simulate change
+        const combo=document.querySelector('.goog-te-combo');
+        if(combo){combo.value='ro'; combo.dispatchEvent(new Event('change'));}
+    }
 }
 
 updateLangDisplay();
 
-/* Auto detect device language if not EN/RO */
+/* Auto detect device language */
 const deviceLang=navigator.language.slice(0,2);
 if(!["en","ro"].includes(deviceLang)){
     currentLang=deviceLang;
     updateLangDisplay();
 }
 
-/* ===== Protection ===== */
+/* Protection */
 document.addEventListener("contextmenu",e=>e.preventDefault());
 document.addEventListener("copy",e=>e.preventDefault());
 document.addEventListener("selectstart",e=>e.preventDefault());
 document.addEventListener("keydown",e=>{
-    if((e.ctrlKey && ["c","u","s"].includes(e.key.toLowerCase())) || e.key==="F12") e.preventDefault();
+    if((e.ctrlKey && ["c","u","s"].includes(e.key.toLowerCase()))|| e.key==="F12") e.preventDefault();
 });
 </script>
 
