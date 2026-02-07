@@ -54,6 +54,7 @@ nav ul {
   gap: 2rem;
   margin: 0;
   padding: 0;
+  flex-wrap: wrap; /* Allows wrapping on very small screens */
 }
 
 nav a {
@@ -284,8 +285,7 @@ footer {
     gap: 1rem;
   }
   nav ul {
-    flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem; /* Reduce gap on mobile for better fit */
   }
   main {
     padding: 40px 20px;
