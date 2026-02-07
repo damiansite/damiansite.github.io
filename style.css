@@ -118,21 +118,6 @@ nav a:hover {
   background-color: var(--accent);
 }
 
-/* Hamburger Menu */
-.hamburger {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-  gap: 4px;
-}
-
-.hamburger span {
-  width: 25px;
-  height: 3px;
-  background-color: var(--text-color);
-  transition: 0.3s;
-}
-
 main {
   flex: 1;
   max-width: 1200px;
@@ -294,22 +279,13 @@ footer {
 
 /* Responsive */
 @media (max-width: 1024px) {
-  .hamburger {
-    display: flex;
+  header {
+    flex-direction: column;
+    gap: 1rem;
   }
   nav ul {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: var(--header-bg);
     flex-direction: column;
-    gap: 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    display: none;
-  }
-  nav ul.active {
-    display: flex;
+    gap: 0.5rem;
   }
   main {
     padding: 40px 20px;
