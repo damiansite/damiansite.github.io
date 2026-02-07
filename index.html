@@ -1,35 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Damian</title>
-<link rel="icon" href="iconss.ico">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Index</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
-<body class="index-page">
-
-<div class="index-container">
-  <h1 class="index-title">Damian</h1>
-
-  <div class="index-actions">
-    <a href="profile.html" class="index-card">Profile</a>
-    <a href="resources.html" class="index-card">Resources</a>
-    <a href="projects.html" class="index-card">Projects</a>
-  </div>
-
-  <div class="index-controls">
-    <button id="themeToggle" aria-label="Toggle dark mode">
-      <img id="themeIcon" src="night-mode.png" alt="Toggle theme">
-    </button>
-
-    <div class="lang-switch">
-      <a href="index.html">EN</a> |
-      <a href="index_ro.html">RO</a>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="projects.html">Projects</a></li>
+      </ul>
+    </nav>
+    <div class="toggles">
+      <button id="dark-mode-toggle" title="Toggle Dark Mode"></button>
+      <button id="lang-toggle">RO</button>
     </div>
-  </div>
-</div>
-
-<script src="script.js"></script>
+  </header>
+  <main>
+    <h1>Welcome</h1>
+    <p>Choose a section to explore:</p>
+    <div class="redirect-cards">
+      <div class="redirect-card">
+        <a href="profile.html">Profile</a>
+        <p>View awards, camps, and languages.</p>
+      </div>
+      <div class="redirect-card">
+        <a href="resources.html">Resources</a>
+        <p>Access books and materials.</p>
+      </div>
+      <div class="redirect-card">
+        <a href="projects.html">Projects</a>
+        <p>Explore ongoing projects.</p>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <p>&copy; 2023 Your Name. All rights reserved.</p>
+  </footer>
+  <script src="script.js"></script>
 </body>
 </html>
