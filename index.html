@@ -7,40 +7,21 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <nav>
-      <ul>
-        <li><a href="profile.html">Profile</a></li>
-        <li><a href="resources.html">Resources</a></li>
-        <li><a href="projects.html">Projects</a></li>
-      </ul>
-    </nav>
-    <div class="toggles">
-      <button id="dark-mode-toggle" title="Toggle Dark Mode"></button>
-      <button id="lang-toggle">RO</button>
-    </div>
-  </header>
   <main>
-    <h1>Welcome</h1>
-    <p>Choose a section to explore:</p>
-    <div class="redirect-cards">
-      <div class="redirect-card">
-        <a href="profile.html">Profile</a>
-        <p>View awards, camps, and languages.</p>
-      </div>
-      <div class="redirect-card">
-        <a href="resources.html">Resources</a>
-        <p>Access books and materials.</p>
-      </div>
-      <div class="redirect-card">
-        <a href="projects.html">Projects</a>
-        <p>Explore ongoing projects.</p>
+    <div class="index-buttons">
+      <a href="profile.html" class="index-button">Profile</a>
+      <a href="resources.html" class="index-button">Resources</a>
+      <a href="projects.html" class="index-button">Projects</a>
+    </div>
+    <div class="index-controls">
+      <button id="dark-mode-toggle"></button>
+      <div class="lang-buttons">
+        <button class="lang-button active">EN</button>
+        <button class="lang-button">RO</button>
       </div>
     </div>
+    <p style="text-align: center; margin: 0; color: var(--text-color);">&copy; 2023 Your Name. All rights reserved.</p>
   </main>
-  <footer>
-    <p>&copy; 2023 Your Name. All rights reserved.</p>
-  </footer>
   <script src="script.js"></script>
 </body>
 </html>
