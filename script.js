@@ -5,9 +5,9 @@ const body = document.body;
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'dark') {
   body.classList.add('dark-mode');
-  darkModeToggle.textContent = 'L'; // Show L in dark mode
+  darkModeToggle.textContent = 'L';
 } else {
-  darkModeToggle.textContent = 'D'; // Show D in light mode
+  darkModeToggle.textContent = 'D';
 }
 
 darkModeToggle.addEventListener('click', () => {
@@ -17,7 +17,7 @@ darkModeToggle.addEventListener('click', () => {
   darkModeToggle.textContent = theme === 'dark' ? 'L' : 'D';
 });
 
-// Language Toggle (redirects to corresponding RO/EN page)
+// Language Toggle
 document.querySelectorAll('.lang-button').forEach(button => {
   button.addEventListener('click', () => {
     const lang = button.textContent.toLowerCase();
@@ -28,4 +28,17 @@ document.querySelectorAll('.lang-button').forEach(button => {
       window.location.href = newPath;
     }
   });
+});
+
+// Hamburger Menu
+const hamburger = document.querySelector('.hamburger');
+const menuOverlay = document.querySelector('.menu-overlay');
+const closeBtn = document.querySelector('.close-btn');
+
+hamburger.addEventListener('click', () => {
+  menuOverlay.classList.add('active');
+});
+
+closeBtn.addEventListener('click', () => {
+  menuOverlay.classList.remove('active');
 });
