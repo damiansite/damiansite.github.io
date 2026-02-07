@@ -8,19 +8,29 @@
 
 body {
   margin: 0;
-  background-color: #E3E3E3;
+  background-color: var(--bg); color: var(--text);
   font-family: 'Quicksand', sans-serif;
 }
 
 /* ===== HEADER ===== */
 header {
-  background-color: #4D3A21;
+  background-color: var(--primary);
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 60px;
   position: relative;
+}
+
+#themeToggle {
+  background: none;
+  border: 2px solid white;
+  color: white;
+  font-size: 1.1em;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 .brand-header a {
@@ -94,7 +104,7 @@ main {
 
 /* ===== RESOURCE LIST ===== */
 .resource-card {
-  background: #F7F7F7;
+  background: var(--card);
   padding: 25px;
   border-radius: 10px;
   margin-bottom: 25px;
@@ -116,12 +126,12 @@ main {
 }
 
 .button:hover {
-  background: #6E542F;
+  background: var(--primary-hover);
 }
 
 /* ===== FOOTER ===== */
 footer {
-  background-color: #4D3A21;
+  background-color: var(--primary);
   color: white;
   padding: 60px;
   position: relative;
@@ -139,3 +149,22 @@ footer {
   font-size: 0.9em;
   opacity: 0.8;
 }
+
+:root {
+  --bg: #E3E3E3;
+  --text: #2E2E2E;
+  --card: #F7F7F7;
+  --primary: #4D3A21;
+  --primary-hover: #6E542F;
+  --header-footer-text: #FFFFFF;
+}
+
+body.dark {
+  --bg: #121212;
+  --text: #E0E0E0;
+  --card: #1E1E1E;
+  --primary: #9C7A4A;
+  --primary-hover: #B8935E;
+  --header-footer-text: #FFFFFF;
+}
+
