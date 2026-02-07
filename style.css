@@ -74,6 +74,7 @@ nav a:hover {
   display: flex;
   gap: 1rem;
   align-items: center;
+  margin-left: auto; /* Pushes toggles to the far right on PC */
 }
 
 #dark-mode-toggle {
@@ -286,6 +287,9 @@ footer {
   }
   nav ul {
     gap: 1rem; /* Reduce gap on mobile for better fit */
+  }
+  .toggles {
+    margin-left: 0; /* Reset on mobile */
   }
   main {
     padding: 40px 20px;
