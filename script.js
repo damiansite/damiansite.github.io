@@ -33,12 +33,20 @@ document.querySelectorAll('.lang-button').forEach(button => {
 // Hamburger Menu (Mobile Fullscreen)
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('nav-menu');
-const closeMenu = document.getElementById('close-menu');
 
 hamburger.addEventListener('click', () => {
   navMenu.classList.add('active');
 });
 
-closeMenu.addEventListener('click', () => {
-  navMenu.classList.remove('active');
+// Close menu on link click or outside click
+document.addEventListener('click', (e) => {
+  if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+    navMenu.classList.remove('active');
+  }
+});
+
+navMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    navMenu.classList.remove('active');
+  });
 });
