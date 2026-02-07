@@ -199,6 +199,7 @@ main {
   display: flex;
   gap: 1rem;
   justify-content: center;
+  flex-direction: row; /* Explicit row on big screens */
   flex-wrap: wrap;
 }
 
