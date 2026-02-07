@@ -173,3 +173,13 @@ body.dark {
   --header-footer-text: #FFFFFF;
 }
 
+.lang-switch a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  margin: 0 4px;
+}
+
+.lang-switch a:hover {
+  text-decoration: underline;
+}
