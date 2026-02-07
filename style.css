@@ -143,6 +143,7 @@ nav a:hover {
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  overflow: hidden; /* Prevents scrolling */
 }
 
 .menu-overlay.active {
@@ -153,11 +154,20 @@ nav a:hover {
   flex-direction: column;
   gap: 2rem;
   text-align: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .menu-overlay nav a {
   font-size: 1.5rem;
   color: var(--text-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.menu-overlay nav a:hover {
+  color: var(--button-hover);
 }
 
 .menu-overlay .toggles {
@@ -200,6 +210,13 @@ main {
   color: var(--text-color);
 }
 
+.section h3 {
+  font-family: 'Newsreader', serif;
+  font-size: 1.5em;
+  margin-bottom: 15px;
+  color: var(--text-color);
+}
+
 .section p.intro {
   font-size: 1.2em;
   line-height: 1.6em;
@@ -234,7 +251,7 @@ main {
   font-style: italic;
 }
 
-.resource-item {
+.resource-card {
   background-color: var(--card-bg);
   padding: 1.5rem;
   margin-bottom: 1rem;
@@ -245,7 +262,7 @@ main {
   align-items: center;
 }
 
-.resource-item p {
+.resource-card p {
   margin: 0;
   word-wrap: break-word;
   flex: 1;
@@ -307,34 +324,6 @@ footer {
   box-shadow: 0 -1px 2px rgba(0,0,0,0.1);
 }
 
-/* Awards specific */
-.award-class {
-  margin-bottom: 2rem;
-}
-
-.award-class h3 {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  font-family: 'Newsreader', serif;
-}
-
-.award-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.award-item {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.phase-arrow {
-  font-size: 1.2rem;
-  color: var(--accent);
-}
-
 /* Responsive */
 @media (max-width: 1024px) {
   .hamburger {
@@ -357,18 +346,18 @@ footer {
   .section ol {
     padding-left: 15px;
   }
-  .resource-item {
+  .resource-card {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 1rem;
   }
-  .resource-item p {
+  .resource-card p {
     margin-right: 0;
     text-align: center;
   }
   .button {
-    width: 100%;
-    text-align: center;
+    max-width: 150px;
+    margin: 0 auto;
   }
   .index-buttons {
     grid-template-columns: 1fr;
