@@ -1,1 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;1,400&display=swap');
 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #E3E3E3;
+  font-family: 'Quicksand', sans-serif;
+}
+
+/* ===== HEADER ===== */
+header {
+  background-color: #4D3A21;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 60px;
+  position: relative;
+}
+
+.brand-header a {
+  font-family: 'Monoton', cursive;
+  font-size: 2.4em;
+  text-decoration: none;
+  color: white;
+}
+
+.nav-links {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 50px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 6px;
+}
+
+.nav-links a:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* ===== MAIN ===== */
+main {
+  min-height: 65vh;
+  padding: 60px 80px;
+}
+
+/* ===== SECTIONS ===== */
+.section {
+  max-width: 1100px;
+  margin: auto;
+  margin-bottom: 80px;
+}
+
+.section h2 {
+  font-family: 'Newsreader', serif;
+  font-size: 2.2em;
+  color: #4D3A21;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.section p {
+  font-size: 1.15em;
+  line-height: 1.6em;
+  color: #2E2E2E;
+}
+
+/* ===== AWARDS (PROFILE) ===== */
+.timeline {
+  border-left: 4px solid #4D3A21;
+  padding-left: 30px;
+}
+
+.timeline-item {
+  margin-bottom: 30px;
+}
+
+.timeline-item h3 {
+  margin: 0;
+  color: #4D3A21;
+}
+
+/* ===== RESOURCE LIST ===== */
+.resource-card {
+  background: #F7F7F7;
+  padding: 25px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+}
+
+.resource-card b {
+  color: #4D3A21;
+}
+
+/* ===== BUTTON ===== */
+.button {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 18px;
+  background: #4D3A21;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.button:hover {
+  background: #6E542F;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background-color: #4D3A21;
+  color: white;
+  padding: 60px;
+  position: relative;
+}
+
+.brand-footer {
+  font-family: 'Monoton', cursive;
+  font-size: 3em;
+}
+
+.copyright {
+  text-align: center;
+  margin-top: 40px;
+  font-family: 'Newsreader', serif;
+  font-size: 0.9em;
+  opacity: 0.8;
+}
