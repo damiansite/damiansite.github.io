@@ -160,20 +160,39 @@ main {
   color: var(--text-color);
 }
 
-.section ol {
-  padding-left: 20px;
+.section ul {
+  list-style: none; /* Removes bullets/numbers */
+  padding-left: 0;
   margin-bottom: 30px;
 }
 
-.section ol li {
+.section ul li {
   margin-bottom: 20px;
   font-size: 1.1em;
   line-height: 1.6em;
   color: var(--text-color);
 }
 
-.section ol li strong {
+.section ul li strong {
   font-weight: 600;
+}
+
+.section ul li hr {
+  border: none;
+  border-top: 1px solid var(--accent); /* Thin gray line */
+  margin: 10px 0;
+  width: 50%; /* Makes it thin and centered */
+}
+
+.section ul li ul {
+  list-style: none;
+  padding-left: 20px; /* Indent sub-details */
+  margin-top: 10px;
+}
+
+.section ul li ul li {
+  margin-bottom: 10px;
+  font-size: 1em;
 }
 
 .warning {
@@ -292,7 +311,10 @@ footer {
     font-size: 1.1em;
     text-align: left;
   }
-  .section ol {
+  .section ul {
+    padding-left: 0;
+  }
+  .section ul li ul {
     padding-left: 15px;
   }
   .resource-card {
