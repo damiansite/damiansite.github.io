@@ -1,71 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Profile</title>
-<link rel="icon" href="iconss.ico">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
-<header>
-  <div class="brand-header"><a href="profile.html">Damian</a></div>
-
-  <nav class="nav-links">
-    <a href="profile.html">Profile</a>
-    <a href="resources.html">Resources</a>
-    <a href="projects.html">Projects</a>
-  </nav>
-
-  <button id="themeToggle" aria-label="Toggle dark mode">
-    <img id="themeIcon" src="night-mode.png" alt="Toggle theme">
-  </button>
-</header>
-
-<main>
-  <section class="section">
-    <h2>Academic Awards</h2>
-
-    <div class="timeline">
-      <div class="timeline-item">
-        <h3>XI Class</h3>
-        <p>National / school-level distinctions, olympiads, recognitions.</p>
-      </div>
-
-      <div class="timeline-item">
-        <h3>X Class</h3>
-        <p>Awards in mathematics, physics, informatics.</p>
-      </div>
-
-      <div class="timeline-item">
-        <h3>IX Class</h3>
-        <p>Competitions and academic excellence.</p>
-      </div>
-
-      <div class="timeline-item">
-        <h3>VII Class</h3>
-        <p>Early achievements.</p>
-      </div>
-
-      <div class="timeline-item">
-        <h3>VI Class</h3>
-        <p>Foundational recognitions.</p>
-      </div>
-
-      <div class="timeline-item">
-        <h3>V Class</h3>
-        <p>First academic awards.</p>
-      </div>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Index</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="projects.html">Projects</a></li>
+      </ul>
+    </nav>
+    <div class="toggles">
+      <button id="dark-mode-toggle" title="Toggle Dark Mode"></button>
+      <button id="lang-toggle">RO</button>
     </div>
-  </section>
-</main>
-
-<footer>
-  <div class="brand-footer">Damian</div>
-  <div class="copyright">© 2025 M. Damian — All Rights Reserved</div>
-</footer>
-
-<script src="script.js"></script>
+  </header>
+  <main>
+    <h1>Profile</h1>
+    <section class="section">
+      <h2>Awards</h2>
+      <div class="award-card"><p><b>XI Class Award</b> - Description here.</p></div>
+      <div class="award-card"><p><b>X Class Award</b> - Description here.</p></div>
+      <div class="award-card"><p><b>IX Class Award</b> - Description here.</p></div>
+      <div class="award-card"><p><b>VIII Class Award</b> - Description here.</p></div>
+      <div class="award-card"><p><b>VII Class Award</b> - Description here.</p></div>
+      <div class="award-card"><p><b>VI Class Award</b> - Description here.</p></div>
+      <div class="award-card"><p><b>V Class Award</b> - Description here.</p></div>
+    </section>
+    <section class="section">
+      <h2>Camps</h2>
+      <div class="camp-card"><p>Camp 1 - Details.</p></div>
+      <div class="camp-card"><p>Camp 2 - Details.</p></div>
+    </section>
+    <section class="section">
+      <h2>Languages</h2>
+      <div class="lang-card"><p>English - Fluent.</p></div>
+      <div class="lang-card"><p>Romanian - Native.</p></div>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2023 Your Name. All rights reserved.</p>
+  </footer>
+  <script src="script.js"></script>
 </body>
 </html>
