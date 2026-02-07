@@ -177,8 +177,8 @@ main {
   text-align: justify;
 }
 
-.section ol li p.intro {
-  font-size: 1.1em; /* Matches li font size for consistency inside lists */
+.section ol li p.intro, .section ol li ul li p.intro {
+  font-size: 1.1em; /* Ensures all p.intro in lists (including nested ul) match li font size */
 }
 
 .section ol li b {
