@@ -5,9 +5,9 @@ const body = document.body;
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'dark') {
   body.classList.add('dark-mode');
-  if (darkModeToggle) darkModeToggle.textContent = 'L';
+  darkModeToggle.textContent = 'L';
 } else {
-  if (darkModeToggle) darkModeToggle.textContent = 'D';
+  darkModeToggle.textContent = 'D';
 }
 
 darkModeToggle.addEventListener('click', () => {
@@ -35,16 +35,10 @@ const hamburger = document.querySelector('.hamburger');
 const navUl = document.querySelector('nav ul');
 const closeBtn = document.querySelector('.close-btn');
 
-if (hamburger) {
-  hamburger.addEventListener('click', () => {
-    navUl.classList.toggle('active');
-    closeBtn.classList.toggle('active');
-  });
-}
+hamburger.addEventListener('click', () => {
+  navUl.classList.toggle('active');
+});
 
-if (closeBtn) {
-  closeBtn.addEventListener('click', () => {
-    navUl.classList.remove('active');
-    closeBtn.classList.remove('active');
-  });
-}
+closeBtn.addEventListener('click', () => {
+  navUl.classList.remove('active');
+});
