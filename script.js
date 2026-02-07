@@ -30,15 +30,15 @@ document.querySelectorAll('.lang-button').forEach(button => {
   });
 });
 
-// Hamburger Menu (Slide-down dropdown)
-const hamburger = document.querySelector('.hamburger');
-const navUl = document.querySelector('nav ul');
-const closeBtn = document.querySelector('.close-btn');
+// Hamburger Menu (Mobile Fullscreen)
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('nav-menu');
+const closeMenu = document.getElementById('close-menu');
 
 hamburger.addEventListener('click', () => {
-  navUl.classList.toggle('active');
+  navMenu.classList.add('active');
 });
 
-closeBtn.addEventListener('click', () => {
-  navUl.classList.remove('active');
+closeMenu.addEventListener('click', () => {
+  navMenu.classList.remove('active');
 });
