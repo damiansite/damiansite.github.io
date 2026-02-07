@@ -177,6 +177,10 @@ main {
   text-align: justify;
 }
 
+.section ol li p.intro {
+  font-size: 1.1em; /* Matches li font size for consistency inside lists */
+}
+
 .section ol li b {
   color: var(--text-color);
   font-weight: 600;
