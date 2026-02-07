@@ -30,23 +30,23 @@ document.querySelectorAll('.lang-button').forEach(button => {
   });
 });
 
-// Hamburger Menu (Mobile Fullscreen)
+// Hamburger Menu (Simple Slide-Down)
 const hamburger = document.getElementById('hamburger');
-const navMenu = document.getElementById('nav-menu');
+const navUl = document.querySelector('nav ul');
 
 hamburger.addEventListener('click', () => {
-  navMenu.classList.add('active');
+  navUl.classList.toggle('active');
 });
 
 // Close menu on link click or outside click
 document.addEventListener('click', (e) => {
-  if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
-    navMenu.classList.remove('active');
+  if (!navUl.contains(e.target) && !hamburger.contains(e.target)) {
+    navUl.classList.remove('active');
   }
 });
 
-navMenu.querySelectorAll('a').forEach(link => {
+navUl.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => {
-    navMenu.classList.remove('active');
+    navUl.classList.remove('active');
   });
 });
