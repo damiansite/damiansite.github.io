@@ -195,6 +195,35 @@ main {
   font-size: 1em;
 }
 
+.language-boxes {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.language-box {
+  background-color: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  text-align: center;
+  flex: 1;
+  min-width: 200px;
+  max-width: 250px;
+}
+
+.language-box strong {
+  font-size: 1.2em;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.language-box p {
+  font-size: 1em;
+  margin: 0;
+}
+
 .warning {
   color: red;
   font-weight: bold;
@@ -316,6 +345,14 @@ footer {
   }
   .section ul li ul {
     padding-left: 15px;
+  }
+  .language-boxes {
+    /* Removed flex-direction: column to keep boxes in a row */
+    align-items: center;
+  }
+  .language-box {
+    min-width: 150px; /* Adjusted for mobile to fit better in row */
+    max-width: 200px;
   }
   .resource-card {
     flex-direction: column;
