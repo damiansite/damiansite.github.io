@@ -50,8 +50,6 @@ header {
 
 nav ul {
   list-style: none;
-  display: flex;
-  gap: 2rem;
   margin: 0;
   padding: 0;
   position: absolute;
@@ -59,13 +57,28 @@ nav ul {
   left: 0;
   width: 100%;
   background-color: var(--header-bg);
-  flex-direction: column;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   display: none; /* Hidden by default on mobile */
+  flex-direction: column;
 }
 
 nav ul.active {
   display: flex;
+}
+
+nav li {
+  position: relative;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--text-color);
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
 }
 
 nav a {
@@ -87,7 +100,7 @@ nav a:hover {
   align-items: center;
 }
 
-#dark-mode-toggle, #dark-mode-toggle-overlay {
+#dark-mode-toggle {
   background: none;
   border: 1px solid var(--accent);
   cursor: pointer;
@@ -102,7 +115,7 @@ nav a:hover {
   transition: background-color 0.3s, color 0.3s;
 }
 
-#dark-mode-toggle:hover, #dark-mode-toggle-overlay:hover {
+#dark-mode-toggle:hover {
   background-color: var(--accent);
 }
 
@@ -111,7 +124,7 @@ nav a:hover {
   gap: 0.5rem;
 }
 
-.lang-button, .lang-button-overlay {
+.lang-button {
   background: none;
   border: 1px solid var(--accent);
   cursor: pointer;
@@ -121,12 +134,12 @@ nav a:hover {
   transition: background-color 0.3s, color 0.3s;
 }
 
-.lang-button.active, .lang-button-overlay.active {
+.lang-button.active {
   background-color: var(--accent);
   font-weight: bold;
 }
 
-.lang-button:hover, .lang-button-overlay:hover {
+.lang-button:hover {
   background-color: var(--accent);
 }
 
@@ -143,22 +156,6 @@ nav a:hover {
   height: 3px;
   background-color: var(--text-color);
   transition: 0.3s;
-}
-
-.close-btn {
-  position: absolute;
-  top: 1rem;
-  right: 2rem;
-  background: none;
-  border: none;
-  font-size: 2rem;
-  cursor: pointer;
-  color: var(--text-color);
-  display: none;
-}
-
-.close-btn.active {
-  display: block;
 }
 
 main {
