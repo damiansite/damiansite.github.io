@@ -19,21 +19,28 @@ darkModeToggle.addEventListener('click', () => {
 
 // Language Toggle (Header and Index Controls)
 document.querySelectorAll('.lang-button').forEach(button => {
-  button.addEventListener('click', () => {
+  button.addEventListener('click', (e) => {
+    console.log('Language button clicked:', e.target.textContent); // Debug log
     const lang = button.textContent.toLowerCase();
     let currentPath = window.location.pathname;
-    console.log('Current path before check:', currentPath); // Debug log
+    console.log('Current pathname:', currentPath); // Debug log
     // Handle GitHub Pages root URL (treat '/' as '/index.html')
-    if (currentPath === '/') {
+    if (currentPath === '/' || currentPath === '') {
       currentPath = '/index.html';
-      console.log('Path set to /index.html for root URL'); // Debug log
+      console.log('Path adjusted to /index.html for root URL'); // Debug log
     }
     const isEnglish = !currentPath.includes('-ro');
     console.log('Is English:', isEnglish, 'Lang pressed:', lang); // Debug log
     if ((lang === 'ro' && isEnglish) || (lang === 'en' && !isEnglish)) {
       const newPath = isEnglish ? currentPath.replace('.html', '-ro.html') : currentPath.replace('-ro.html', '.html');
-      console.log('Redirecting to:', newPath); // Debug log
-      window.location.href = newPath;
+      console.log('Attempting redirect to:', newPath); // Debug log
+      try {
+        window.location.href = newPath;
+      } catch (error) {
+        console.error('Redirect failed:', error); // Debug log
+        // Fallback: Use assign or reload if href fails
+        window.location.assign(newPath);
+      }
     } else {
       console.log('No redirect needed'); // Debug log
     }
