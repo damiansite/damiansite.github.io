@@ -22,7 +22,7 @@ body.dark-mode {
   --card-bg: #333;
   --button-bg: #bbb;
   --button-hover: #ddd;
-  --link-color: #4dabf7;
+  --link-color: #bbb;
   --accent: #555;
   --link-accent: #4dabf7; /* Lighter blue for links in dark mode */
 }
