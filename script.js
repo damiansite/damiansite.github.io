@@ -17,11 +17,15 @@ darkModeToggle.addEventListener('click', () => {
   darkModeToggle.textContent = theme === 'dark' ? 'L' : 'D';
 });
 
-// Language Toggle (Header)
+// Language Toggle (Header and Index Controls)
 document.querySelectorAll('.lang-button').forEach(button => {
   button.addEventListener('click', () => {
     const lang = button.textContent.toLowerCase();
-    const currentPath = window.location.pathname;
+    let currentPath = window.location.pathname;
+    // Handle GitHub Pages root URL (treat '/' as '/index.html')
+    if (currentPath === '/') {
+      currentPath = '/index.html';
+    }
     const isEnglish = !currentPath.includes('-ro');
     if ((lang === 'ro' && isEnglish) || (lang === 'en' && !isEnglish)) {
       const newPath = isEnglish ? currentPath.replace('.html', '-ro.html') : currentPath.replace('-ro.html', '.html');
@@ -29,3 +33,25 @@ document.querySelectorAll('.lang-button').forEach(button => {
     }
   });
 });
+
+// Hamburger Menu (Mobile Fullscreen) - Only if hamburger exists
+const hamburger = document.getElementById('hamburger');
+if (hamburger) {
+  const navMenu = document.getElementById('nav-menu');
+  hamburger.addEventListener('click', () => {
+    navMenu.classList.add('active');
+  });
+
+  // Close menu on link click or outside click
+  document.addEventListener('click', (e) => {
+    if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+      navMenu.classList.remove('active');
+    }
+  });
+
+  navMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navMenu.classList.remove('active');
+    });
+  });
+}
