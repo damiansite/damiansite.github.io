@@ -401,3 +401,36 @@ footer {
     gap: 1rem;
   }
 }
+
+/* Update Box for Index Page */
+.update-box {
+  background-color: var(--card-bg);
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  text-align: center;
+  margin-top: 1rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.update-box strong {
+  font-size: 1.1em;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.update-box p {
+  font-size: 0.9em;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Responsive for Update Box */
+@media (max-width: 1024px) {
+  .update-box {
+    max-width: 100%;
+    padding: 0.8rem;
+  }
+}
