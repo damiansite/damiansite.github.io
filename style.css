@@ -13,6 +13,8 @@
   --link-color: #666;
   --accent: #ccc;
   --link-accent: #007bff; /* New: Blue for links in light mode */
+  --standalone-link-color: #0066cc;
+  --standalone-link-hover: #004999;
 }
 
 body.dark-mode {
@@ -25,6 +27,8 @@ body.dark-mode {
   --link-color: #bbb;
   --accent: #555;
   --link-accent: #4dabf7; /* Lighter blue for links in dark mode */
+  --standalone-link-color: #66b2ff;
+  --standalone-link-hover: #99ccff;
 }
 
 /* General Styles */
@@ -246,6 +250,19 @@ a {
 
 a:hover {
   color: var(--button-hover);
+}
+
+/* Standalone / contextual links */
+.standalone-link {
+  color: var(--standalone-link-color);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  font-weight: 600;
+}
+
+.standalone-link:hover {
+  color: var(--standalone-link-hover);
 }
 
 .resource-card {
