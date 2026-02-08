@@ -7,40 +7,21 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <nav>
-      <ul>
-        <li><a href="profile-ro.html">Profil</a></li>
-        <li><a href="resources-ro.html">Resurse</a></li>
-        <li><a href="projects-ro.html">Proiecte</a></li>
-      </ul>
-    </nav>
-    <div class="toggles">
-      <button id="dark-mode-toggle" title="Comută Modul Întunecat"></button>
-      <button id="lang-toggle">EN</button>
-    </div>
-  </header>
   <main>
-    <h1>Bine ați venit</h1>
-    <p>Alegeți o secțiune pentru a explora:</p>
-    <div class="redirect-cards">
-      <div class="redirect-card">
-        <a href="profile-ro.html">Profil</a>
-        <p>Vizualizați premii, tabere și limbi.</p>
-      </div>
-      <div class="redirect-card">
-        <a href="resources-ro.html">Resurse</a>
-        <p>Accesați cărți și materiale.</p>
-      </div>
-      <div class="redirect-card">
-        <a href="projects-ro.html">Proiecte</a>
-        <p>Explorați proiecte în desfășurare.</p>
+    <div class="index-buttons">
+      <a href="profile-ro.html" class="index-button">Profil</a>
+      <a href="resources-ro.html" class="index-button">Resurse</a>
+      <a href="projects-ro.html" class="index-button">Proiecte</a>
+    </div>
+    <div class="index-controls">
+      <button id="dark-mode-toggle"></button>
+      <div class="lang-buttons">
+        <button class="lang-button">EN</button>
+        <button class="lang-button active">RO</button>
       </div>
     </div>
+    <p style="text-align: center; margin: 0; color: var(--text-color);">&copy; 2026 Mîrza Damian. Toate drepturile rezervate.</p>
   </main>
-  <footer>
-    <p>&copy; 2023 Numele Dvs. Toate drepturile rezervate.</p>
-  </footer>
   <script src="script.js"></script>
 </body>
 </html>
