@@ -12,6 +12,7 @@
   --button-hover: #999;
   --link-color: #666;
   --accent: #ccc;
+  --link-accent: #007bff; /* New: Blue for links in light mode */
 }
 
 body.dark-mode {
@@ -23,6 +24,7 @@ body.dark-mode {
   --button-hover: #ddd;
   --link-color: #bbb;
   --accent: #555;
+  --link-accent: #4dabf7; /* Lighter blue for links in dark mode */
 }
 
 /* General Styles */
@@ -238,7 +240,7 @@ main {
 }
 
 a {
-  color: var(--accent); /* Changed to accent for subtle color difference, theme-aware */
+  color: var(--link-accent); /* Changed to blue for clear distinction, theme-aware */
   text-decoration: underline; /* Added underline for clarity */
 }
 
