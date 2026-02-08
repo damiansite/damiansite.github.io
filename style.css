@@ -212,6 +212,7 @@ main {
   flex: 1;
   min-width: 200px;
   max-width: 250px;
+  box-sizing: border-box; /* Includes padding in width calculation */
 }
 
 .language-box strong {
@@ -352,6 +353,7 @@ footer {
     align-items: center;
   }
   .language-box {
+    width: 100%; /* Forces full width to prevent overflow */
     min-width: 100%;
     max-width: 100%;
   }
