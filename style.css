@@ -238,8 +238,8 @@ main {
 }
 
 a {
-  color: var(--link-color);
-  text-decoration: none;
+  color: var(--accent); /* Changed to accent for subtle color difference, theme-aware */
+  text-decoration: underline; /* Added underline for clarity */
 }
 
 a:hover {
