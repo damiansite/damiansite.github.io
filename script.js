@@ -22,14 +22,20 @@ document.querySelectorAll('.lang-button').forEach(button => {
   button.addEventListener('click', () => {
     const lang = button.textContent.toLowerCase();
     let currentPath = window.location.pathname;
+    console.log('Current path before check:', currentPath); // Debug log
     // Handle GitHub Pages root URL (treat '/' as '/index.html')
     if (currentPath === '/') {
       currentPath = '/index.html';
+      console.log('Path set to /index.html for root URL'); // Debug log
     }
     const isEnglish = !currentPath.includes('-ro');
+    console.log('Is English:', isEnglish, 'Lang pressed:', lang); // Debug log
     if ((lang === 'ro' && isEnglish) || (lang === 'en' && !isEnglish)) {
       const newPath = isEnglish ? currentPath.replace('.html', '-ro.html') : currentPath.replace('-ro.html', '.html');
+      console.log('Redirecting to:', newPath); // Debug log
       window.location.href = newPath;
+    } else {
+      console.log('No redirect needed'); // Debug log
     }
   });
 });
