@@ -18,17 +18,17 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--card-bg, #f9f9f9);
-      border-radius: 8px;
+      background-color: var(--card-bg);
+      border-radius: 4px;
       padding: 1.2rem 1.5rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      border: 1px solid var(--border-color, #e0e0e0);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      border: 1px solid var(--accent);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     
     .project-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     
     .project-info {
@@ -38,11 +38,11 @@
     .project-title {
       font-size: 1.2rem;
       margin-bottom: 0.3rem;
-      color: var(--title-color, #333);
+      color: var(--text-color);
     }
     
     .project-title b {
-      font-weight: 700;
+      font-weight: 600;
     }
     
     .project-meta {
@@ -51,7 +51,8 @@
       gap: 1.5rem;
       margin: 0.4rem 0;
       font-size: 0.9rem;
-      color: var(--meta-color, #555);
+      color: var(--text-color);
+      opacity: 0.8;
     }
     
     .project-meta span {
@@ -61,16 +62,16 @@
     
     .project-meta i {
       font-style: italic;
-      color: var(--accent-color, #4a4a4a);
       margin-right: 0.3rem;
     }
     
     .project-description {
       font-size: 0.95rem;
-      color: var(--text-color, #444);
+      color: var(--text-color);
       line-height: 1.5;
       margin-top: 0.4rem;
       max-width: 90%;
+      opacity: 0.9;
     }
     
     .project-buttons {
@@ -82,19 +83,22 @@
     }
     
     .button {
-      display: inline-block;
-      padding: 0.6rem 1.2rem;
-      background-color: #4CAF50;
-      color: white;
+      background-color: var(--button-bg);
+      color: var(--bg-color);
+      padding: 0.75rem 1.5rem;
       text-decoration: none;
-      border-radius: 5px;
-      font-size: 0.9rem;
+      border-radius: 4px;
+      transition: background-color 0.3s;
       font-weight: 500;
-      transition: background-color 0.3s ease;
-      border: none;
-      cursor: pointer;
+      white-space: nowrap;
       min-width: 80px;
       text-align: center;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .button:hover {
+      background-color: var(--button-hover);
     }
     
     .button.pdf {
@@ -113,98 +117,66 @@
       background-color: #a03217;
     }
     
-    /* Mini box pentru explicații */
+    /* Info box pentru PPT - în aceeași paletă de culori */
     .info-box {
-      background-color: #e7f3ff;
-      border-left: 4px solid #2196F3;
+      background-color: var(--card-bg);
+      border-left: 4px solid var(--link-accent);
       padding: 1rem 1.5rem;
       margin: 1.5rem 0 0.5rem 0;
       border-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
       display: flex;
       align-items: center;
       gap: 1rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
     
-    .info-icon {
-      font-size: 1.5rem;
-      background-color: #2196F3;
-      color: white;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-    }
-    
-    .info-text {
-      flex: 1;
-    }
-    
-    .info-text p {
+    .info-box p {
       margin: 0;
-      color: #0a4b78;
+      color: var(--text-color);
+      font-size: 0.95rem;
+      line-height: 1.5;
     }
     
-    .info-text strong {
-      color: #0a4b78;
+    .info-box strong {
+      color: var(--link-accent);
+      font-weight: 600;
     }
     
     /* Adaptare mod întunecos */
     body.dark-mode .project-card {
-      background: var(--dark-card-bg, #2a2a2a);
-      border-color: var(--dark-border, #444);
-    }
-    
-    body.dark-mode .project-title {
-      color: var(--dark-title, #e0e0e0);
-    }
-    
-    body.dark-mode .project-meta {
-      color: var(--dark-meta, #aaa);
-    }
-    
-    body.dark-mode .project-description {
-      color: var(--dark-text, #ccc);
+      background-color: var(--card-bg);
+      border-color: var(--accent);
     }
     
     body.dark-mode .info-box {
-      background-color: #1a2a3a;
-      border-left-color: #64b5f6;
-    }
-    
-    body.dark-mode .info-text p {
-      color: #b8d8ff;
-    }
-    
-    body.dark-mode .info-text strong {
-      color: #90caf9;
+      background-color: var(--card-bg);
+      border-left-color: var(--link-accent);
     }
     
     /* Stil pentru secțiune */
     .section {
       margin-bottom: 2rem;
+      width: 100%;
     }
     
     .intro {
       margin-bottom: 1.5rem;
-      color: var(--intro-color, #555);
+      color: var(--text-color);
+      opacity: 0.9;
     }
     
     /* Stil pentru link-uri */
     a {
-      color: #1e88e5;
-      text-decoration: none;
-    }
-    
-    a:hover {
+      color: var(--link-accent);
       text-decoration: underline;
     }
     
+    a:hover {
+      color: var(--button-hover);
+    }
+    
     /* Spațiere îmbunătățită pentru responsiv */
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
       .project-card {
         flex-direction: column;
         align-items: flex-start;
@@ -219,6 +191,14 @@
       
       .project-description {
         max-width: 100%;
+      }
+      
+      .button {
+        max-width: 150px;
+      }
+      
+      .info-box {
+        padding: 0.8rem 1rem;
       }
     }
   </style>
@@ -247,12 +227,9 @@
       <h2>Projects</h2>
       <p class="intro">The following are research projects and theses. Each project includes the full document (Thesis) and a presentation (PPT) for overview.</p>
       
-      <!-- Mini box explicativ pentru PPT -->
+      <!-- Info box pentru PPT - fără emoji, în paleta de culori -->
       <div class="info-box">
-        <div class="info-icon">ⓘ</div>
-        <div class="info-text">
-          <p><strong>What is the Presentation (PPT)?</strong> The PPT files contain slide decks summarizing each project - including methodology, key findings, and visual aids. Useful for quick overview or presentations.</p>
-        </div>
+        <p><strong>What is the Presentation (PPT)?</strong> The PPT files contain slide decks summarizing each project - including methodology, key findings, and visual aids. Useful for quick overview or presentations.</p>
       </div>
       
       <div class="projects-list">
@@ -338,6 +315,24 @@
             </div>
             <div class="project-description">
               Analysis of Shor's algorithm and quantum-resistant cryptographic methods for post-quantum security.
+            </div>
+          </div>
+          <div class="project-buttons">
+            <a href="#" class="button pdf">Thesis</a>
+            <a href="#" class="button ppt">PPT</a>
+          </div>
+        </div>
+        
+        <!-- Proiect 6 -->
+        <div class="project-card">
+          <div class="project-info">
+            <div class="project-title"><b>Advanced Materials for Solar Cells</b></div>
+            <div class="project-meta">
+              <span><i>Author:</i> Dr. Cristina Dumitrescu</span>
+              <span><i>Date:</i> October 22, 2025</span>
+            </div>
+            <div class="project-description">
+              Research on perovskite solar cells and their efficiency improvements through novel material compositions.
             </div>
           </div>
           <div class="project-buttons">
