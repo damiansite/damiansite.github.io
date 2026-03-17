@@ -5,6 +5,187 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Proiecte</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Stiluri suplimentare pentru proiecte - păstrând exact stilul din resources */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .project-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--card-bg);
+      border-radius: 4px;
+      padding: 1.2rem 1.5rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      border: 1px solid var(--accent);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .project-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .project-info {
+      flex: 2;
+    }
+    
+    .project-title {
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+      color: var(--text-color);
+    }
+    
+    .project-title b {
+      font-weight: 600;
+    }
+    
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin: 0.4rem 0;
+      font-size: 0.9rem;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+    
+    .project-meta span {
+      display: flex;
+      align-items: center;
+    }
+    
+    .project-meta i {
+      font-style: italic;
+      margin-right: 0.3rem;
+    }
+    
+    .project-description {
+      font-size: 0.95rem;
+      color: var(--text-color);
+      line-height: 1.5;
+      margin-top: 0.4rem;
+      max-width: 90%;
+      opacity: 0.9;
+    }
+    
+    .project-buttons {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    
+    .button {
+      background-color: var(--button-bg);
+      color: var(--bg-color);
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+      font-weight: 500;
+      white-space: nowrap;
+      min-width: 80px;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .button:hover {
+      background-color: var(--button-hover);
+    }
+    
+    /* Info box pentru PPT - roșu */
+    .info-box {
+      background-color: #ffebee;  /* Roșu deschis */
+      border-left: 4px solid #c62828;  /* Roșu închis */
+      padding: 1rem 1.5rem;
+      margin: 1.5rem 0 0.5rem 0;
+      border-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    
+    .info-box p {
+      margin: 0;
+      color: #b71c1c;  /* Roșu foarte închis pentru text */
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    
+    .info-box strong {
+      color: #c62828;  /* Roșu închis pentru bold */
+      font-weight: 600;
+    }
+    
+    /* Adaptare mod întunecos pentru info-box */
+    body.dark-mode .info-box {
+      background-color: #4a1c1c;  /* Roșu închis pentru dark mode */
+      border-left-color: #ef5350;  /* Roșu mai deschis pentru bordură în dark mode */
+    }
+    
+    body.dark-mode .info-box p {
+      color: #ffcdd2;  /* Roșu foarte deschis pentru text în dark mode */
+    }
+    
+    body.dark-mode .info-box strong {
+      color: #ef5350;  /* Roșu mediu pentru bold în dark mode */
+    }
+    
+    /* Stil pentru secțiune */
+    .section {
+      margin-bottom: 2rem;
+      width: 100%;
+    }
+    
+    .intro {
+      margin-bottom: 1.5rem;
+      color: var(--text-color);
+      opacity: 0.9;
+    }
+    
+    /* Stil pentru link-uri */
+    a {
+      color: var(--link-accent);
+      text-decoration: underline;
+    }
+    
+    a:hover {
+      color: var(--button-hover);
+    }
+    
+    /* Spațiere îmbunătățită pentru responsiv */
+    @media (max-width: 1024px) {
+      .project-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      
+      .project-buttons {
+        align-self: flex-end;
+        width: 100%;
+        justify-content: flex-start;
+      }
+      
+      .project-description {
+        max-width: 100%;
+      }
+      
+      .button {
+        max-width: 150px;
+      }
+      
+      .info-box {
+        padding: 0.8rem 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -23,16 +204,142 @@
       </div>
     </div>
   </header>
+  
   <main>
+    <!-- Secțiunea Proiecte -->
     <section class="section">
       <h2>Proiecte</h2>
-      <p class="intro">Nu sunt proiecte disponibile în acest moment. Reveniți curând!</p>
+      <p class="intro">Următoarele sunt proiecte de cercetare și teze. Fiecare proiect include documentul complet (Teza) și o prezentare (PPT) pentru o imagine de ansamblu.</p>
+      
+      <!-- Info box pentru PPT - roșu -->
+      <div class="info-box">
+        <p><strong>Ce este Prezentarea (PPT)?</strong> Fișierele PPT conțin diapozitive care rezumă fiecare proiect - inclusiv metodologia, rezultatele cheie și suporturi vizuale. Utile pentru o privire rapidă sau pentru prezentări.</p>
+      </div>
+      
+      <div class="projects-list">
+        <!-- Proiect 1 -->
+        <div class="project-card">
+          <div class="project-info">
+            <div class="project-title"><b>Învățare Automată pentru Predicția Climei</b></div>
+            <div class="project-meta">
+              <span><i>Autor:</i> Dr. Elena Popescu</span>
+              <span><i>Data:</i> 15 Martie 2026</span>
+            </div>
+            <div class="project-description">
+              Modele de deep learning pentru predicția modelelor climatice cu o precizie de 95%. Include metodologia și detalii de implementare.
+            </div>
+          </div>
+          <div class="project-buttons">
+            <a href="#" class="button">Teza</a>
+            <a href="#" class="button">PPT</a>
+          </div>
+        </div>
+        
+        <!-- Proiect 2 -->
+        <div class="project-card">
+          <div class="project-info">
+            <div class="project-title"><b>Blockchain pentru Sisteme de Votare Sigure</b></div>
+            <div class="project-meta">
+              <span><i>Autor:</i> Andrei Mîrza, Maria Ionescu</span>
+              <span><i>Data:</i> 28 Februarie 2026</span>
+            </div>
+            <div class="project-description">
+              Platformă de votare descentralizată folosind contracte inteligente Ethereum. Focus pe securitate, transparență și accesibilitate remote.
+            </div>
+          </div>
+          <div class="project-buttons">
+            <a href="#" class="button">Teza</a>
+            <a href="#" class="button">PPT</a>
+          </div>
+        </div>
+        
+        <!-- Proiect 3 -->
+        <div class="project-card">
+          <div class="project-info">
+            <div class="project-title"><b>Optimizarea Energiei Regenerabile în Zone Urbane</b></div>
+            <div class="project-meta">
+              <span><i>Autor:</i> Prof. Vasile Georgescu</span>
+              <span><i>Data:</i> 10 Ianuarie 2026</span>
+            </div>
+            <div class="project-description">
+              Algoritmi genetici pentru amplasarea optimă a panourilor solare și eficiența turbinelor eoliene în medii urbane aglomerate.
+            </div>
+          </div>
+          <div class="project-buttons">
+            <a href="#" class="button">Teza</a>
+            <a href="#" class="button">PPT</a>
+          </div>
+        </div>
+        
+        <!-- Proiect 4 -->
+        <div class="project-card">
+          <div class="project-info">
+            <div class="project-title"><b>Asistent de Diagnostic Medical bazat pe IA</b></div>
+            <div class="project-meta">
+              <span><i>Autor:</i> Dr. Ana Moldovan, Radu Popa</span>
+              <span><i>Data:</i> 5 Decembrie 2025</span>
+            </div>
+            <div class="project-description">
+              Sistem de suport diagnostic pentru boli rare folosind procesarea limbajului natural și viziune computerizată pe imagini medicale.
+            </div>
+          </div>
+          <div class="project-buttons">
+            <a href="#" class="button">Teza</a>
+            <a href="#" class="button">PPT</a>
+          </div>
+        </div>
+        
+        <!-- Proiect 5 -->
+        <div class="project-card">
+          <div class="project-info">
+            <div class="project-title"><b>Algoritmi de Calcul Cuantic pentru Criptografie</b></div>
+            <div class="project-meta">
+              <span><i>Autor:</i> Dr. Mihai Constantinescu</span>
+              <span><i>Data:</i> 18 Noiembrie 2025</span>
+            </div>
+            <div class="project-description">
+              Analiza algoritmului Shor și metode criptografice rezistente la calculul cuantic pentru securitate post-cuantică.
+            </div>
+          </div>
+          <div class="project-buttons">
+            <a href="#" class="button">Teza</a>
+            <a href="#" class="button">PPT</a>
+          </div>
+        </div>
+        
+        <!-- Proiect 6 -->
+        <div class="project-card">
+          <div class="project-info">
+            <div class="project-title"><b>Materiale Avansate pentru Celule Solare</b></div>
+            <div class="project-meta">
+              <span><i>Autor:</i> Dr. Cristina Dumitrescu</span>
+              <span><i>Data:</i> 22 Octombrie 2025</span>
+            </div>
+            <div class="project-description">
+              Cercetare asupra celulelor solare perovskite și îmbunătățirea eficienței prin compoziții noi de materiale.
+            </div>
+          </div>
+          <div class="project-buttons">
+            <a href="#" class="button">Teza</a>
+            <a href="#" class="button">PPT</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Secțiune separată pentru link-uri (similar cu resources) -->
+    <hr>
+    <section class="section">
+      <h2>Informații Suplimentare</h2>
+      <p class="intro">Pentru instrucțiuni despre cum să trimiteți propriile proiecte, vizitați <a href="submission-ro.html">pagina de trimitere</a>. Toate proiectele sunt revizuite de comitetul academic.</p>
     </section>
   </main>
+  
   <footer>
     <p>Originalul este în Engleză. Traducerea este efectuată de BLACKBOX.AI</p>
     <p><b>&copy; 2026 Mîrza Damian. Toate drepturile rezervate.</b></p>
   </footer>
+  
   <script src="script.js"></script>
 </body>
 </html>
