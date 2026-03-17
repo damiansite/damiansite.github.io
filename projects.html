@@ -5,30 +5,234 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Stiluri suplimentare pentru cardurile de proiecte */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .project-card {
+      background: var(--card-bg, #f9f9f9);
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid var(--border-color, #e0e0e0);
+    }
+    
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .project-title {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: var(--title-color, #333);
+      border-bottom: 2px solid var(--accent-color, #4a90e2);
+      padding-bottom: 0.5rem;
+    }
+    
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+      color: var(--meta-color, #666);
+    }
+    
+    .project-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    
+    .project-meta i {
+      font-style: normal;
+      font-weight: bold;
+      color: var(--accent-color, #4a90e2);
+    }
+    
+    .project-description {
+      margin: 1rem 0;
+      line-height: 1.6;
+      color: var(--text-color, #444);
+    }
+    
+    .project-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex: 1 1 auto;
+      justify-content: center;
+    }
+    
+    .btn:hover {
+      transform: scale(1.02);
+    }
+    
+    .btn-pdf {
+      background-color: #dc3545;
+      color: white;
+    }
+    
+    .btn-pdf:hover {
+      background-color: #c82333;
+    }
+    
+    .btn-ppt {
+      background-color: #c43e1c;
+      color: white;
+    }
+    
+    .btn-ppt:hover {
+      background-color: #a03217;
+    }
+    
+    /* Adaptare pentru modul întunecos */
+    body.dark-mode .project-card {
+      background: var(--dark-card-bg, #2d2d2d);
+      border-color: var(--dark-border, #404040);
+    }
+    
+    body.dark-mode .project-title {
+      color: var(--dark-title, #e0e0e0);
+    }
+    
+    body.dark-mode .project-meta {
+      color: var(--dark-meta, #aaa);
+    }
+    
+    body.dark-mode .project-description {
+      color: var(--dark-text, #ccc);
+    }
+    
+    /* Stil pentru mesajul intro */
+    .intro {
+      font-size: 1.2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--intro-color, #666);
+    }
+  </style>
 </head>
 <body>
   <header>
-  <nav>
-    <ul>
-      <li><a href="profile.html">Profile</a></li>
-      <li><a href="resources.html">Resources</a></li>
-      <li><a href="projects.html">Projects</a></li>
-    </ul>
-  </nav>
-  <div class="toggles">
-    <button id="dark-mode-toggle"></button>
-    <div class="lang-buttons">
-      <button class="lang-button active">EN</button>
-      <button class="lang-button">RO</button>
+    <nav>
+      <ul>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="projects.html">Projects</a></li>
+      </ul>
+    </nav>
+    <div class="toggles">
+      <button id="dark-mode-toggle"></button>
+      <div class="lang-buttons">
+        <button class="lang-button active">EN</button>
+        <button class="lang-button">RO</button>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
+  
   <main>
     <section class="section">
       <h2>Projects</h2>
-      <p class="intro">No projects available at the moment. Check back soon!</p>
+      <p class="intro">Explore our latest projects and research work</p>
+      
+      <div class="projects-grid">
+        <!-- Proiect 1 -->
+        <div class="project-card" data-project-id="1">
+          <h3 class="project-title">Machine Learning for Climate Prediction</h3>
+          <div class="project-meta">
+            <span><i>Author:</i> Dr. Elena Popescu</span>
+            <span><i>Date:</i> March 15, 2026</span>
+          </div>
+          <p class="project-description">
+            A comprehensive study on using deep learning models to predict climate patterns 
+            with 95% accuracy. Includes methodology, results, and implementation details.
+          </p>
+          <div class="project-buttons">
+            <a href="#" class="btn btn-pdf" download>📥 PDF</a>
+            <a href="#" class="btn btn-ppt" download>📊 PPT</a>
+          </div>
+        </div>
+        
+        <!-- Proiect 2 -->
+        <div class="project-card" data-project-id="2">
+          <h3 class="project-title">Blockchain for Secure Voting Systems</h3>
+          <div class="project-meta">
+            <span><i>Author:</i> Andrei Mîrza, Maria Ionescu</span>
+            <span><i>Date:</i> February 28, 2026</span>
+          </div>
+          <p class="project-description">
+            Implementation of a decentralized voting platform using Ethereum smart contracts. 
+            Focus on security, transparency, and accessibility for remote voters.
+          </p>
+          <div class="project-buttons">
+            <a href="#" class="btn btn-pdf" download>📥 PDF</a>
+            <a href="#" class="btn btn-ppt" download>📊 PPT</a>
+          </div>
+        </div>
+        
+        <!-- Proiect 3 -->
+        <div class="project-card" data-project-id="3">
+          <h3 class="project-title">Renewable Energy Optimization in Urban Areas</h3>
+          <div class="project-meta">
+            <span><i>Author:</i> Prof. Vasile Georgescu</span>
+            <span><i>Date:</i> January 10, 2026</span>
+          </div>
+          <p class="project-description">
+            Research on optimizing solar panel placement and wind turbine efficiency 
+            in crowded city environments using genetic algorithms.
+          </p>
+          <div class="project-buttons">
+            <a href="#" class="btn btn-pdf" download>📥 PDF</a>
+            <a href="#" class="btn btn-ppt" download>📊 PPT</a>
+          </div>
+        </div>
+        
+        <!-- Proiect 4 -->
+        <div class="project-card" data-project-id="4">
+          <h3 class="project-title">AI-Powered Medical Diagnosis Assistant</h3>
+          <div class="project-meta">
+            <span><i>Author:</i> Dr. Ana Moldovan, Radu Popa</span>
+            <span><i>Date:</i> December 5, 2025</span>
+          </div>
+          <p class="project-description">
+            Development of a diagnostic support system for rare diseases using 
+            natural language processing and computer vision on medical images.
+          </p>
+          <div class="project-buttons">
+            <a href="#" class="btn btn-pdf" download>📥 PDF</a>
+            <a href="#" class="btn btn-ppt" download>📊 PPT</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Mesajul original a fost păstrat ca alternativă, dar ascuns când există proiecte -->
+      <!-- <p class="intro">No projects available at the moment. Check back soon!</p> -->
     </section>
   </main>
+  
   <footer>
     <p>Default language is English. Translation to Romanian was done using BLACKBOX.AI</p>
     <p><b>&copy; 2026 Mîrza Damian. All rights reserved</b></p>
