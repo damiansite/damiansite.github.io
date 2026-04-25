@@ -6,91 +6,214 @@
   <title>Competitions</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Olympiad Hierarchy Styles - Matches your color scheme */
-    .olympiad-hierarchy {
+    /* WOW Olympiad Timeline */
+    .olympiad-timeline {
       position: relative;
-      margin: 2rem 0;
-      padding-left: 2.5rem;
+      margin: 3rem 0;
+      padding: 0;
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 
+        0 10px 30px rgba(0,0,0,0.1),
+        0 1px 8px rgba(0,0,0,0.05);
+      overflow: hidden;
     }
 
-    .olympiad-hierarchy::before {
+    .olympiad-timeline::before {
       content: '';
       position: absolute;
-      left: 1.25rem;
+      left: 50%;
       top: 0;
-      width: 2px;
-      height: 100%;
-      background: var(--accent);
-      z-index: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        var(--accent) 20%,
+        var(--accent) 80%,
+        transparent 100%
+      );
+      transform: translateX(-50%);
+      border-radius: 2px;
     }
 
-    .hierarchy-item {
+    .timeline-container {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
       position: relative;
-      margin: 2.5rem 0;
-      padding-top: 0.5rem;
-      z-index: 1;
-    }
-
-    .hierarchy-item::before {
-      content: '';
-      position: absolute;
-      left: 1.25rem;
-      top: 0;
-      width: 10px;
-      height: 10px;
-      background: var(--text-color);
-      border: 2px solid var(--accent);
-      border-radius: 50%;
       z-index: 2;
     }
 
-    .hierarchy-item:first-child::before {
-      top: 0.25rem;
-    }
-
-    .hierarchy-title {
+    .timeline-step {
       display: flex;
       align-items: flex-start;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
-      font-weight: 600;
-      color: var(--text-color);
+      gap: 2rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease forwards;
     }
 
-    .hierarchy-title strong {
-      color: var(--text-color);
-      font-size: 1.1em;
+    .timeline-step:nth-child(1) { animation-delay: 0.1s; }
+    .timeline-step:nth-child(2) { animation-delay: 0.2s; }
+    .timeline-step:nth-child(3) { animation-delay: 0.3s; }
+    .timeline-step:nth-child(4) { animation-delay: 0.4s; }
+    .timeline-step:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    .hierarchy-title::before {
+    .step-number {
+      flex-shrink: 0;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--accent), var(--button-bg));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.2em;
+      color: var(--bg-color);
+      box-shadow: 
+        0 8px 25px rgba(0,0,0,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+      position: relative;
+      z-index: 3;
+    }
+
+    .step-content {
+      flex: 1;
+      padding: 1.5rem;
+      background: transparent;
+      border-left: 3px solid transparent;
+      position: relative;
+    }
+
+    .step-content::before {
+      content: '';
+      position: absolute;
+      left: -26px;
+      top: 2.25rem;
+      width: 20px;
+      height: 20px;
+      background: var(--card-bg);
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .step-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.4em;
+      font-weight: 700;
+      margin: 0 0 1rem 0;
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .step-title::before {
       content: '→';
+      font-size: 1.5em;
+      color: var(--accent);
+      font-weight: 300;
+    }
+
+    .step-description {
+      margin: 0;
+      line-height: 1.7;
+      color: var(--text-color);
+      opacity: 0.9;
+    }
+
+    .step-description ul {
+      margin: 1rem 0 0 0;
+      padding-left: 1.5rem;
+    }
+
+    .step-description li {
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+
+    .step-description li::before {
+      content: '▸';
+      position: absolute;
+      left: -1.5rem;
       color: var(--accent);
       font-weight: bold;
-      font-size: 1.2em;
-      margin-right: 0.25rem;
-      flex-shrink: 0;
     }
 
-    /* Responsive */
+    /* Odd/Even positioning */
+    .timeline-step:nth-child(odd) {
+      flex-direction: row;
+    }
+
+    .timeline-step:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .timeline-step:nth-child(even) .step-content {
+      text-align: right;
+      border-left: none;
+      border-right: 3px solid transparent;
+    }
+
+    .timeline-step:nth-child(even) .step-content::before {
+      right: -26px;
+      left: auto;
+    }
+
+    /* Mobile */
     @media (max-width: 768px) {
-      .olympiad-hierarchy {
-        padding-left: 2rem;
+      .olympiad-timeline {
+        padding: 1.5rem;
+        margin: 2rem 0;
+        border-radius: 16px;
       }
       
-      .olympiad-hierarchy::before {
-        left: 1rem;
+      .timeline-step {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 1.5rem;
       }
       
-      .hierarchy-item::before {
-        left: 1rem;
-        width: 8px;
-        height: 8px;
+      .timeline-step:nth-child(even) .step-content {
+        text-align: left !important;
+        border-right: none;
+        border-left: 3px solid transparent;
       }
+      
+      .timeline-step:nth-child(even) .step-content::before {
+        left: -26px !important;
+        right: auto !important;
+      }
+      
+      .step-number {
+        align-self: flex-start;
+      }
+      
+      .step-content {
+        padding: 1rem 0 0 0;
+        width: 100%;
+      }
+    }
+
+    /* Hover effects */
+    .timeline-step:hover .step-number {
+      transform: scale(1.05);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.2);
     }
   </style>
 </head>
 <body>
-  <!-- Your existing header unchanged -->
+  <!-- Header unchanged -->
   <header>
     <nav>
       <ul>
@@ -116,53 +239,61 @@
       <h3><b>Olympiads</b></h3>
       <p class="intro">If one person takes 1st, 2nd or 3rd place he shouldn't pass the previous phases and only comes back to the phase he took place last year. Otherwise if you have no prior participations, you start from start. Additionally most subjects start from 9th class, with some exceptions: Romanian and Mathematics (from 7th class), Informatics (from 8th class).</p>
       
-      <div class="olympiad-hierarchy">
-        <div class="hierarchy-item">
-          <div class="hierarchy-title">
-            <strong>School Phase</strong>
+      <div class="olympiad-timeline">
+        <div class="timeline-container">
+          <div class="timeline-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4 class="step-title">School Phase</h4>
+              <p class="step-description">
+                Organised in each lyceum separately and are different, has the purpose of selecting from each school the best of the best and send them to represent the lyceum at further phases. Difficulty varies from teacher to teacher.
+              </p>
+            </div>
           </div>
-          <ul>
-            <li>Organised in each lyceum separately and are different, has the purpose of selecting from each school the best of the best and send them to represent the lyceum at further phases. Difficulty varies from teacher to teacher.</li>
-          </ul>
-        </div>
-        
-        <div class="hierarchy-item">
-          <div class="hierarchy-title">
-            <strong>District Phase</strong>
+          
+          <div class="timeline-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4 class="step-title">District Phase</h4>
+              <p class="step-description">
+                Organised only in Chișinău and has as purpose to filter the best 25-30 out of all students. Those 25-30 participate afterwards at next Phase. The test should have a difficulty a little higher than school.
+              </p>
+            </div>
           </div>
-          <ul>
-            <li>Organised only in Chișinău and has as purpose to filter the best 25-30 out of all students. Those 25-30 participate afterwards at next Phase. The test should have a difficulty a little higher than school.</li>
-          </ul> 
-        </div>
-        
-        <div class="hierarchy-item">
-          <div class="hierarchy-title">
-            <strong>Municipal/Regional Phase</strong>
+          
+          <div class="timeline-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4 class="step-title">Municipal/Regional Phase</h4>
+              <p class="step-description">
+                From Chișinău pass first 6 students, from other big cities might pass 3 and from other regions from the republic only 1st. The test shows requires a little more advanced level compared to previous phase.
+              </p>
+            </div>
           </div>
-          <ul>
-            <li>From Chișinău pass first 6 students, from other big cities might pass 3 and from other regions from the republic only 1st. The test shows requires a little more advanced level compared to previous phase.</li>
-          </ul>
-        </div>
-        
-        <div class="hierarchy-item">
-          <div class="hierarchy-title">
-            <strong>Republican Phase</strong>
+          
+          <div class="timeline-step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4 class="step-title">Republican Phase</h4>
+              <p class="step-description">
+                First 10 from each class (6 places and 4 mentions) pass to next phase (if they want to participate). The difficulty is the highest mostly unique and new problem sets for the whole republic.
+              </p>
+            </div>
           </div>
-          <ul>
-            <li>First 10 from each class (6 places and 4 mentions) pass to next phase (if they want to participate). The difficulty is the highest mostly unique and new problem sets for the whole republic.</li>
-          </ul>
-        </div>
-        
-        <div class="hierarchy-item">
-          <div class="hierarchy-title">
-            <strong>Olympic Slot Selection Phase</strong>
+          
+          <div class="timeline-step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+              <h4 class="step-title">Olympic Slot Selection Phase</h4>
+              <p class="step-description">
+                From the participating people only 4-5 are going to pass to the Olympic Slot which participates internationally.
+              </p>
+            </div>
           </div>
-          <ul>
-            <li>From the participating people only 4-5 are going to pass to the Olympic Slot which participates internationally.</li>
-          </ul>
         </div>
       </div>
 
+      <!-- Rest unchanged -->
       <h3>"Mihai Marinciuc" Memorial Physics Competition</h3>
       <p class="intro">Organised by Technical University of Moldova, where students from the whole republic can participate. Problems (romanian and russian only) and results can be found on their site: <a href="https://fizica.utm.md/data/concurs_marinciuc.php">fizica.utm.md</a></p>
       <h3>"Constantin Spătaru" Memorial Mathematics Competition</h3>
