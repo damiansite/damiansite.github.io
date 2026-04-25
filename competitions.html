@@ -6,41 +6,68 @@
   <title>Competitions</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Original list + subtle background arrows */
+    /* Perfect list + subtle arrows - refined */
     .olympiad-list {
       position: relative;
       margin: 3rem 0;
       padding-left: 0;
     }
 
-    .olympiad-list li {
+    .olympiad-list > li {
       position: relative;
       margin-bottom: 3rem;
-      padding: 1.75rem 2rem 1.75rem 3rem;
+      padding: 2rem;
       background: var(--card-bg);
-      border-left: 4px solid var(--accent);
-      border-radius: 0 8px 8px 0;
+      border-radius: 8px;
       box-shadow: 0 2px 12px rgba(0,0,0,0.06);
       list-style: none;
       transition: all 0.3s ease;
     }
 
-    .olympiad-list li:hover {
+    .olympiad-list > li:hover {
       box-shadow: 0 4px 20px rgba(0,0,0,0.12);
       transform: translateY(-2px);
     }
 
-    .olympiad-list li strong {
+    /* ONLY outside left accent line */
+    .olympiad-list > li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--accent);
+      border-radius: 8px 0 0 8px;
+    }
+
+    .olympiad-list > li strong {
       font-family: 'DM Sans', sans-serif;
       font-size: 1.25em;
       font-weight: 600;
       color: var(--text-color);
       display: block;
-      margin-bottom: 0.75rem;
+      margin: -0.25rem 0 1rem 0;
+    }
+
+    /* Nested lists - smaller font, aligned with title */
+    .olympiad-list ul {
+      margin: 0;
+      padding-left: 0;
+      list-style: none;
+    }
+
+    .olympiad-list ul li {
+      font-size: 0.95em;
+      line-height: 1.65;
+      color: var(--text-color);
+      opacity: 0.92;
+      margin-bottom: 0.5rem;
+      padding-left: 0;
     }
 
     /* Subtle background downward arrow */
-    .olympiad-list li:not(:last-child)::after {
+    .olympiad-list > li:not(:last-child)::after {
       content: '';
       position: absolute;
       right: -1rem;
@@ -56,23 +83,27 @@
       pointer-events: none;
     }
 
-    /* Dark mode arrow adjustment */
-    body.dark-mode .olympiad-list li:not(:last-child)::after {
+    /* Dark mode arrow */
+    body.dark-mode .olympiad-list > li:not(:last-child)::after {
       border-top-color: rgba(255,255,255,0.08);
     }
 
     /* Mobile */
     @media (max-width: 768px) {
-      .olympiad-list li {
+      .olympiad-list > li {
         margin-bottom: 2rem;
-        padding: 1.5rem 1.5rem 1.5rem 2.5rem;
+        padding: 1.75rem;
       }
       
-      .olympiad-list li:not(:last-child)::after {
+      .olympiad-list > li:not(:last-child)::after {
         right: -0.5rem;
         border-top-width: 20px;
         border-left-width: 10px;
         border-right-width: 10px;
+      }
+      
+      .olympiad-list ul li {
+        font-size: 0.92em;
       }
     }
   </style>
