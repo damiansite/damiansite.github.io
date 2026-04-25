@@ -6,112 +6,73 @@
   <title>Competitions</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Minimalist Downward Timeline */
-    .olympiad-timeline {
-      margin: 4rem 0;
-      padding: 0;
-    }
-
-    .timeline-container {
-      display: flex;
-      flex-direction: column;
-      gap: 3rem;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .timeline-step {
+    /* Original list + subtle background arrows */
+    .olympiad-list {
       position: relative;
-      padding-left: 3rem;
-      padding-top: 2rem;
+      margin: 3rem 0;
+      padding-left: 0;
     }
 
-    .timeline-step::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 12px;
-      height: 12px;
-      background: var(--accent);
-      border-radius: 50%;
-      border: 3px solid var(--card-bg);
-      z-index: 2;
-    }
-
-    /* Pure CSS Downward Arrow */
-    .timeline-step:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      left: 6px;
-      top: 18px;
-      width: 0;
-      height: 2rem;
-      border-left: 2px solid var(--accent);
-      border-right: 2px solid transparent;
-      border-bottom: 0 solid transparent;
-      z-index: 1;
-    }
-
-    .step-number {
-      position: absolute;
-      left: -0.5rem;
-      top: -0.5rem;
-      background: var(--text-color);
-      color: var(--bg-color);
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75em;
-      font-weight: 700;
-      z-index: 3;
-    }
-
-    .step-content {
+    .olympiad-list li {
+      position: relative;
+      margin-bottom: 3rem;
+      padding: 1.75rem 2rem 1.75rem 3rem;
       background: var(--card-bg);
-      padding: 1.75rem 2rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
       border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      list-style: none;
       transition: all 0.3s ease;
     }
 
-    .timeline-step:hover .step-content {
+    .olympiad-list li:hover {
       box-shadow: 0 4px 20px rgba(0,0,0,0.12);
       transform: translateY(-2px);
     }
 
-    .step-title {
+    .olympiad-list li strong {
       font-family: 'DM Sans', sans-serif;
       font-size: 1.25em;
       font-weight: 600;
-      margin: 0 0 1rem 0;
       color: var(--text-color);
+      display: block;
+      margin-bottom: 0.75rem;
     }
 
-    .step-description {
-      margin: 0;
-      line-height: 1.75;
-      color: var(--text-color);
-      opacity: 0.92;
+    /* Subtle background downward arrow */
+    .olympiad-list li:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -1rem;
+      bottom: -1.5rem;
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-top: 24px solid rgba(0,0,0,0.08);
+      opacity: 0.3;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Dark mode arrow adjustment */
+    body.dark-mode .olympiad-list li:not(:last-child)::after {
+      border-top-color: rgba(255,255,255,0.08);
     }
 
     /* Mobile */
     @media (max-width: 768px) {
-      .timeline-step {
-        padding-left: 2.5rem;
-        padding-top: 1.5rem;
+      .olympiad-list li {
+        margin-bottom: 2rem;
+        padding: 1.5rem 1.5rem 1.5rem 2.5rem;
       }
       
-      .timeline-step::after {
-        height: 1.5rem;
-      }
-      
-      .step-content {
-        padding: 1.5rem 1.5rem;
+      .olympiad-list li:not(:last-child)::after {
+        right: -0.5rem;
+        border-top-width: 20px;
+        border-left-width: 10px;
+        border-right-width: 10px;
       }
     }
   </style>
@@ -143,59 +104,38 @@
       <h3><b>Olympiads</b></h3>
       <p class="intro">If one person takes 1st, 2nd or 3rd place he shouldn't pass the previous phases and only comes back to the phase he took place last year. Otherwise if you have no prior participations, you start from start. Additionally most subjects start from 9th class, with some exceptions: Romanian and Mathematics (from 7th class), Informatics (from 8th class).</p>
       
-      <div class="olympiad-timeline">
-        <div class="timeline-container">
-          <div class="timeline-step">
-            <div class="step-number">1</div>
-            <div class="step-content">
-              <h4 class="step-title">School Phase</h4>
-              <p class="step-description">
-                Organised in each lyceum separately and are different, has the purpose of selecting from each school the best of the best and send them to represent the lyceum at further phases. Difficulty varies from teacher to teacher.
-              </p>
-            </div>
-          </div>
-          
-          <div class="timeline-step">
-            <div class="step-number">2</div>
-            <div class="step-content">
-              <h4 class="step-title">District Phase</h4>
-              <p class="step-description">
-                Organised only in Chișinău and has as purpose to filter the best 25-30 out of all students. Those 25-30 participate afterwards at next Phase. The test should have a difficulty a little higher than school.
-              </p>
-            </div>
-          </div>
-          
-          <div class="timeline-step">
-            <div class="step-number">3</div>
-            <div class="step-content">
-              <h4 class="step-title">Municipal/Regional Phase</h4>
-              <p class="step-description">
-                From Chișinău pass first 6 students, from other big cities might pass 3 and from other regions from the republic only 1st. The test shows requires a little more advanced level compared to previous phase.
-              </p>
-            </div>
-          </div>
-          
-          <div class="timeline-step">
-            <div class="step-number">4</div>
-            <div class="step-content">
-              <h4 class="step-title">Republican Phase</h4>
-              <p class="step-description">
-                First 10 from each class (6 places and 4 mentions) pass to next phase (if they want to participate). The difficulty is the highest mostly unique and new problem sets for the whole republic.
-              </p>
-            </div>
-          </div>
-          
-          <div class="timeline-step">
-            <div class="step-number">5</div>
-            <div class="step-content">
-              <h4 class="step-title">Olympic Slot Selection Phase</h4>
-              <p class="step-description">
-                From the participating people only 4-5 are going to pass to the Olympic Slot which participates internationally.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ul class="olympiad-list">
+        <li>
+          <strong>School Phase</strong>
+          <ul>
+            <li>Organised in each lyceum separately and are different, has the purpose of selecting from each school the best of the best and send them to represent the lyceum at further phases. Difficulty varies from teacher to teacher.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>District Phase</strong>
+          <ul>
+            <li>Organised only in Chișinău and has as purpose to filter the best 25-30 out of all students. Those 25-30 participate afterwards at next Phase. The test should have a difficulty a little higher than school.</li>
+          </ul> 
+        </li>
+        <li>
+          <strong>Municipal/Regional Phase</strong>
+          <ul>
+            <li>From Chișinău pass first 6 students, from other big cities might pass 3 and from other regions from the republic only 1st. The test shows requires a little more advanced level compared to previous phase.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Republican Phase</strong>
+          <ul>
+            <li>First 10 from each class (6 places and 4 mentions) pass to next phase (if they want to participate). The difficulty is the highest mostly unique and new problem sets for the whole republic.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Olympic Slot Selection Phase</strong>
+          <ul>
+            <li>From the participating people only 4-5 are going to pass to the Olympic Slot which participates internationally.</li>
+          </ul>
+        </li>
+      </ul>
 
       <h3>"Mihai Marinciuc" Memorial Physics Competition</h3>
       <p class="intro">Organised by Technical University of Moldova, where students from the whole republic can participate. Problems (romanian and russian only) and results can be found on their site: <a href="https://fizica.utm.md/data/concurs_marinciuc.php">fizica.utm.md</a></p>
