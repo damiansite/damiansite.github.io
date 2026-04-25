@@ -1,1 +1,266 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Profile Hero Styles - Matches your exact design system */
+    .profile-hero {
+      padding: 80px 80px 60px;
+      background: var(--bg-color);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
+    .hero-container {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 4rem;
+      align-items: start;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .profile-image {
+      position: relative;
+    }
+
+    .profile-image img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+      border: 6px solid var(--card-bg);
+    }
+
+    .profile-info h1 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 3em;
+      font-weight: 700;
+      margin: 0 0 0.5rem 0;
+      color: var(--text-color);
+      line-height: 1.1;
+    }
+
+    .hero-subtitle {
+      font-size: 1.3em;
+      color: var(--accent);
+      font-weight: 500;
+      margin: 0 0 1.5rem 0;
+      opacity: 0.9;
+    }
+
+    .hero-description {
+      font-size: 1.15em;
+      line-height: 1.7;
+      margin: 0 0 2.5rem 0;
+      color: var(--text-color);
+      opacity: 0.92;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      display: block;
+      font-size: 2.2em;
+      font-weight: 700;
+      color: var(--text-color);
+      line-height: 1;
+      margin-bottom: 0.75rem; 
+    }
+
+    .stat-label {
+      font-size: 0.95em;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+      white-space: normal;
+      line-height: 1.3;
+    }
+
+    /* Achievements Grid */
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .achievement-card {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 12px;
+      border-left: 4px solid var(--accent);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      transition: all 0.3s ease;
+    }
+
+    .achievement-card:hover {
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+      transform: translateY(-4px);
+    }
+
+    .achievement-card h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.2em;
+      font-weight: 600;
+      margin: 0 0 0.5rem 0;
+      color: var(--text-color);
+    }
+
+    .achievement-card p {
+      margin: 0;
+      color: var(--text-color);
+      opacity: 0.9;
+      font-size: 1em;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 1024px) {
+      .profile-hero {
+        padding: 60px 40px 40px;
+      }
+      
+      .hero-container {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+      }
+      
+      .profile-image img {
+        max-width: 280px;
+        height: 320px;
+        margin: 0 auto;
+      }
+      
+      .hero-stats {
+        justify-content: center;
+        gap: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .profile-hero {
+        padding: 40px 20px 30px;
+      }
+      
+      .hero-stats {
+        gap: 1.5rem;
+      }
+      
+      .stat-number {
+        font-size: 1.8em;
+      }
+    }
+
+    /* Ensure section styles apply correctly */
+    .section {
+      padding: 0 80px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Light mode - darker labels */
+    body:not(.dark-mode) .stat-label {
+      color: #666 !important;
+      opacity: 1;
+    }
+
+    body:not(.dark-mode) .hero-subtitle {
+      color: #666 !important;
+      opacity: 1;
+    }
+    
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="profile-ro.html">Profil</a></li>
+        <li><a href="resources-ro.html">Resurse</a></li>
+        <li><a href="projects-ro.html">Proiecte</a></li>
+      </ul>
+    </nav>
+    <div class="toggles">
+      <button id="dark-mode-toggle"></button>
+      <div class="lang-buttons">
+        <button class="lang-button">EN</button>
+        <button class="lang-button active">RO</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Profile Hero Section -->
+    <section class="profile-hero">
+      <div class="hero-container">
+        <div class="profile-image">
+          <img src="person.jpg" loading="lazy">
+        </div>
+        <div class="profile-info">
+          <h1>Damian</h1>
+          <p class="hero-subtitle">Elev la Liceul Teoretic Republican „Aristotel"</p>
+          <p class="hero-description">
+            Pasionat de fizică, matematică, astronomie, informatică și fotografie, iată modul meu de a împărtăși cu ceilalți. Am participat la concursuri și olimpiade în funcție de capacitățile mele și am obținut un anumit nivel în materiile respective. Pentru mai multe detalii verificați <a href="achievements-ro.html">Realizări</a>.
+          </p>
+          <div class="hero-stats">
+            <div class="stat">
+              <span class="stat-number">5 ani</span>
+              <span class="stat-label">Participare la olimpiade</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">3</span>
+              <span class="stat-label">Olimpiade republicane în 2026</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">3</span>
+              <span class="stat-label">Tabere și școli de vară</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <section class="section">
+      <h2>Limbi străine</h2>
+      <p class="intro">Mai jos sunt limbile cunoscute cu nivelurile lor. Pentru rusă și franceză sunt niveluri aproximative de cunoștințe fără test oficial susținut.</p>
+      <div class="language-boxes">
+        <div class="language-box">
+          <strong>Română</strong>
+          <p>Nativă (C2)</p>
+        </div>
+        <div class="language-box">
+          <strong>Engleză</strong>
+          <p>Avansată (C1)</p>
+        </div>
+        <div class="language-box">
+          <strong>Rusă</strong>
+          <p>Medie (B1)</p>
+        </div>
+        <div class="language-box">
+          <strong>Franceză</strong>
+          <p>Începător (A1)</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>Limba implicită este engleza. Traducerea în română a fost realizată folosind BLACKBOX.AI</p>
+    <p><b>&copy; 2026 Mîrza Damian. Toate drepturile rezervate</b></p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
