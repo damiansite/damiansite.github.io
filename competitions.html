@@ -6,209 +6,124 @@
   <title>Competitions</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* WOW Olympiad Timeline */
+    /* Formal Olympiad Timeline */
     .olympiad-timeline {
-      position: relative;
       margin: 3rem 0;
       padding: 0;
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 2.5rem;
-      box-shadow: 
-        0 10px 30px rgba(0,0,0,0.1),
-        0 1px 8px rgba(0,0,0,0.05);
-      overflow: hidden;
     }
 
-    .olympiad-timeline::before {
+    .timeline-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .timeline-header::before {
       content: '';
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        var(--accent) 20%,
-        var(--accent) 80%,
-        transparent 100%
-      );
-      transform: translateX(-50%);
-      border-radius: 2px;
+      flex-shrink: 0;
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
     }
 
-    .timeline-container {
+    .timeline-steps {
       display: flex;
       flex-direction: column;
-      gap: 3rem;
-      position: relative;
-      z-index: 2;
+      gap: 2rem;
+      counter-reset: step-counter;
     }
 
     .timeline-step {
       display: flex;
       align-items: flex-start;
-      gap: 2rem;
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeInUp 0.8s ease forwards;
+      gap: 1.5rem;
+      padding: 1.5rem;
+      background: var(--card-bg);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
 
-    .timeline-step:nth-child(1) { animation-delay: 0.1s; }
-    .timeline-step:nth-child(2) { animation-delay: 0.2s; }
-    .timeline-step:nth-child(3) { animation-delay: 0.3s; }
-    .timeline-step:nth-child(4) { animation-delay: 0.4s; }
-    .timeline-step:nth-child(5) { animation-delay: 0.5s; }
-
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .step-number {
-      flex-shrink: 0;
-      width: 50px;
-      height: 50px;
-      background: linear-gradient(135deg, var(--accent), var(--button-bg));
+    .timeline-step::before {
+      content: counter(step-counter);
+      counter-increment: step-counter;
+      position: absolute;
+      left: -2px;
+      top: 1.75rem;
+      background: var(--text-color);
+      color: var(--bg-color);
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      font-size: 1.2em;
-      color: var(--bg-color);
-      box-shadow: 
-        0 8px 25px rgba(0,0,0,0.15),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-      position: relative;
-      z-index: 3;
+      font-size: 0.9em;
+      border: 3px solid var(--card-bg);
+      z-index: 2;
+    }
+
+    .timeline-step:hover {
+      border-left-width: 6px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      transform: translateX(4px);
     }
 
     .step-content {
       flex: 1;
-      padding: 1.5rem;
-      background: transparent;
-      border-left: 3px solid transparent;
-      position: relative;
-    }
-
-    .step-content::before {
-      content: '';
-      position: absolute;
-      left: -26px;
-      top: 2.25rem;
-      width: 20px;
-      height: 20px;
-      background: var(--card-bg);
-      border-radius: 50%;
-      z-index: 1;
+      margin-left: 0.5rem;
     }
 
     .step-title {
       font-family: 'DM Sans', sans-serif;
-      font-size: 1.4em;
-      font-weight: 700;
-      margin: 0 0 1rem 0;
+      font-size: 1.3em;
+      font-weight: 600;
+      margin: 0 0 0.75rem 0;
       color: var(--text-color);
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.5rem;
     }
 
-    .step-title::before {
+    .step-title::after {
       content: '→';
-      font-size: 1.5em;
       color: var(--accent);
       font-weight: 300;
+      font-size: 1.1em;
     }
 
     .step-description {
       margin: 0;
       line-height: 1.7;
       color: var(--text-color);
-      opacity: 0.9;
-    }
-
-    .step-description ul {
-      margin: 1rem 0 0 0;
-      padding-left: 1.5rem;
-    }
-
-    .step-description li {
-      margin-bottom: 0.5rem;
-      position: relative;
-    }
-
-    .step-description li::before {
-      content: '▸';
-      position: absolute;
-      left: -1.5rem;
-      color: var(--accent);
-      font-weight: bold;
-    }
-
-    /* Odd/Even positioning */
-    .timeline-step:nth-child(odd) {
-      flex-direction: row;
-    }
-
-    .timeline-step:nth-child(even) {
-      flex-direction: row-reverse;
-    }
-
-    .timeline-step:nth-child(even) .step-content {
-      text-align: right;
-      border-left: none;
-      border-right: 3px solid transparent;
-    }
-
-    .timeline-step:nth-child(even) .step-content::before {
-      right: -26px;
-      left: auto;
+      opacity: 0.95;
     }
 
     /* Mobile */
     @media (max-width: 768px) {
-      .olympiad-timeline {
-        padding: 1.5rem;
-        margin: 2rem 0;
-        border-radius: 16px;
-      }
-      
       .timeline-step {
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        gap: 1.5rem;
+        padding: 1.25rem;
+        border-left-width: 4px;
+        border-radius: 0;
+        margin-bottom: 1rem;
       }
       
-      .timeline-step:nth-child(even) .step-content {
-        text-align: left !important;
-        border-right: none;
-        border-left: 3px solid transparent;
-      }
-      
-      .timeline-step:nth-child(even) .step-content::before {
-        left: -26px !important;
-        right: auto !important;
-      }
-      
-      .step-number {
-        align-self: flex-start;
+      .timeline-step::before {
+        left: 0;
+        top: 1.25rem;
       }
       
       .step-content {
-        padding: 1rem 0 0 0;
-        width: 100%;
+        margin-left: 0;
       }
-    }
-
-    /* Hover effects */
-    .timeline-step:hover .step-number {
-      transform: scale(1.05);
-      box-shadow: 0 12px 35px rgba(0,0,0,0.2);
     }
   </style>
 </head>
@@ -240,9 +155,12 @@
       <p class="intro">If one person takes 1st, 2nd or 3rd place he shouldn't pass the previous phases and only comes back to the phase he took place last year. Otherwise if you have no prior participations, you start from start. Additionally most subjects start from 9th class, with some exceptions: Romanian and Mathematics (from 7th class), Informatics (from 8th class).</p>
       
       <div class="olympiad-timeline">
-        <div class="timeline-container">
+        <div class="timeline-header">
+          <span>Olympiad Progression</span>
+        </div>
+        
+        <div class="timeline-steps">
           <div class="timeline-step">
-            <div class="step-number">1</div>
             <div class="step-content">
               <h4 class="step-title">School Phase</h4>
               <p class="step-description">
@@ -252,7 +170,6 @@
           </div>
           
           <div class="timeline-step">
-            <div class="step-number">2</div>
             <div class="step-content">
               <h4 class="step-title">District Phase</h4>
               <p class="step-description">
@@ -262,7 +179,6 @@
           </div>
           
           <div class="timeline-step">
-            <div class="step-number">3</div>
             <div class="step-content">
               <h4 class="step-title">Municipal/Regional Phase</h4>
               <p class="step-description">
@@ -272,7 +188,6 @@
           </div>
           
           <div class="timeline-step">
-            <div class="step-number">4</div>
             <div class="step-content">
               <h4 class="step-title">Republican Phase</h4>
               <p class="step-description">
@@ -282,7 +197,6 @@
           </div>
           
           <div class="timeline-step">
-            <div class="step-number">5</div>
             <div class="step-content">
               <h4 class="step-title">Olympic Slot Selection Phase</h4>
               <p class="step-description">
@@ -293,7 +207,6 @@
         </div>
       </div>
 
-      <!-- Rest unchanged -->
       <h3>"Mihai Marinciuc" Memorial Physics Competition</h3>
       <p class="intro">Organised by Technical University of Moldova, where students from the whole republic can participate. Problems (romanian and russian only) and results can be found on their site: <a href="https://fizica.utm.md/data/concurs_marinciuc.php">fizica.utm.md</a></p>
       <h3>"Constantin Spătaru" Memorial Mathematics Competition</h3>
