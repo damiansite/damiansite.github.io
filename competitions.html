@@ -6,123 +6,112 @@
   <title>Competitions</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Formal Olympiad Timeline */
+    /* Minimalist Downward Timeline */
     .olympiad-timeline {
-      margin: 3rem 0;
+      margin: 4rem 0;
       padding: 0;
     }
 
-    .timeline-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 2.5rem;
-      padding-bottom: 1rem;
-      border-bottom: 2px solid var(--accent);
-    }
-
-    .timeline-header::before {
-      content: '';
-      flex-shrink: 0;
-      width: 8px;
-      height: 8px;
-      background: var(--accent);
-      border-radius: 50%;
-    }
-
-    .timeline-steps {
+    .timeline-container {
       display: flex;
       flex-direction: column;
-      gap: 2rem;
-      counter-reset: step-counter;
+      gap: 3rem;
+      max-width: 800px;
+      margin: 0 auto;
     }
 
     .timeline-step {
-      display: flex;
-      align-items: flex-start;
-      gap: 1.5rem;
-      padding: 1.5rem;
-      background: var(--card-bg);
-      border-left: 4px solid var(--accent);
-      border-radius: 0 8px 8px 0;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      transition: all 0.3s ease;
       position: relative;
-      overflow: hidden;
+      padding-left: 3rem;
+      padding-top: 2rem;
     }
 
     .timeline-step::before {
-      content: counter(step-counter);
-      counter-increment: step-counter;
+      content: '';
       position: absolute;
-      left: -2px;
-      top: 1.75rem;
-      background: var(--text-color);
-      color: var(--bg-color);
-      width: 28px;
-      height: 28px;
+      left: 0;
+      top: 0;
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.9em;
       border: 3px solid var(--card-bg);
       z-index: 2;
     }
 
-    .timeline-step:hover {
-      border-left-width: 6px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-      transform: translateX(4px);
+    /* Pure CSS Downward Arrow */
+    .timeline-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 18px;
+      width: 0;
+      height: 2rem;
+      border-left: 2px solid var(--accent);
+      border-right: 2px solid transparent;
+      border-bottom: 0 solid transparent;
+      z-index: 1;
+    }
+
+    .step-number {
+      position: absolute;
+      left: -0.5rem;
+      top: -0.5rem;
+      background: var(--text-color);
+      color: var(--bg-color);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75em;
+      font-weight: 700;
+      z-index: 3;
     }
 
     .step-content {
-      flex: 1;
-      margin-left: 0.5rem;
+      background: var(--card-bg);
+      padding: 1.75rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      border-left: 4px solid var(--accent);
+      transition: all 0.3s ease;
+    }
+
+    .timeline-step:hover .step-content {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+      transform: translateY(-2px);
     }
 
     .step-title {
       font-family: 'DM Sans', sans-serif;
-      font-size: 1.3em;
+      font-size: 1.25em;
       font-weight: 600;
-      margin: 0 0 0.75rem 0;
+      margin: 0 0 1rem 0;
       color: var(--text-color);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .step-title::after {
-      content: '→';
-      color: var(--accent);
-      font-weight: 300;
-      font-size: 1.1em;
     }
 
     .step-description {
       margin: 0;
-      line-height: 1.7;
+      line-height: 1.75;
       color: var(--text-color);
-      opacity: 0.95;
+      opacity: 0.92;
     }
 
     /* Mobile */
     @media (max-width: 768px) {
       .timeline-step {
-        padding: 1.25rem;
-        border-left-width: 4px;
-        border-radius: 0;
-        margin-bottom: 1rem;
+        padding-left: 2.5rem;
+        padding-top: 1.5rem;
       }
       
-      .timeline-step::before {
-        left: 0;
-        top: 1.25rem;
+      .timeline-step::after {
+        height: 1.5rem;
       }
       
       .step-content {
-        margin-left: 0;
+        padding: 1.5rem 1.5rem;
       }
     }
   </style>
@@ -155,12 +144,9 @@
       <p class="intro">If one person takes 1st, 2nd or 3rd place he shouldn't pass the previous phases and only comes back to the phase he took place last year. Otherwise if you have no prior participations, you start from start. Additionally most subjects start from 9th class, with some exceptions: Romanian and Mathematics (from 7th class), Informatics (from 8th class).</p>
       
       <div class="olympiad-timeline">
-        <div class="timeline-header">
-          <span>Olympiad Progression</span>
-        </div>
-        
-        <div class="timeline-steps">
+        <div class="timeline-container">
           <div class="timeline-step">
+            <div class="step-number">1</div>
             <div class="step-content">
               <h4 class="step-title">School Phase</h4>
               <p class="step-description">
@@ -170,6 +156,7 @@
           </div>
           
           <div class="timeline-step">
+            <div class="step-number">2</div>
             <div class="step-content">
               <h4 class="step-title">District Phase</h4>
               <p class="step-description">
@@ -179,6 +166,7 @@
           </div>
           
           <div class="timeline-step">
+            <div class="step-number">3</div>
             <div class="step-content">
               <h4 class="step-title">Municipal/Regional Phase</h4>
               <p class="step-description">
@@ -188,6 +176,7 @@
           </div>
           
           <div class="timeline-step">
+            <div class="step-number">4</div>
             <div class="step-content">
               <h4 class="step-title">Republican Phase</h4>
               <p class="step-description">
@@ -197,6 +186,7 @@
           </div>
           
           <div class="timeline-step">
+            <div class="step-number">5</div>
             <div class="step-content">
               <h4 class="step-title">Olympic Slot Selection Phase</h4>
               <p class="step-description">
