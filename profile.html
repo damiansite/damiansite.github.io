@@ -6,10 +6,15 @@
   <title>Profile</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Pure Elegant Scroll Animation - RESPONSIVE GRADIENT BG */
+    /* GRADIENT ONLY ON HEY SECTION */
+    body {
+      background: var(--bg-color);
+    }
+
     .profile-hero {
       min-height: 100vh;
       position: relative;
+      /* GRADIENT ONLY FOR HEY SECTION */
       background: linear-gradient(135deg, 
         rgba(249, 249, 249, 1) 0%, 
         rgba(255, 255, 255, 1) 50%, 
@@ -67,7 +72,6 @@
       text-align: left;
     }
 
-    /* PC: Image on RIGHT */
     .hero-image-section {
       flex: 1;
       max-width: 500px;
@@ -166,7 +170,7 @@
       transition-delay: 0.8s;
     }
 
-    /* FIXED BUTTONS - SAME COLOR + PERFECT CONTRAST HOVER */
+    /* FIXED BUTTONS */
     .cta-button {
       padding: 1.1rem 2.8rem;
       font-size: 1.1em;
@@ -204,7 +208,6 @@
     }
 
     .cta-button:hover {
-      /* PERFECT CONTRAST INVERSION - BLACK TEXT ON WHITE BG */
       background: linear-gradient(135deg, var(--bg-color), var(--text-color)) !important;
       color: var(--button-bg) !important;
       box-shadow: 0 12px 30px rgba(0,0,0,0.25);
@@ -220,7 +223,7 @@
       }
     }
 
-    /* MOBILE: Image BELOW text */
+    /* MOBILE LAYOUT */
     @media (max-width: 1024px) {
       .hero-content {
         flex-direction: column;
@@ -335,7 +338,7 @@
         <!-- IMAGE SECTION - PC RIGHT, MOBILE BELOW -->
         <div class="hero-image-section">
           <!-- REPLACE 'your-image.jpg' with your actual image -->
-          <img src="person.jpg" alt="Damian" class="hero-image">
+          <img src="your-image.jpg" alt="Damian Profile" class="hero-image">
         </div>
       </div>
     </section>
