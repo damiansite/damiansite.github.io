@@ -20,51 +20,66 @@ darkModeToggle.addEventListener('click', () => {
 // Language Toggle (Header and Index Controls)
 document.querySelectorAll('.lang-button').forEach(button => {
   button.addEventListener('click', (e) => {
-    console.log('Language button clicked:', e.target.textContent); // Debug log
+    console.log('Language button clicked:', e.target.textContent);
     const lang = button.textContent.toLowerCase();
     let currentPath = window.location.pathname;
-    console.log('Current pathname:', currentPath); // Debug log
-    // Handle GitHub Pages root URL (treat '/' as '/index.html')
+    console.log('Current pathname:', currentPath);
+    
     if (currentPath === '/' || currentPath === '') {
       currentPath = '/index.html';
-      console.log('Path adjusted to /index.html for root URL'); // Debug log
+      console.log('Path adjusted to /index.html for root URL');
     }
+    
     const isEnglish = !currentPath.includes('-ro');
-    console.log('Is English:', isEnglish, 'Lang pressed:', lang); // Debug log
+    console.log('Is English:', isEnglish, 'Lang pressed:', lang);
+    
     if ((lang === 'ro' && isEnglish) || (lang === 'en' && !isEnglish)) {
       const newPath = isEnglish ? currentPath.replace('.html', '-ro.html') : currentPath.replace('-ro.html', '.html');
-      console.log('Attempting redirect to:', newPath); // Debug log
+      console.log('Attempting redirect to:', newPath);
       try {
         window.location.href = newPath;
       } catch (error) {
-        console.error('Redirect failed:', error); // Debug log
-        // Fallback: Use assign or reload if href fails
+        console.error('Redirect failed:', error);
         window.location.assign(newPath);
       }
     } else {
-      console.log('No redirect needed'); // Debug log
+      console.log('No redirect needed');
     }
   });
 });
 
-// Hamburger Menu (Mobile Fullscreen) - Only if hamburger exists
-const hamburger = document.getElementById('hamburger');
-if (hamburger) {
-  const navMenu = document.getElementById('nav-menu');
-  hamburger.addEventListener('click', () => {
-    navMenu.classList.add('active');
-  });
+// Detect mobile for hover disabling
+const isMobile = window.innerWidth <= 1024 || 
+                 /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+document.body.classList.toggle('is-mobile', isMobile);
 
-  // Close menu on link click or outside click
-  document.addEventListener('click', (e) => {
-    if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
-      navMenu.classList.remove('active');
+// Language box tap feedback (mobile only)
+document.querySelectorAll('.language-box').forEach(box => {
+  box.addEventListener('click', function() {
+    if (isMobile) {
+      this.style.transform = 'scale(0.98)';
+      setTimeout(() => {
+        this.style.transform = '';
+      }, 150);
     }
   });
+});
 
-  navMenu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      navMenu.classList.remove('active');
-    });
+// Button tap feedback for all pages
+document.querySelectorAll('.cta-button, .index-button, .button').forEach(button => {
+  button.addEventListener('click', function(e) {
+    if (isMobile) {
+      this.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        this.style.transform = '';
+      }, 150);
+    }
   });
-}
+});
+
+// Handle window resize
+window.addEventListener('resize', () => {
+  const newIsMobile = window.innerWidth <= 1024 || 
+                     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  document.body.classList.toggle('is-mobile', newIsMobile);
+});
