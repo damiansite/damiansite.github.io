@@ -125,20 +125,31 @@ nav a:hover::after {
   padding: 0.75rem 1rem;
   font-size: 1rem;
   color: var(--text-color);
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  border-radius: 8px;
+  transition: all 0.3s ease;
+  /* NO ROUNDING */
+  border-radius: 0;
   position: relative;
-  transform: translateZ(0);
+  /* NO MOVEMENT - ONLY LIGHT/SHADOW EFFECT */
+  transform: none;
 }
 
-/* 3D HOVER EFFECT FOR TOGGLES (PC/LAPTOP ONLY) */
+/* 3D LIGHT/SHADOW EFFECT WITHOUT MOVEMENT (PC/LAPTOP ONLY) */
 #dark-mode-toggle:hover,
 .lang-button:hover {
-  transform: translateY(-2px) translateZ(10px);
+  /* NO translateY - STATIC POSITION */
   box-shadow: 
-    0 8px 25px rgba(0,0,0,0.15),
-    0 4px 12px rgba(0,0,0,0.1);
-  background: var(--accent);
+    inset 0 0 20px rgba(255,255,255,0.3),
+    0 0 30px rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.1);
+}
+
+body.dark-mode #dark-mode-toggle:hover,
+body.dark-mode .lang-button:hover {
+  /* DARK MODE: LIGHT EFFECT */
+  box-shadow: 
+    inset 0 0 20px rgba(255,255,255,0.4),
+    0 0 40px rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.15);
 }
 
 #dark-mode-toggle {
@@ -154,7 +165,7 @@ nav a:hover::after {
 .lang-button.active {
   background: var(--accent);
   font-weight: bold;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 main {
