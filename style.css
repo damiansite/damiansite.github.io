@@ -92,7 +92,7 @@ nav a::after {
   left: 50%;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--link-accent), var(--button-hover));
+  background: #ffffff;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform: translateX(-50%);
 }
