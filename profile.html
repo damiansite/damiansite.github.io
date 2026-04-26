@@ -11,24 +11,38 @@
       background: var(--bg-color);
     }
 
-    .profile-hero {
-      min-height: 100vh;
-      position: relative;
-      /* GRADIENT ONLY FOR HEY SECTION */
-      background: linear-gradient(135deg, 
-        rgba(249, 249, 249, 1) 0%, 
-        rgba(255, 255, 255, 1) 50%, 
-        rgba(233, 233, 233, 1) 100%);
-      overflow: hidden;
-      padding: 140px 20px 100px;
-    }
+    /* GRADIENT ONLY ON HEY TEXT SECTION */
+.profile-hero {
+  min-height: 100vh;
+  position: relative;
+  /* NO GRADIENT HERE - PLAIN */
+  background: transparent;
+  overflow: hidden;
+  padding: 140px 20px 100px;
+}
 
-    body.dark-mode .profile-hero {
-      background: linear-gradient(135deg, 
-        rgba(26, 26, 26, 1) 0%, 
-        rgba(51, 51, 51, 1) 50%, 
-        rgba(42, 42, 42, 1) 100%);
-    }
+/* GRADIENT CONTAINER FOR TEXT ONLY */
+.hero-text-container {
+  background: linear-gradient(135deg, 
+    rgba(249, 249, 249, 1) 0%, 
+    rgba(255, 255, 255, 1) 50%, 
+    rgba(233, 233, 233, 1) 100%);
+  border-radius: 30px;
+  padding: 3rem;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 10;
+}
+
+body.dark-mode .hero-text-container {
+  background: linear-gradient(135deg, 
+    rgba(26, 26, 26, 1) 0%, 
+    rgba(51, 51, 51, 1) 50%, 
+    rgba(42, 42, 42, 1) 100%);
+}
+
+
 
     /* Subtle animated background */
     .hero-bg {
@@ -55,16 +69,15 @@
 
     /* HERO LAYOUT WITH IMAGE */
     .hero-content {
-      position: relative;
-      z-index: 10;
-      max-width: 1400px;
-      margin: 0 auto;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      gap: 4rem;
-      padding: 0 20px;
-    }
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  padding: 0 20px;
+}
 
     .hero-text-section {
       flex: 1;
@@ -307,41 +320,43 @@
   <main>
     <!-- Pure Elegant Scroll Reveal WITH IMAGE -->
     <section class="profile-hero">
-      <div class="hero-bg"></div>
-      
-      <div class="hero-content">
-        <div class="hero-text-section">
-          <div class="hero-text">
-            <h1 class="hey-text">Hey!</h1>
-          </div>
-          <div class="hero-text">
-            <p class="welcome-subtitle">
-              Welcome to Damian's personal website
-            </p>
-          </div>
-          <div class="hero-text">
-            <p class="welcome-description">
-              Passionate about <strong>physics</strong>, <strong>mathematics</strong>, 
-              <strong>informatics</strong>, <strong>astronomy</strong> and <strong>photography</strong>.
-            </p>
-          </div>
-          <div class="cta-buttons">
-            <a href="achievements.html" class="cta-button">
-              Achievements
-            </a>
-            <a href="gallery.html" class="cta-button">
-              Gallery
-            </a>
-          </div>
+  <div class="hero-bg"></div>
+  
+  <div class="hero-content">
+    <!-- GRADIENT ONLY HERE - TEXT SECTION -->
+    <div class="hero-text-container">
+      <div class="hero-text-section">
+        <div class="hero-text">
+          <h1 class="hey-text">Hey!</h1>
         </div>
-        
-        <!-- IMAGE SECTION - PC RIGHT, MOBILE BELOW -->
-        <div class="hero-image-section">
-          <!-- REPLACE 'your-image.jpg' with your actual image -->
-          <img src="your-image.jpg" alt="Damian Profile" class="hero-image">
+        <div class="hero-text">
+          <p class="welcome-subtitle">
+            Welcome to Damian's personal website
+          </p>
+        </div>
+        <div class="hero-text">
+          <p class="welcome-description">
+            Passionate about <strong>physics</strong>, <strong>mathematics</strong>, 
+            <strong>informatics</strong>, <strong>astronomy</strong> and <strong>photography</strong>.
+          </p>
+        </div>
+        <div class="cta-buttons">
+          <a href="achievements.html" class="cta-button">
+            Achievements
+          </a>
+          <a href="gallery.html" class="cta-button">
+            Gallery
+          </a>
         </div>
       </div>
-    </section>
+    </div>
+    
+    <!-- IMAGE - NO GRADIENT -->
+    <div class="hero-image-section">
+      <img src="your-image.jpg" alt="Damian Profile" class="hero-image">
+    </div>
+  </div>
+</section>
 
     <!-- Languages -->
     <section class="section">
