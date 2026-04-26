@@ -70,6 +70,8 @@ body {
     rgba(255, 255, 255, 1) 50%, 
     rgba(233, 233, 233, 0.98) 100%);
   border-radius: 20px;
+  height: 380px; /* match image */
+  display: flex;
   padding: 2rem;
   box-shadow: 0 12px 35px rgba(0,0,0,0.08);
   max-width: 550px;
@@ -87,6 +89,9 @@ body.dark-mode .hero-text-container {
   flex: 1;
   max-width: 600px;
   text-align: left;
+  display: flex;
+  flex-direction: column; 
+  height: 100%;
 }
 
 /* IMAGE */
@@ -184,6 +189,12 @@ body.dark-mode .hero-text-container {
   box-shadow: 0 12px 30px rgba(0,0,0,0.25);
 }
 
+
+@media (max-width: 1024px) {
+  .hero-text-container {
+    height: auto; /* reset on mobile */
+  }
+}
 /* ================= REST OF YOUR ORIGINAL FILE CONTINUES EXACTLY ================= */
 
   </style>
