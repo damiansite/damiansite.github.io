@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galerie</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ================= GALLERY PAGE STYLES ================= */
+    
+    main {
+      flex: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 50px;
+      width: 100%;
+    }
+
+    /* Gallery Grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      width: 100%;
+      max-width: 1400px;
+    }
+
+    .gallery-item {
+      position: relative;
+      aspect-ratio: 4/3;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.1);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      cursor: pointer;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.85));
+      color: white;
+      padding: 2rem 1.5rem 1.5rem;
+      transform: translateY(100%);
+      transition: transform 0.4s ease;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      transform: translateY(0);
+    }
+
+    .gallery-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .gallery-desc {
+      font-size: 0.95rem;
+      opacity: 0.9;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 2.5rem;
+      cursor: pointer;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background 0.3s ease;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+      }
+      
+      .gallery-hero h1 {
+        margin-bottom: 0.5rem;
+      }
+      
+      .gallery-hero p {
+        font-size: 1.1rem;
+      }
+    }
+
+    /* Dark mode adjustments */
+    body.dark-mode .gallery-item {
+      box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+    }
+
+    body.dark-mode .gallery-item:hover {
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <ul id="nav-menu">
+      <li><a href="profile.html">Profil</a></li>
+      <li><a href="resources.html">Resurse</a></li>
+      <li><a href="projects.html">Proiecte</a></li>
+    </ul>
+  </nav>
+  <div class="toggles">
+    <button id="dark-mode-toggle"></button>
+    <div class="lang-buttons">
+      <button class="lang-button">EN</button>
+      <button class="lang-button active">RO</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <h2>Galerie</h2>
+    <p class="intro">Colecție de fotografii din diverse călătorii, evenimente și proiecte personale. Click pe imagini pentru a le vedea la dimensiune completă.</p>
+  </section>
+
+  <div class="gallery-grid">
+    <!-- ADD YOUR PHOTOS HERE - Replace src and text -->
+    <div class="gallery-item" data-full="img1.jpg">
+      <img src="img1.jpg" alt="Fotografie 1">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Sol din pădure</h3>
+        <p class="gallery-desc">România • 2022</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img2.jpg">
+      <img src="img2.jpg" alt="Fotografie 2">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Deal cu pădure de pini</h3>
+        <p class="gallery-desc">România • 2022</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img3.jpg">
+      <img src="img3.jpg" alt="Fotografie 3">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Drum prin pădure</h3>
+        <p class="gallery-desc">România • 2022</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img4.jpg">
+      <img src="img4.jpg" alt="Fotografie 4">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Castelul Peleș</h3>
+        <p class="gallery-desc">România • 2022</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img5.jpg">
+      <img src="img5.jpg" alt="Fotografie 5">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Salamandră de foc</h3>
+        <p class="gallery-desc">România • 2022</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img6.jpg">
+      <img src="img6.jpg" alt="Fotografie 6">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Apus peste dealuri</h3>
+        <p class="gallery-desc">România • 2022</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img7.jpg">
+      <img src="img7.jpg" alt="Fotografie 7">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Decorațiune de Crăciun</h3>
+        <p class="gallery-desc">Moldova • 2022</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img8.jpg">
+      <img src="img8.jpg" alt="Fotografie 8">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Căpșuni și macarons</h3>
+        <p class="gallery-desc">Moldova • 2024</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img9.jpg">
+      <img src="img9.jpg" alt="Fotografie 9">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Port</h3>
+        <p class="gallery-desc">Germania • 2024</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img10.jpg">
+      <img src="img10.jpg" alt="Fotografie 10">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Pietre pe plajă</h3>
+        <p class="gallery-desc">Germania • 2024</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img11.jpg">
+      <img src="img11.jpg" alt="Fotografie 11">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Far</h3>
+        <p class="gallery-desc">Germania • 2024</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img12.jpg">
+      <img src="img12.jpg" alt="Fotografie 12">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Albastru de iarnă</h3>
+        <p class="gallery-desc">Moldova • 2024</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img13.jpg">
+      <img src="img13.jpg" alt="Fotografie 13">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Gheață pe copac</h3>
+        <p class="gallery-desc">Moldova • 2024</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img14.jpg">
+      <img src="img14.jpg" alt="Fotografie 14">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Biserică</h3>
+        <p class="gallery-desc">Germania • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img15.jpg">
+      <img src="img15.jpg" alt="Fotografie 15">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Lanț muntos</h3>
+        <p class="gallery-desc">România • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img16.jpg">
+      <img src="img16.jpg" alt="Fotografie 16">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Câmpuri</h3>
+        <p class="gallery-desc">Moldova • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img17.jpg">
+      <img src="img17.jpg" alt="Fotografie 17">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Turnul Alb din Salonic</h3>
+        <p class="gallery-desc">Grecia • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img18.jpg">
+      <img src="img18.jpg" alt="Fotografie 18">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Apus peste mare</h3>
+        <p class="gallery-desc">Grecia • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img19.jpg">
+      <img src="img19.jpg" alt="Fotografie 19">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Soare roșu</h3>
+        <p class="gallery-desc">Grecia • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img20.jpg">
+      <img src="img20.jpg" alt="Fotografie 20">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Salonicul de pe mare</h3>
+        <p class="gallery-desc">Grecia • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img21.jpg">
+      <img src="img21.jpg" alt="Fotografie 21">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Apus pe navă</h3>
+        <p class="gallery-desc">Grecia • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img22.jpg">
+      <img src="img22.jpg" alt="Fotografie 22">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Muntele Olimp</h3>
+        <p class="gallery-desc">Grecia • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img23.jpg">
+      <img src="img23.jpg" alt="Fotografie 23">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Navă de marfă</h3>
+        <p class="gallery-desc">Grecia • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img24.jpg">
+      <img src="img24.jpg" alt="Fotografie 24">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Observație nocturnă</h3>
+        <p class="gallery-desc">Moldova • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img25.jpg">
+      <img src="img25.jpg" alt="Fotografie 25">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Noapte în oraș</h3>
+        <p class="gallery-desc">Moldova • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img26.webp">
+      <img src="img26.webp" alt="Fotografie 26">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Biciclete sub soare</h3>
+        <p class="gallery-desc">Moldova • 2022</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img27.jpg">
+      <img src="img27.jpg" alt="Fotografie 27">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Aristotel la petrecere</h3>
+        <p class="gallery-desc">Moldova • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img28.jpg">
+      <img src="img28.jpg" alt="Fotografie 28">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Lună de seară</h3>
+        <p class="gallery-desc">Moldova • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img29.jpg">
+      <img src="img29.jpg" alt="Fotografie 29">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Biserică la apus</h3>
+        <p class="gallery-desc">Moldova • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img30.jpg">
+      <img src="img30.jpg" alt="Fotografie 30">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Stâlp de iluminat în ceață</h3>
+        <p class="gallery-desc">Moldova • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img31.jpg">
+      <img src="img31.jpg" alt="Fotografie 31">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Nori roz</h3>
+        <p class="gallery-desc">Moldova • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img32.jpg">
+      <img src="img32.jpg" alt="Fotografie 32">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Zăpadă</h3>
+        <p class="gallery-desc">Moldova • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img33.jpg">
+      <img src="img33.jpg" alt="Fotografie 33">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Luminile peste lac</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img34.jpg">
+      <img src="img34.jpg" alt="Fotografie 34">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Soare între crengi</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img35.jpg">
+      <img src="img35.jpg" alt="Fotografie 35">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Coș de fum</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img36.jpg">
+      <img src="img36.jpg" alt="Fotografie 36">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Corb</h3>
+        <p class="gallery-desc">Moldova • 2025</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img37.jpg">
+      <img src="img37.jpg" alt="Fotografie 37">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Lună pe cer închis</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img38.jpg">
+      <img src="img38.jpg" alt="Fotografie 38">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Oraș de deasupra</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img39.jpg">
+      <img src="img39.jpg" alt="Fotografie 39">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Aeroport</h3>
+        <p class="gallery-desc">Germania • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img40.jpg">
+      <img src="img40.jpg" alt="Fotografie 40">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Drum spre viitor</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img41.jpg">
+      <img src="img41.jpg" alt="Fotografie 41">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Câmpuri</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img42.jpg">
+      <img src="img42.jpg" alt="Fotografie 42">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Indicator rutier</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img43.jpg">
+      <img src="img43.jpg" alt="Fotografie 43">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Copac în mișcare</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img44.jpg">
+      <img src="img44.jpg" alt="Fotografie 44">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Flori lângă soare</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img45.jpg">
+      <img src="img45.jpg" alt="Fotografie 45">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Flori la apus</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img46.jpg">
+      <img src="img46.jpg" alt="Fotografie 46">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Flori de primăvară</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img47.jpg">
+      <img src="img47.jpg" alt="Fotografie 47">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Raze de soare</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img48.jpg">
+      <img src="img48.jpg" alt="Fotografie 48">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Soare între nori</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img49.jpg">
+      <img src="img49.jpg" alt="Fotografie 49">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Elicopter între pini</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img50.jpg">
+      <img src="img50.jpg" alt="Fotografie 50">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Elicopter</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img51.jpg">
+      <img src="img51.jpg" alt="Fotografie 51">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Animale la țară</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img52.jpg">
+      <img src="img52.jpg" alt="Fotografie 52">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Copac cu flori albe</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img53.jpg">
+      <img src="img53.jpg" alt="Fotografie 53">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Biserică pe deal</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img54.jpg">
+      <img src="img54.jpg" alt="Fotografie 54">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Tufă gri</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img55.jpg">
+      <img src="img55.jpg" alt="Fotografie 55">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Copac cu flori roz</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img56.jpg">
+      <img src="img56.jpg" alt="Fotografie 56">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Păpădii sub soare</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img57.jpg">
+      <img src="img57.jpg" alt="Fotografie 57">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Apus între copaci</h3>
+        <p class="gallery-desc">Moldova • 2026</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Lightbox Modal -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close">&times;</button>
+  <img id="lightbox-img" src="" alt="Imagine la dimensiune completă">
+</div>
+
+<footer>
+  <p>Originalul este în Engleză. Traducerea este efectuată de BLACKBOX.AI</p>
+  <p><b>&copy; 2026 Mîrza Damian. Toate drepturile rezervate</b></p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+  // Gallery lightbox functionality
+  const galleryItems = document.querySelectorAll('.gallery-item');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxClose = document.querySelector('.lightbox-close');
+
+  galleryItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const fullImgSrc = item.getAttribute('data-full');
+      lightboxImg.src = fullImgSrc;
+      lightbox.classList.add('active');
+    });
+  });
+
+  lightboxClose.addEventListener('click', () => {
+    lightbox.classList.remove('active');
+  });
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+      lightbox.classList.remove('active');
+    }
+  });
+
+  // Smooth scroll reveal for gallery items
+  const galleryObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.gallery-item').forEach(item => {
+    item.style.opacity = '0';
+    item.style.transform = 'translateY(30px)';
+    item.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+    galleryObserver.observe(item);
+  });
+</script>
+</body>
+</html>
