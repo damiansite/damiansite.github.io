@@ -5,6 +5,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Index</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* INDEX PAGE - HORIZONTAL BUTTONS, NO ROUNDING */
+    main {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 120px 20px 60px;
+      gap: 4rem;
+    }
+
+    .index-buttons {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      /* HORIZONTAL ON PC */
+    }
+
+    .index-button {
+      background: linear-gradient(135deg, var(--card-bg), var(--header-bg));
+      padding: 2rem 3rem;
+      text-align: center;
+      /* NO ROUNDING */
+      border-radius: 0;
+      border: 2px solid transparent;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      text-decoration: none;
+      color: var(--text-color);
+      font-size: 1.5rem;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      min-width: 200px;
+    }
+
+    .index-button:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+      border-color: var(--accent);
+    }
+
+    .index-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      text-align: center;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .index-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+      }
+      
+      .index-button {
+        width: 100%;
+        max-width: 300px;
+        padding: 1.5rem 2rem;
+        font-size: 1.3rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <main>
@@ -13,6 +80,7 @@
       <a href="resources-ro.html" class="index-button">Resurse</a>
       <a href="projects-ro.html" class="index-button">Proiecte</a>
     </div>
+    
     <div class="index-controls">
       <button id="dark-mode-toggle"></button>
       <div class="lang-buttons">
@@ -20,14 +88,15 @@
         <button class="lang-button active">RO</button>
       </div>
       <div class="update-box">
-        <strong>Noutăți Recente</strong>
-        <p>Mențiune, al 5-lea la Concursul de fizică in memoriam Mihai Marinciuc</p>
+        <strong>Ultima actualizare</strong>
+        <p>Mențiune onorifică, locul #5 la Concursul de Fizică „Mihai Marinciuc”</p>
       </div>
     </div>
-    </div>
-    <p style="text-align: center; margin: 0; color: var(--text-color);">Originalul este în Engleză. Traducerea este efectuată de BLACKBOX.AI</p>
-    <p style="text-align: center; margin: 0; color: var(--text-color);"><b>&copy; 2026 Mîrza Damian. Toate drepturile rezervate.</b></p>
+    
+    <p style="text-align: center; margin: 2rem 0 0 0; color: var(--text-color);">Limba implicită este engleza. Traducerea în română a fost realizată folosind BLACKBOX.AI</p>
+    <p style="text-align: center; margin: 0.5rem 0 0 0; color: var(--text-color);"><b>&copy; 2026 Mîrza Damian. Toate drepturile rezervate</b></p>
   </main>
+  
   <script src="script.js"></script>
 </body>
 </html>
