@@ -200,28 +200,71 @@ body.dark-mode .hero-text-container {
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
+/* ================= MOBILE FIX - REPLACE ALL MOBILE CSS ================= */
 @media (max-width: 1024px) {
-  .hero-content {
-    flex-direction: column;
-    height: auto;
-    min-height: auto;
+  /* Fix parent containers */
+  .profile-hero {
+    padding: 30px 15px 25px !important; /* tighter */
   }
   
-  /* THE KEY FIX - mobile hero-text-container */
+  .hero-content {
+    flex-direction: column;
+    height: auto !important;
+    min-height: unset !important;
+    padding: 0 !important;
+    gap: 2rem;
+  }
+  
+  /* CRITICAL - reset hero-text-container completely */
   .hero-text-container {
-    height: auto !important; /* override 400px */
-    padding: 1.5rem; /* tighter padding */
-    min-height: unset;
+    height: auto !important;
+    min-height: unset !important;
+    max-height: none !important;
+    padding: 1.2rem !important; /* minimal padding */
+    margin: 0 !important;
   }
   
   .hero-text-section {
     height: auto !important;
-    justify-content: flex-start; /* natural stacking */
+    justify-content: flex-start !important;
+    gap: 0.8rem;
+  }
+  
+  /* Smaller image */
+  .hero-image-section {
+    max-width: 100%;
   }
   
   .hero-image {
-    max-width: 300px; /* smaller image on mobile */
-    height: 320px;
+    width: 100%;
+    max-width: 280px;
+    height: 280px;
+    margin: 0;
+  }
+  
+  /* Tighter text */
+  .hey-text {
+    font-size: clamp(2em, 6vw, 3.2em);
+  }
+  
+  .cta-buttons {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .cta-button {
+    padding: 0.8rem 1.8rem;
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-hero {
+    padding: 20px 10px 20px !important;
+  }
+  
+  .hero-text-container {
+    padding: 1rem !important;
   }
 }
 /* ================= REST OF YOUR ORIGINAL FILE CONTINUES EXACTLY ================= */
