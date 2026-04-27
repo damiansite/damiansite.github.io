@@ -201,8 +201,27 @@ body.dark-mode .hero-text-container {
 }
 
 @media (max-width: 1024px) {
+  .hero-content {
+    flex-direction: column;
+    height: auto;
+    min-height: auto;
+  }
+  
+  /* THE KEY FIX - mobile hero-text-container */
   .hero-text-container {
-    height: auto; /* reset on mobile */
+    height: auto !important; /* override 400px */
+    padding: 1.5rem; /* tighter padding */
+    min-height: unset;
+  }
+  
+  .hero-text-section {
+    height: auto !important;
+    justify-content: flex-start; /* natural stacking */
+  }
+  
+  .hero-image {
+    max-width: 300px; /* smaller image on mobile */
+    height: 320px;
   }
 }
 /* ================= REST OF YOUR ORIGINAL FILE CONTINUES EXACTLY ================= */
