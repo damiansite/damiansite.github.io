@@ -381,7 +381,8 @@ a:hover {
 .button:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-  color: var(--bg-color) !important;
+  background-color: var(--bg-color) !important; /* Folosește bg-color-ul curent */
+  color: var(--text-color-inverted, #ffffff) !important;
 }
 
 .index-buttons {
