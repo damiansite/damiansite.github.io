@@ -83,3 +83,14 @@ window.addEventListener('resize', () => {
                      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   document.body.classList.toggle('is-mobile', newIsMobile);
 });
+
+window.onload = function () {
+    if (!localStorage.getItem("copyrightAccepted")) {
+      document.getElementById("copyright-popup").style.display = "flex";
+    }
+  };
+
+  function closePopup() {
+    localStorage.setItem("copyrightAccepted", "true");
+    document.getElementById("copyright-popup").style.display = "none";
+  }
