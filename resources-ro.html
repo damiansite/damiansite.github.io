@@ -145,5 +145,37 @@
     <p><b>&copy; 2026 Mîrza Damian. Toate drepturile rezervate.</b></p>
   </footer>
   <script src="script.js"></script>
+
+  <script>
+// COPYRIGHT POPUP - FINAL BULLETPROOF VERSION
+document.addEventListener('DOMContentLoaded', function() {
+  const popup = document.getElementById('copyright-popup');
+  const accepted = localStorage.getItem('copyrightAccepted');
+  
+  console.log('Popup check:', accepted); // DEBUG
+  
+  if (accepted !== 'true') {
+    popup.style.display = 'flex';
+  }
+});
+
+function closePopup() {
+  localStorage.setItem('copyrightAccepted', 'true');
+  document.getElementById('copyright-popup').style.display = 'none';
+  console.log('ACCEPTED - stored forever');
+}
+</script>
+
+<!-- Popup with display: none by default -->
+<div id="copyright-popup" class="popup" style="display: none;">
+  <div class="popup-content">
+    <p style="text-align: justify;">
+      <b>EN:</b> This website is protected by copyright. By continuing, you acknowledge and agree to respect the ownership of all content. <a href="copyright.txt">Copyright</a>
+    </p>
+    <p style="text-align: justify;">
+      <b>RO:</b> Acest site web este protejat de drepturi de autor. Prin continuare, recunoașteți și sunteți de acord să respectați proprietatea asupra întregului conținut. <a href="copyright.txt">Copyright</a>
+    <button onclick="closePopup()">Accept</button>
+  </div>
+</div>
 </body>
 </html>
