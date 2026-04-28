@@ -6,6 +6,49 @@
   <title>Linkuri Resurse</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
+  <script>
+// ENCRYPTED TRACKER - Add to index.html, profile.html, etc.
+(function(){
+  const CRYPTO_KEY = 'DamianAnalytics2024SecretKey!';
+  
+  function encrypt(text) {
+    let result = ''; 
+    for(let i=0;i<text.length;i++){
+      result += String.fromCharCode(text.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
+    }
+    return btoa(result);
+  }
+  
+  function decrypt(enc) {
+    try {
+      const decoded = atob(enc);
+      let result = '';
+      for(let i=0;i<decoded.length;i++){
+        result += String.fromCharCode(decoded.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
+      }
+      return result;
+    } catch { return '0'; }
+  }
+  
+  // Count visits
+  let total = parseInt(decrypt(localStorage.getItem('analytics_total_enc') || encrypt('0'))) + 1;
+  localStorage.setItem('analytics_total_enc', encrypt(total.toString()));
+  
+  const todayKey = 'analytics_today_enc_' + new Date().toDateString();
+  let today = parseInt(decrypt(localStorage.getItem(todayKey) || encrypt('0'))) + 1;
+  localStorage.setItem(todayKey, encrypt(today.toString()));
+  
+  // Track country
+  fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
+    const country = d.country_name || 'Unknown';
+    let countries = JSON.parse(decrypt(localStorage.getItem('analytics_countries_enc') || encrypt('[]')));
+    countries.push(country);
+    if(countries.length > 100) countries = countries.slice(-100);
+    localStorage.setItem('analytics_countries_enc', encrypt(JSON.stringify(countries)));
+  }).catch(()=>{}); // Silent fail
+})();
+</script>
 <body>
   <header>
     <nav>
