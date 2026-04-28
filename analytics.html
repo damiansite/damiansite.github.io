@@ -346,38 +346,35 @@ function sha256(message) {
     }
     
     function loadStats() {
-  // TOTAL - sum ALL total_enc keys
+  // TOTAL ✓ (already working)
   let total = 0;
   for(let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     if(key && key.includes('analytics_total_enc')) {
-      try {
-        total += parseInt(atob(localStorage.getItem(key))) || 0;
-      } catch {}
+      total += parseInt(atob(localStorage.getItem(key))) || 0;
     }
   }
   
-  // TODAY - sum ALL today keys
+  // TODAY ✓ (already working)  
   const todayStr = new Date().toDateString();
   let todayTotal = 0;
   for(let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     if(key && key.includes(todayStr)) {
-      try {
-        todayTotal += parseInt(atob(localStorage.getItem(key))) || 0;
-      } catch {}
+      todayTotal += parseInt(atob(localStorage.getItem(key))) || 0;
     }
   }
   
-  // COUNTRIES - sum ALL country keys
+  // COUNTRIES - FIXED: Single key + merge all
   let allCountries = [];
   for(let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     if(key && key.includes('analytics_countries_enc')) {
       try {
-        const countries = JSON.parse(atob(localStorage.getItem(key)));
-        allCountries = allCountries.concat(countries);
-      } catch {}
+        const data = atob(localStorage.getItem(key));
+        const countries = JSON.parse(data);
+        if(Array.isArray(countries)) allCountries = allCountries.concat(countries);
+      } catch(e) {}
     }
   }
   if(allCountries.length > 100) allCountries = allCountries.slice(-100);
@@ -390,7 +387,7 @@ function sha256(message) {
   
   // LIST
   const recent = allCountries.slice(-20).reverse().map((c,i)=>`<div class="country-item"><span>${allCountries.length-i}</span><strong>${c}</strong></div>`).join('');
-  document.getElementById('countriesList').innerHTML = recent || 'Tracking...';
+  document.getElementById('countriesList').innerHTML = recent || 'Live tracking...';
 }
   </script>
 </body>
