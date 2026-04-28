@@ -346,33 +346,51 @@ function sha256(message) {
     }
     
     function loadStats() {
-  // TOTAL VISITS
-  const totalRaw = localStorage.getItem('analytics_total_enc') || btoa('0');
-  const total = parseInt(atob(totalRaw)) || 0;
+  // TOTAL - sum ALL total_enc keys
+  let total = 0;
+  for(let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if(key && key.includes('analytics_total_enc')) {
+      try {
+        total += parseInt(atob(localStorage.getItem(key))) || 0;
+      } catch {}
+    }
+  }
   
-  // TODAY VISITS
-  const todayKey = 'analytics_today_enc_' + new Date().toDateString();
-  const todayRaw = localStorage.getItem(todayKey) || btoa('0');
-  const today = parseInt(atob(todayRaw)) || 0;
+  // TODAY - sum ALL today keys
+  const todayStr = new Date().toDateString();
+  let todayTotal = 0;
+  for(let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if(key && key.includes(todayStr)) {
+      try {
+        todayTotal += parseInt(atob(localStorage.getItem(key))) || 0;
+      } catch {}
+    }
+  }
   
-  // COUNTRIES
-  const countriesRaw = localStorage.getItem('analytics_countries_enc') || btoa('[]');
-  const countries = JSON.parse(atob(countriesRaw));
+  // COUNTRIES - sum ALL country keys
+  let allCountries = [];
+  for(let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if(key && key.includes('analytics_countries_enc')) {
+      try {
+        const countries = JSON.parse(atob(localStorage.getItem(key)));
+        allCountries = allCountries.concat(countries);
+      } catch {}
+    }
+  }
+  if(allCountries.length > 100) allCountries = allCountries.slice(-100);
   
-  // UPDATE DISPLAY
+  // DISPLAY
   document.getElementById('totalVisits').textContent = total.toLocaleString();
-  document.getElementById('todayVisits').textContent = today.toLocaleString();
-  document.getElementById('todayDate').textContent = new Date().toDateString();
-  document.getElementById('uniqueCountries').textContent = new Set(countries).size;
+  document.getElementById('todayVisits').textContent = todayTotal.toLocaleString();
+  document.getElementById('todayDate').textContent = todayStr;
+  document.getElementById('uniqueCountries').textContent = new Set(allCountries).size;
   
-  // COUNTRIES LIST
-  const recent = countries.slice(-20).reverse().map((country, i) => 
-    `<div class="country-item">
-      <span>${countries.length - i}</span>
-      <strong>${country}</strong>
-    </div>`
-  ).join('');
-  document.getElementById('countriesList').innerHTML = recent || 'Live tracking...';
+  // LIST
+  const recent = allCountries.slice(-20).reverse().map((c,i)=>`<div class="country-item"><span>${allCountries.length-i}</span><strong>${c}</strong></div>`).join('');
+  document.getElementById('countriesList').innerHTML = recent || 'Tracking...';
 }
   </script>
 </body>
