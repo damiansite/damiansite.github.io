@@ -75,34 +75,45 @@
 </head>
 
   <script>
-// PRIVATE ANALYTICS - Reports to YOUR analytics.html
-(function() {
-  // Increment counters
-  let total = parseInt(localStorage.getItem('analytics_total') || '0') + 1;
-  const todayKey = 'analytics_today_' + new Date().toDateString();
-  let today = parseInt(localStorage.getItem(todayKey) || '0') + 1;
+// ENCRYPTED TRACKER - Add to index.html, profile.html, etc.
+(function(){
+  const CRYPTO_KEY = 'DamianAnalytics2024SecretKey!';
   
-  localStorage.setItem('analytics_total', total);
-  localStorage.setItem(todayKey, today);
+  function encrypt(text) {
+    let result = ''; 
+    for(let i=0;i<text.length;i++){
+      result += String.fromCharCode(text.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
+    }
+    return btoa(result);
+  }
   
-  // Get country silently
-  fetch('https://ipapi.co/json/')
-    .then(r => r.json())
-    .then(data => {
-      const country = data.country_name || 'Unknown';
-      
-      // Store countries (last 100)
-      let countries = JSON.parse(localStorage.getItem('analytics_countries') || '[]');
-      countries.push(country);
-      if (countries.length > 100) countries = countries.slice(-100);
-      localStorage.setItem('analytics_countries', JSON.stringify(countries));
-      
-      console.log(`📊 #${total} from ${country} (${today} today)`);
-    })
-    .catch(() => {
-      // Fallback - still count visits
-      console.log(`📊 Visit #${total}`);
-    });
+  function decrypt(enc) {
+    try {
+      const decoded = atob(enc);
+      let result = '';
+      for(let i=0;i<decoded.length;i++){
+        result += String.fromCharCode(decoded.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
+      }
+      return result;
+    } catch { return '0'; }
+  }
+  
+  // Count visits
+  let total = parseInt(decrypt(localStorage.getItem('analytics_total_enc') || encrypt('0'))) + 1;
+  localStorage.setItem('analytics_total_enc', encrypt(total.toString()));
+  
+  const todayKey = 'analytics_today_enc_' + new Date().toDateString();
+  let today = parseInt(decrypt(localStorage.getItem(todayKey) || encrypt('0'))) + 1;
+  localStorage.setItem(todayKey, encrypt(today.toString()));
+  
+  // Track country
+  fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
+    const country = d.country_name || 'Unknown';
+    let countries = JSON.parse(decrypt(localStorage.getItem('analytics_countries_enc') || encrypt('[]')));
+    countries.push(country);
+    if(countries.length > 100) countries = countries.slice(-100);
+    localStorage.setItem('analytics_countries_enc', encrypt(JSON.stringify(countries)));
+  }).catch(()=>{}); // Silent fail
 })();
 </script>
   
