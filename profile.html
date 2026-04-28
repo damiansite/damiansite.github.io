@@ -1,10 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile</title>
   <link rel="stylesheet" href="style.css">
+  
+  <!-- 🔥 LIVE TRACKER - ADD HERE -->
+  <script>
+  (()=>{
+    const inc=(k,d='0')=>{
+      const v=parseInt(atob(localStorage.getItem(k)||btoa(d)))||0;
+      localStorage.setItem(k,btoa((v+1).toString()))
+    };
+    inc('analytics_total_enc');
+    inc('analytics_today_enc_'+new Date().toDateString());
+    fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
+      const c=JSON.parse(atob(localStorage.analytics_countries_enc||btoa('[]')));
+      c.push(d.country_name||'Unknown');
+      localStorage.analytics_countries_enc=btoa(JSON.stringify(c.slice(-100)))
+    })
+  })();
+  </script>
   <style>
 
 /* ================= FIXED SPACING ONLY ================= */
@@ -273,53 +291,7 @@ body.dark-mode .hero-text-container {
   </style>
 </head>
 
-  <script>
-// AUTO-TRACK EVERY VISIT (works instantly)
-(function() {
-  const CRYPTO_KEY = 'DamianAnalytics2024SecretKey!';
   
-  function encrypt(text) {
-    let result = '';
-    for (let i = 0; i < text.length; i++) {
-      result += String.fromCharCode(text.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
-    }
-    return btoa(result);
-  }
-  
-  function decrypt(encrypted) {
-    try {
-      const decoded = atob(encrypted);
-      let result = '';
-      for (let i = 0; i < decoded.length; i++) {
-        result += String.fromCharCode(decoded.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
-      }
-      return result;
-    } catch {
-      return '0';
-    }
-  }
-  
-  // Track visit NOW
-  let total = parseInt(decrypt(localStorage.getItem('analytics_total_enc') || encrypt('0'))) + 1;
-  localStorage.setItem('analytics_total_enc', encrypt(total.toString()));
-  
-  const todayKey = 'analytics_today_enc_' + new Date().toDateString();
-  let today = parseInt(decrypt(localStorage.getItem(todayKey) || encrypt('0'))) + 1;
-  localStorage.setItem(todayKey, encrypt(today.toString()));
-  
-  // Fake countries for testing (remove later)
-  const countries = ['USA', 'Germany', 'India', 'Brazil', 'UK'];
-  let countryList = JSON.parse(decrypt(localStorage.getItem('analytics_countries_enc') || encrypt('[]')));
-  countryList.push(countries[Math.floor(Math.random() * countries.length)]);
-  if (countryList.length > 100) countryList = countryList.slice(-100);
-  localStorage.setItem('analytics_countries_enc', encrypt(JSON.stringify(countryList)));
-  
-  // Refresh dashboard if open
-  if (document.querySelector('.dashboard.show')) {
-    loadStats();
-  }
-})();
-</script>
 <body>
 
 <!-- YOUR HTML BELOW IS 100% UNCHANGED -->
