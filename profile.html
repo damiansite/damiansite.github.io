@@ -9,20 +9,25 @@
   
   <!-- 🔥 LIVE TRACKER - ADD HERE -->
   <script>
-  (()=>{
-    const inc=(k,d='0')=>{
-      const v=parseInt(atob(localStorage.getItem(k)||btoa(d)))||0;
-      localStorage.setItem(k,btoa((v+1).toString()))
-    };
-    inc('analytics_total_enc');
-    inc('analytics_today_enc_'+new Date().toDateString());
-    fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
-      const c=JSON.parse(atob(localStorage.analytics_countries_enc||btoa('[]')));
-      c.push(d.country_name||'Unknown');
-      localStorage.analytics_countries_enc=btoa(JSON.stringify(c.slice(-100)))
+(() => {
+  // TOTAL +1
+  const totalKey = 'analytics_total_enc_' + Date.now();
+  localStorage.setItem(totalKey, btoa('1'));
+  
+  // TODAY +1
+  const todayKey = 'analytics_today_enc_' + new Date().toDateString() + '_' + Date.now();
+  localStorage.setItem(todayKey, btoa('1'));
+  
+  // COUNTRY
+  fetch('https://ipapi.co/json/')
+    .then(r => r.json())
+    .then(d => {
+      const countryKey = 'analytics_countries_enc_' + Date.now();
+      localStorage.setItem(countryKey, btoa(JSON.stringify([d.country_name || 'Unknown'])));
     })
-  })();
-  </script>
+    .catch(() => {}); // silent fail
+})();
+</script>
   <style>
 
 /* ================= FIXED SPACING ONLY ================= */
