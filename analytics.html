@@ -346,14 +346,20 @@ function sha256(message) {
     }
     
     function loadStats() {
-  // PLAIN STORAGE (matches what we set)
-  const total = parseInt(atob(localStorage.getItem('analytics_total_enc') || btoa('0'))) || 0;
-  const todayKey = 'analytics_today_enc_' + new Date().toDateString();
-  const today = parseInt(atob(localStorage.getItem(todayKey) || btoa('0'))) || 0;
-  const countriesData = localStorage.getItem('analytics_countries_enc') ? atob(localStorage.getItem('analytics_countries_enc')) : '[]';
-  const countries = JSON.parse(countriesData);
+  // TOTAL VISITS
+  const totalRaw = localStorage.getItem('analytics_total_enc') || btoa('0');
+  const total = parseInt(atob(totalRaw)) || 0;
   
-  // UPDATE NUMBERS
+  // TODAY VISITS
+  const todayKey = 'analytics_today_enc_' + new Date().toDateString();
+  const todayRaw = localStorage.getItem(todayKey) || btoa('0');
+  const today = parseInt(atob(todayRaw)) || 0;
+  
+  // COUNTRIES
+  const countriesRaw = localStorage.getItem('analytics_countries_enc') || btoa('[]');
+  const countries = JSON.parse(atob(countriesRaw));
+  
+  // UPDATE DISPLAY
   document.getElementById('totalVisits').textContent = total.toLocaleString();
   document.getElementById('todayVisits').textContent = today.toLocaleString();
   document.getElementById('todayDate').textContent = new Date().toDateString();
@@ -366,7 +372,7 @@ function sha256(message) {
       <strong>${country}</strong>
     </div>`
   ).join('');
-  document.getElementById('countriesList').innerHTML = recent || '<div style="text-align:center;color:#666;">Live tracking...</div>';
+  document.getElementById('countriesList').innerHTML = recent || 'Live tracking...';
 }
   </script>
 </body>
