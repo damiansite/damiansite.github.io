@@ -346,58 +346,27 @@ function sha256(message) {
     }
     
     function loadStats() {
-  // Auth check
-  if (!localStorage.getItem('analytics_session')) {
-    logout();
-    return;
-  }
+  // PLAIN STORAGE (matches what we set)
+  const total = parseInt(atob(localStorage.getItem('analytics_total_enc') || btoa('0'))) || 0;
+  const todayKey = 'analytics_today_enc_' + new Date().toDateString();
+  const today = parseInt(atob(localStorage.getItem(todayKey) || btoa('0'))) || 0;
+  const countriesData = localStorage.getItem('analytics_countries_enc') ? atob(localStorage.getItem('analytics_countries_enc')) : '[]';
+  const countries = JSON.parse(countriesData);
   
-  const CRYPTO_KEY = 'DamianAnalytics2024SecretKey!';
-  
-  // TOTAL VISITS (always works)
-  const totalEnc = localStorage.getItem('analytics_total_enc') || encrypt('0');
-  const total = parseInt(decrypt(totalEnc)) || 0;
-  
-  // TODAY VISITS - SUM ALL "analytics_today_enc_*" keys from TODAY
-  const today = new Date();
-  const todayStr = today.toDateString();
-  let todayTotal = 0;
-  
-  // Check all localStorage keys for today
-  for(let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key && key.startsWith('analytics_today_enc_') && key.includes(todayStr)) {
-      const dayCount = parseInt(decrypt(localStorage.getItem(key))) || 0;
-      todayTotal += dayCount;
-    }
-  }
-  
-  // COUNTRIES (always works)
-  const countriesEnc = localStorage.getItem('analytics_countries_enc') || encrypt('[]');
-  let countries = [];
-  try {
-    countries = JSON.parse(decrypt(countriesEnc));
-  } catch(e) {
-    countries = [];
-  }
-  
-  // UPDATE DISPLAY
+  // UPDATE NUMBERS
   document.getElementById('totalVisits').textContent = total.toLocaleString();
-  document.getElementById('todayVisits').textContent = todayTotal.toLocaleString();
-  document.getElementById('todayDate').textContent = todayStr;
-  document.getElementById('uniqueCountries').textContent = new Set(countries.map(c => typeof c === 'string' ? c.split(' (')[0] : c)).size;
+  document.getElementById('todayVisits').textContent = today.toLocaleString();
+  document.getElementById('todayDate').textContent = new Date().toDateString();
+  document.getElementById('uniqueCountries').textContent = new Set(countries).size;
   
-  // COUNTRIES LIST - FIXED FORMAT
-  const recentCountries = countries.slice(-20).reverse().map((country, i) => {
-    const cleanCountry = typeof country === 'string' ? country.split(' (')[0] : country;
-    return `<div class="country-item">
+  // COUNTRIES LIST
+  const recent = countries.slice(-20).reverse().map((country, i) => 
+    `<div class="country-item">
       <span>${countries.length - i}</span>
-      <strong>${cleanCountry}</strong>
-    </div>`;
-  }).join('');
-  
-  document.getElementById('countriesList').innerHTML = recentCountries || 
-    '<div style="text-align:center;color:#666;">No visitors yet</div>';
+      <strong>${country}</strong>
+    </div>`
+  ).join('');
+  document.getElementById('countriesList').innerHTML = recent || '<div style="text-align:center;color:#666;">Live tracking...</div>';
 }
   </script>
 </body>
