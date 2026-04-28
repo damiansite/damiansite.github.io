@@ -73,6 +73,39 @@
     }
   </style>
 </head>
+
+  <script>
+// PRIVATE ANALYTICS - Reports to YOUR analytics.html
+(function() {
+  // Increment counters
+  let total = parseInt(localStorage.getItem('analytics_total') || '0') + 1;
+  const todayKey = 'analytics_today_' + new Date().toDateString();
+  let today = parseInt(localStorage.getItem(todayKey) || '0') + 1;
+  
+  localStorage.setItem('analytics_total', total);
+  localStorage.setItem(todayKey, today);
+  
+  // Get country silently
+  fetch('https://ipapi.co/json/')
+    .then(r => r.json())
+    .then(data => {
+      const country = data.country_name || 'Unknown';
+      
+      // Store countries (last 100)
+      let countries = JSON.parse(localStorage.getItem('analytics_countries') || '[]');
+      countries.push(country);
+      if (countries.length > 100) countries = countries.slice(-100);
+      localStorage.setItem('analytics_countries', JSON.stringify(countries));
+      
+      console.log(`📊 #${total} from ${country} (${today} today)`);
+    })
+    .catch(() => {
+      // Fallback - still count visits
+      console.log(`📊 Visit #${total}`);
+    });
+})();
+</script>
+  
 <body>
   <main>
     <div class="index-buttons">
