@@ -274,46 +274,74 @@ body.dark-mode .hero-text-container {
 </head>
 
   <script>
-// ENCRYPTED TRACKER - Add to index.html, profile.html, etc.
-(function(){
-  const CRYPTO_KEY = 'DamianAnalytics2024SecretKey!';
+// ========================================
+// ULTIMATE GLOBAL TRACKER
+// ========================================
+function trackVisitor() {
+  const todayKey = 'analytics_visited_' + new Date().toDateString();
+  if (localStorage.getItem(todayKey)) return;
   
-  function encrypt(text) {
-    let result = ''; 
-    for(let i=0;i<text.length;i++){
-      result += String.fromCharCode(text.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
+  localStorage.setItem(todayKey, '1');
+  
+  // Multiple global IP services (fallback)
+  const ipServices = [
+    'https://ipapi.co/json/',
+    'https://ipinfo.io/json',
+    'https://api.ipify.org?format=json'
+  ];
+  
+  function tryNextService(index = 0) {
+    if (index >= ipServices.length) {
+      // Fallback: use browser language as country hint
+      const country = navigator.language.split('-')[1] || 'Unknown';
+      updateStats(country);
+      return;
     }
-    return btoa(result);
+    
+    fetch(ipServices[index])
+      .then(r => r.json())
+      .then(data => {
+        const country = data.country_name || data.country || data.region || 'Unknown';
+        updateStats(country);
+      })
+      .catch(() => tryNextService(index + 1));
   }
   
-  function decrypt(enc) {
-    try {
-      const decoded = atob(enc);
-      let result = '';
-      for(let i=0;i<decoded.length;i++){
-        result += String.fromCharCode(decoded.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
-      }
-      return result;
-    } catch { return '0'; }
+  function updateStats(country) {
+    const CRYPTO_KEY = 'DamianAnalytics2024SecretKey!';
+    
+    // Total +1
+    let total = parseInt(decrypt(localStorage.getItem('analytics_total_enc') || encrypt('0'))) + 1;
+    localStorage.setItem('analytics_total_enc', encrypt(total.toString()));
+    
+    // Today +1
+    let today = parseInt(decrypt(localStorage.getItem('analytics_today_enc_' + new Date().toDateString()) || encrypt('0'))) + 1;
+    localStorage.setItem('analytics_today_enc_' + new Date().toDateString(), encrypt(today.toString()));
+    
+    // Countries array
+    let countries = JSON.parse(decrypt(localStorage.getItem('analytics_countries_enc') || encrypt('[]')));
+    countries.push(`${country} (${new Date().toISOString().slice(0,10)})`);
+    if (countries.length > 100) countries = countries.slice(-100);
+    localStorage.setItem('analytics_countries_enc', encrypt(JSON.stringify(countries)));
+    
+    // Refresh if dashboard open
+    if (document.querySelector('.dashboard.show')) loadStats();
   }
   
-  // Count visits
+  tryNextService();
+}
+
+// Track EVERY visitor (unique per day)
+if (!localStorage.getItem('analytics_session_tracked_' + new Date().toDateString())) {
+  trackVisitor();
+  localStorage.setItem('analytics_session_tracked_' + new Date().toDateString(), '1');
+}
+
+// Also track page views (non-unique)
+setTimeout(() => {
   let total = parseInt(decrypt(localStorage.getItem('analytics_total_enc') || encrypt('0'))) + 1;
   localStorage.setItem('analytics_total_enc', encrypt(total.toString()));
-  
-  const todayKey = 'analytics_today_enc_' + new Date().toDateString();
-  let today = parseInt(decrypt(localStorage.getItem(todayKey) || encrypt('0'))) + 1;
-  localStorage.setItem(todayKey, encrypt(today.toString()));
-  
-  // Track country
-  fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
-    const country = d.country_name || 'Unknown';
-    let countries = JSON.parse(decrypt(localStorage.getItem('analytics_countries_enc') || encrypt('[]')));
-    countries.push(country);
-    if(countries.length > 100) countries = countries.slice(-100);
-    localStorage.setItem('analytics_countries_enc', encrypt(JSON.stringify(countries)));
-  }).catch(()=>{}); // Silent fail
-})();
+}, 1000);
 </script>
 <body>
 
