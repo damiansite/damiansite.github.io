@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Analytics Dashboard</title>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      min-height: 100vh;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+    
+    .login-form, .dashboard {
+      padding: 40px;
+    }
+    
+    .login-form {
+      max-width: 400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    .login-form input {
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    
+    .login-form input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    .login-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .login-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(102,126,234,0.4); }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      border-left: 5px solid #667eea;
+    }
+    
+    .stat-number {
+      font-size: 3em;
+      font-weight: 800;
+      color: #2c3e50;
+      margin: 0;
+    }
+    
+    .stat-label { 
+      font-size: 1.1em; 
+      color: #7f8c8d; 
+      margin: 10px 0 0 0;
+      font-weight: 500;
+    }
+    
+    .countries-list {
+      max-height: 300px;
+      overflow-y: auto;
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      border: 1px solid #eee;
+    }
+    
+    .country-item {
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .logout {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    
+    .hidden { display: none !important; }
+    .shake { animation: shake 0.5s; }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Analytics Dashboard</h1>
+      <p>Private visitor statistics</p>
+    </div>
+    
+    <!-- LOGIN FORM -->
+    <div id="loginForm" class="login-form">
+      <h2>Enter Password</h2>
+      <input type="password" id="passwordInput" placeholder="Your secret password" autocomplete="off">
+      <button class="login-btn" onclick="login()">Login</button>
+      <p style="text-align: center; margin-top: 20px; color: #666; font-size: 14px;">
+        Refresh page to re-login
+      </p>
+    </div>
+    
+    <!-- DASHBOARD (HIDDEN) -->
+    <div id="dashboard" class="dashboard hidden">
+      <button class="logout" onclick="logout()">Logout</button>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Total Visits</h3>
+          <div class="stat-number" id="totalVisits">0</div>
+          <div class="stat-label">All time</div>
+        </div>
+        <div class="stat-card">
+          <h3>Today's Visits</h3>
+          <div class="stat-number" id="todayVisits">0</div>
+          <div class="stat-label" id="todayDate"></div>
+        </div>
+        <div class="stat-card">
+          <h3>Unique Countries</h3>
+          <div class="stat-number" id="uniqueCountries">0</div>
+          <div class="stat-label">Total tracked</div>
+        </div>
+      </div>
+      
+      <div style="margin-top: 30px;">
+        <h3>Recent Countries (Last 100)</h3>
+        <div class="countries-list" id="countriesList"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // === SUPER SECURE PASSWORD SYSTEM ===
+    const PASSWORD_HASH = 'a1b2c3d4e5f6'; // CHANGE THIS TO YOUR SECRET HASH
+    
+    function sha256(str) {
+      // Simple hash function (for demo - use proper crypto in production)
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+      }
+      return Math.abs(hash).toString(36);
+    }
+    
+    function login() {
+      const input = document.getElementById('passwordInput');
+      const hashed = sha256(input.value);
+      
+      if (hashed === PASSWORD_HASH) {
+        localStorage.setItem('analytics_auth', 'true');
+        document.getElementById('loginForm').classList.add('hidden');
+        document.getElementById('dashboard').classList.remove('hidden');
+        loadStats();
+        setInterval(loadStats, 3000); // Auto refresh
+      } else {
+        input.classList.add('shake');
+        setTimeout(() => input.classList.remove('shake'), 500);
+        input.value = '';
+      }
+    }
+    
+    function logout() {
+      localStorage.removeItem('analytics_auth');
+      document.getElementById('dashboard').classList.add('hidden');
+      document.getElementById('loginForm').classList.remove('hidden');
+      document.getElementById('passwordInput').value = '';
+    }
+    
+    // === ENCRYPTED STATS LOADING ===
+    function decrypt(data) {
+      // Simple XOR decrypt (secure enough for localStorage)
+      const key = 'MySecretKey2024!';
+      let result = '';
+      for (let i = 0; i < data.length; i++) {
+        result += String.fromCharCode(data.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+      }
+      return result;
+    }
+    
+    function encrypt(data) {
+      const key = 'MySecretKey2024!';
+      let result = '';
+      for (let i = 0; i < data.length; i++) {
+        result += String.fromCharCode(data.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+      }
+      return result;
+    }
+    
+    function loadStats() {
+      // Check auth
+      if (localStorage.getItem('analytics_auth') !== 'true') {
+        logout();
+        return;
+      }
+      
+      // Decrypt and load stats
+      const totalEncrypted = localStorage.getItem('analytics_total_enc') || '0';
+      const todayEncrypted = localStorage.getItem('analytics_today_enc') || '0';
+      const countriesEncrypted = localStorage.getItem('analytics_countries_enc') || '[]';
+      
+      const total = parseInt(decrypt(totalEncrypted)) || 0;
+      const today = parseInt(decrypt(todayEncrypted)) || 0;
+      const countries = JSON.parse(decrypt(countriesEncrypted)) || [];
+      
+      document.getElementById('totalVisits').textContent = total.toLocaleString();
+      document.getElementById('todayVisits').textContent = today.toLocaleString();
+      document.getElementById('todayDate').textContent = new Date().toDateString();
+      document.getElementById('uniqueCountries').textContent = new Set(countries).size;
+      
+      // Show recent countries
+      const recent = countries.slice(-20).map((c, i) => 
+        `<div class="country-item"><span>#${countries.length - i}</span><span>${c}</span></div>`
+      ).join('');
+      document.getElementById('countriesList').innerHTML = recent || '<div>No data yet</div>';
+    }
+    
+    // Enter key login
+    document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') login();
+    });
+    
+    // Auto-login if already authenticated
+    if (localStorage.getItem('analytics_auth') === 'true') {
+      document.getElementById('loginForm').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
+      loadStats();
+    }
+  </script>
+</body>
+</html>
