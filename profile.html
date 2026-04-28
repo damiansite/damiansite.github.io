@@ -274,74 +274,51 @@ body.dark-mode .hero-text-container {
 </head>
 
   <script>
-// ========================================
-// ULTIMATE GLOBAL TRACKER
-// ========================================
-function trackVisitor() {
-  const todayKey = 'analytics_visited_' + new Date().toDateString();
-  if (localStorage.getItem(todayKey)) return;
+// AUTO-TRACK EVERY VISIT (works instantly)
+(function() {
+  const CRYPTO_KEY = 'DamianAnalytics2024SecretKey!';
   
-  localStorage.setItem(todayKey, '1');
-  
-  // Multiple global IP services (fallback)
-  const ipServices = [
-    'https://ipapi.co/json/',
-    'https://ipinfo.io/json',
-    'https://api.ipify.org?format=json'
-  ];
-  
-  function tryNextService(index = 0) {
-    if (index >= ipServices.length) {
-      // Fallback: use browser language as country hint
-      const country = navigator.language.split('-')[1] || 'Unknown';
-      updateStats(country);
-      return;
+  function encrypt(text) {
+    let result = '';
+    for (let i = 0; i < text.length; i++) {
+      result += String.fromCharCode(text.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
     }
-    
-    fetch(ipServices[index])
-      .then(r => r.json())
-      .then(data => {
-        const country = data.country_name || data.country || data.region || 'Unknown';
-        updateStats(country);
-      })
-      .catch(() => tryNextService(index + 1));
+    return btoa(result);
   }
   
-  function updateStats(country) {
-    const CRYPTO_KEY = 'DamianAnalytics2024SecretKey!';
-    
-    // Total +1
-    let total = parseInt(decrypt(localStorage.getItem('analytics_total_enc') || encrypt('0'))) + 1;
-    localStorage.setItem('analytics_total_enc', encrypt(total.toString()));
-    
-    // Today +1
-    let today = parseInt(decrypt(localStorage.getItem('analytics_today_enc_' + new Date().toDateString()) || encrypt('0'))) + 1;
-    localStorage.setItem('analytics_today_enc_' + new Date().toDateString(), encrypt(today.toString()));
-    
-    // Countries array
-    let countries = JSON.parse(decrypt(localStorage.getItem('analytics_countries_enc') || encrypt('[]')));
-    countries.push(`${country} (${new Date().toISOString().slice(0,10)})`);
-    if (countries.length > 100) countries = countries.slice(-100);
-    localStorage.setItem('analytics_countries_enc', encrypt(JSON.stringify(countries)));
-    
-    // Refresh if dashboard open
-    if (document.querySelector('.dashboard.show')) loadStats();
+  function decrypt(encrypted) {
+    try {
+      const decoded = atob(encrypted);
+      let result = '';
+      for (let i = 0; i < decoded.length; i++) {
+        result += String.fromCharCode(decoded.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
+      }
+      return result;
+    } catch {
+      return '0';
+    }
   }
   
-  tryNextService();
-}
-
-// Track EVERY visitor (unique per day)
-if (!localStorage.getItem('analytics_session_tracked_' + new Date().toDateString())) {
-  trackVisitor();
-  localStorage.setItem('analytics_session_tracked_' + new Date().toDateString(), '1');
-}
-
-// Also track page views (non-unique)
-setTimeout(() => {
+  // Track visit NOW
   let total = parseInt(decrypt(localStorage.getItem('analytics_total_enc') || encrypt('0'))) + 1;
   localStorage.setItem('analytics_total_enc', encrypt(total.toString()));
-}, 1000);
+  
+  const todayKey = 'analytics_today_enc_' + new Date().toDateString();
+  let today = parseInt(decrypt(localStorage.getItem(todayKey) || encrypt('0'))) + 1;
+  localStorage.setItem(todayKey, encrypt(today.toString()));
+  
+  // Fake countries for testing (remove later)
+  const countries = ['USA', 'Germany', 'India', 'Brazil', 'UK'];
+  let countryList = JSON.parse(decrypt(localStorage.getItem('analytics_countries_enc') || encrypt('[]')));
+  countryList.push(countries[Math.floor(Math.random() * countries.length)]);
+  if (countryList.length > 100) countryList = countryList.slice(-100);
+  localStorage.setItem('analytics_countries_enc', encrypt(JSON.stringify(countryList)));
+  
+  // Refresh dashboard if open
+  if (document.querySelector('.dashboard.show')) {
+    loadStats();
+  }
+})();
 </script>
 <body>
 
