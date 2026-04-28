@@ -85,7 +85,9 @@ window.addEventListener('resize', () => {
 });
 
 window.onload = function () {
-  document.getElementById("copyright-popup").style.display = "flex";
+  if (!localStorage.getItem("copyrightAccepted")) {
+    document.getElementById("copyright-popup").style.display = "flex";
+  }
 };
 
   function closePopup() {
