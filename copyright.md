@@ -1,3 +1,5 @@
+# Copyright and Terms&Conditions
+
 ## ENGLISH (ORIGINAL):
 - The website https://damiansite.github.io/ is the property of Mîrza Damian and is protected by applicable copyright laws.
 - All content published on this website, including but not limited to text, images, files, source code, and design elements, is owned by Mîrza Damian, unless explicitly stated otherwise. The only exception is the “resources.html” section, which may contain materials subject to third-party ownership and licensing.
