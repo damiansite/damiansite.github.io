@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catalogul Messier — Quiz Interactiv</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c14;
+    --surface: #111420;
+    --surface2: #181c2e;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.15);
+    --text: #e8e4d9;
+    --muted: #7a7d99;
+    --accent: #5b8cff;
+    --accent2: #a78bfa;
+    --green: #4ade80;
+    --red: #f87171;
+    --gold: #fbbf24;
+    --galaxy: #5b8cff;
+    --nebula: #ec4899;
+    --cluster: #34d399;
+    --other: #f59e0b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Lora', serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Stars background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 40%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 20% 90%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 50%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 30%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 70%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 55%, rgba(255,255,255,0.3) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; flex: 1; }
+
+  /* Header */
+  header { text-align: center; margin-bottom: 2.5rem; }
+  header h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(18px, 4vw, 26px);
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #5b8cff, #a78bfa, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 6px;
+  }
+  header p { font-size: 14px; color: var(--muted); letter-spacing: 1px; }
+
+  /* Progress */
+  .prog-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+  .prog-bar-bg {
+    flex: 1;
+    height: 3px;
+    background: var(--surface2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .prog-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+  .prog-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .score-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3px 10px;
+    color: var(--gold);
+  }
+
+  /* Card */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  /* Image */
+  .img-wrap {
+    position: relative;
+    width: 100%;
+    height: 260px;
+    background: var(--surface2);
+    overflow: hidden;
+  }
+  .img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.4s;
+  }
+  .img-wrap .img-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+  }
+  .img-credit {
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* Object info */
+  .obj-info {
+    padding: 1rem 1.25rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .obj-left {}
+  .obj-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .obj-loc {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .obj-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--border2);
+    letter-spacing: -1px;
+  }
+
+  /* Question */
+  .question {
+    padding: 1rem 1.25rem 0.75rem;
+    font-size: 15px;
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  /* Step indicator */
+  .step-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 1.25rem 0.75rem;
+  }
+  .step-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--border2);
+  }
+  .step-dot.active { background: var(--accent); }
+  .step-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* Options */
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 0 1.25rem 1.25rem;
+  }
+  .opt {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-family: 'Lora', serif;
+    cursor: pointer;
+    text-align: left;
+    color: var(--text);
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .opt:hover:not(:disabled) {
+    background: var(--surface);
+    border-color: var(--border2);
+    transform: translateY(-1px);
+  }
+  .opt .opt-icon {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .opt.galaxy .opt-icon { background: var(--galaxy); }
+  .opt.nebula .opt-icon { background: var(--nebula); }
+  .opt.cluster .opt-icon { background: var(--cluster); }
+  .opt.other .opt-icon { background: var(--other); }
+
+  .opt.correct {
+    background: rgba(74, 222, 128, 0.1);
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .opt.wrong {
+    background: rgba(248, 113, 113, 0.1);
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .opt:disabled { cursor: default; transform: none; }
+
+  /* Feedback */
+  .feedback {
+    min-height: 40px;
+    padding: 0 1.25rem 0.75rem;
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .feedback.correct { color: var(--green); }
+  .feedback.wrong { color: var(--red); }
+
+  /* Next */
+  .next-btn {
+    display: none;
+    margin: 0 1.25rem 1.25rem;
+    padding: 10px 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: transparent;
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text);
+    transition: all 0.15s;
+  }
+  .next-btn:hover { background: var(--surface2); border-color: var(--accent); color: var(--accent); }
+
+  /* Result */
+  .result {
+    display: none;
+    text-align: center;
+    padding: 3rem 1.5rem;
+  }
+  .result-stars { font-size: 32px; margin-bottom: 1rem; letter-spacing: 4px; }
+  .result h2 {
+    font-family: 'Space Mono', monospace;
+    font-size: 20px;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .result-score {
+    font-family: 'Space Mono', monospace;
+    font-size: 42px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 1rem 0;
+  }
+  .result-msg { font-size: 15px; color: var(--muted); margin-bottom: 2rem; line-height: 1.6; }
+  .result-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .restart-btn, .share-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid var(--border2);
+  }
+  .restart-btn { background: transparent; color: var(--text); }
+  .restart-btn:hover { background: var(--surface2); border-color: var(--accent); color: var(--accent); }
+  .share-btn { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .share-btn:hover { opacity: 0.85; }
+
+  /* Review panel */
+  .review { margin-top: 2rem; text-align: left; }
+  .review h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  .review-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+  .review-item {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 8px 10px;
+    border-left: 3px solid transparent;
+    font-size: 12px;
+  }
+  .review-item.ok { border-left-color: var(--green); }
+  .review-item.fail { border-left-color: var(--red); }
+  .review-num { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); }
+  .review-name { font-size: 11px; color: var(--text); margin: 2px 0; }
+  .review-type { font-size: 10px; color: var(--muted); }
+
+  /* Intro */
+  .intro {
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+  .intro h2 {
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    color: var(--text);
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+  }
+  .intro p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
+  .start-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 28px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .start-btn:hover { opacity: 0.85; }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    border-top: 1px solid var(--border);
+    position: relative; z-index: 1;
+  }
+
+  @media (max-width: 480px) {
+    .options { grid-template-columns: 1fr; }
+    .img-wrap { height: 200px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>Catalogul Messier</h1>
+    <p>Quiz interactiv de astronomie · 37 obiecte cerești</p>
+  </header>
+
+  <!-- INTRO -->
+  <div class="card" id="intro-panel">
+    <div class="intro">
+      <h2>Bine ai venit!</h2>
+      <p>Vei vedea imaginea, numele și locația fiecărui obiect din Catalogul Messier.<br>
+      Identifică mai întâi <strong>categoria</strong>, apoi <strong>tipul exact</strong>.<br>
+      37 de obiecte · 2 pași per întrebare · Fără limită de timp</p>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--galaxy)"></div> Galaxie</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--nebula)"></div> Nebuloasă</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--cluster)"></div> Cluster</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--other)"></div> Altele</div>
+      </div>
+      <button class="start-btn" onclick="startQuiz()">ÎNCEPE QUIZ-UL →</button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz-panel" style="display:none">
+    <div class="prog-wrap">
+      <div class="prog-bar-bg"><div class="prog-bar-fill" id="prog"></div></div>
+      <div class="prog-label" id="prog-label">1 / 37</div>
+      <div class="score-badge">★ <span id="sc">0</span></div>
+    </div>
+
+    <div class="card" id="card">
+      <div class="img-wrap">
+        <div class="img-loading" id="img-loading">LOADING IMAGE...</div>
+        <img id="obj-img" src="" alt="" style="opacity:0" onload="imgLoaded()" onerror="imgError()">
+        <div class="img-credit" id="img-credit"></div>
+      </div>
+      <div class="obj-info">
+        <div class="obj-left">
+          <div class="obj-name" id="obj-name"></div>
+          <div class="obj-loc" id="obj-loc"></div>
+        </div>
+        <div class="obj-num" id="obj-num"></div>
+      </div>
+      <div class="question" id="question">Ce tip de obiect ceresc este acesta?</div>
+      <div class="step-indicator">
+        <div class="step-dot active" id="dot1"></div>
+        <div class="step-dot" id="dot2"></div>
+        <div class="step-label" id="step-label">Pasul 1: Alege categoria</div>
+      </div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="next-btn" onclick="nextQuestion()">URMĂTORUL OBIECT →</button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result-panel" style="display:none">
+    <div class="card">
+      <div class="result" id="result-inner">
+        <div class="result-stars" id="result-stars"></div>
+        <h2 id="result-title"></h2>
+        <div class="result-score" id="result-score"></div>
+        <div class="result-msg" id="result-msg"></div>
+        <div class="result-actions">
+          <button class="restart-btn" onclick="restart()">ÎNCEARCĂ DIN NOU</button>
+          <button class="share-btn" onclick="copyLink()">COPIAZĂ LINKUL</button>
+        </div>
+        <div class="review" id="review-panel">
+          <h3>Recapitulare</h3>
+          <div class="review-grid" id="review-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>Surse imagini: NASA, ESA, Hubble Space Telescope · Catalogul Messier (1774)</footer>
+
+<script>
+const ALL_OBJECTS = [
+  {id:1, name:"Nebuloasa Crab", num:"M1", loc:"Taurus · 6.500 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Crab_Nebula.jpg/600px-Crab_Nebula.jpg", credit:"NASA/ESA/Hubble", cat:"Nebuloasă", type:"Rămășiță de supernovă"},
+  {id:6, name:"Roiul Fluture", num:"M6", loc:"Scorpius · 1.600 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Butterfly_cluster.jpg/600px-Butterfly_cluster.jpg", credit:"Wikipedia Commons", cat:"Cluster", type:"Roi deschis"},
+  {id:7, name:"Roiul lui Ptolemeu", num:"M7", loc:"Scorpius · 980 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Messier7.jpg/600px-Messier7.jpg", credit:"Wikipedia Commons", cat:"Cluster", type:"Roi deschis"},
+  {id:8, name:"Nebuloasa Lagunei", num:"M8", loc:"Sagittarius · 4.100 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Lagoon_Nebula_ESO.jpg/600px-Lagoon_Nebula_ESO.jpg", credit:"ESO", cat:"Nebuloasă", type:"Nebuloasă de emisie"},
+  {id:11, name:"Roiul Rața Sălbatică", num:"M11", loc:"Scutum · 6.200 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Messier11.jpg/600px-Messier11.jpg", credit:"Wikipedia Commons", cat:"Cluster", type:"Roi deschis"},
+  {id:13, name:"Marele Roi din Hercules", num:"M13", loc:"Hercules · 25.100 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Messier13.jpg/600px-Messier13.jpg", credit:"NASA/ESA", cat:"Cluster", type:"Roi globular"},
+  {id:15, name:"Roiul globular Pegasus", num:"M15", loc:"Pegasus · 33.600 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Messier_15_HST.jpg/600px-Messier_15_HST.jpg", credit:"NASA/ESA/Hubble", cat:"Cluster", type:"Roi globular"},
+  {id:16, name:"Nebuloasa Vulturului", num:"M16", loc:"Serpens · 7.000 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg/600px-Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg", credit:"NASA/ESA/Hubble", cat:"Nebuloasă", type:"Nebuloasă de emisie"},
+  {id:17, name:"Nebuloasa Omega", num:"M17", loc:"Sagittarius · 5.500 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Omega_Nebula.jpg/600px-Omega_Nebula.jpg", credit:"NASA/ESA", cat:"Nebuloasă", type:"Nebuloasă de emisie"},
+  {id:18, name:"Roi deschis M18", num:"M18", loc:"Sagittarius · 4.900 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Messier_18.jpg/600px-Messier_18.jpg", credit:"Wikipedia Commons", cat:"Cluster", type:"Roi deschis"},
+  {id:20, name:"Nebuloasa Trifidă", num:"M20", loc:"Sagittarius · 5.200 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Triffid.nebula.arp.750pix.jpg/600px-Triffid.nebula.arp.750pix.jpg", credit:"NASA/ESA", cat:"Nebuloasă", type:"Nebuloasă de emisie"},
+  {id:22, name:"Roiul globular Sagittarius", num:"M22", loc:"Sagittarius · 10.600 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Messier_22.jpg/600px-Messier_22.jpg", credit:"Wikipedia Commons", cat:"Cluster", type:"Roi globular"},
+  {id:27, name:"Nebuloasa Măr", num:"M27", loc:"Vulpecula · 1.360 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Messier27.jpg/600px-Messier27.jpg", credit:"Wikipedia Commons", cat:"Nebuloasă", type:"Nebuloasă planetară"},
+  {id:31, name:"Galaxia Andromeda", num:"M31", loc:"Andromeda · 2,54 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Andromeda_Galaxy_%28with_h-alpha%29.jpg/600px-Andromeda_Galaxy_%28with_h-alpha%29.jpg", credit:"Wikipedia Commons", cat:"Galaxie", type:"Galaxie spirală"},
+  {id:33, name:"Galaxia Triunghi", num:"M33", loc:"Triangulum · 2,73 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/VST_image_of_Triangulum_Galaxy.jpg/600px-VST_image_of_Triangulum_Galaxy.jpg", credit:"ESO", cat:"Galaxie", type:"Galaxie spirală"},
+  {id:40, name:"Dubla lui Winnecke", num:"M40", loc:"Ursa Major · 510 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Messier40.jpg/600px-Messier40.jpg", credit:"Wikipedia Commons", cat:"Altele", type:"Stea dublă"},
+  {id:41, name:"Roi deschis M41", num:"M41", loc:"Canis Major · 2.300 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Messier_41_2MASS.jpg/600px-Messier_41_2MASS.jpg", credit:"2MASS/Wikipedia", cat:"Cluster", type:"Roi deschis"},
+  {id:42, name:"Nebuloasa Orion", num:"M42", loc:"Orion · 1.344 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg/600px-Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg", credit:"NASA/ESA/Hubble", cat:"Nebuloasă", type:"Nebuloasă de emisie"},
+  {id:43, name:"Nebuloasa de Mairan", num:"M43", loc:"Orion · 1.600 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Messier_42_43.jpg/600px-Messier_42_43.jpg", credit:"NASA/ESA", cat:"Nebuloasă", type:"Nebuloasă de emisie"},
+  {id:44, name:"Roiul Coșul de Albine", num:"M44", loc:"Cancer · 610 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Beehive_Cluster_-_Praesepe_-_M44.jpg/600px-Beehive_Cluster_-_Praesepe_-_M44.jpg", credit:"Wikipedia Commons", cat:"Cluster", type:"Roi deschis"},
+  {id:45, name:"Pleiadele", num:"M45", loc:"Taurus · 444 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Pleiades_large.jpg/600px-Pleiades_large.jpg", credit:"Wikipedia Commons", cat:"Cluster", type:"Roi deschis"},
+  {id:51, name:"Galaxia Vârtej", num:"M51", loc:"Canes Venatici · 23 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Messier51_sRGB.jpg/600px-Messier51_sRGB.jpg", credit:"NASA/ESA/Hubble", cat:"Galaxie", type:"Galaxie spirală"},
+  {id:57, name:"Nebuloasa Inel", num:"M57", loc:"Lyra · 2.000 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Ring_Nebula.jpg/600px-Ring_Nebula.jpg", credit:"NASA/ESA/Hubble", cat:"Nebuloasă", type:"Nebuloasă planetară"},
+  {id:63, name:"Galaxia Floarea-Soarelui", num:"M63", loc:"Canes Venatici · 37 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Sunflower_galaxy.jpg/600px-Sunflower_galaxy.jpg", credit:"Wikipedia Commons", cat:"Galaxie", type:"Galaxie spirală"},
+  {id:64, name:"Galaxia Ochi Negru", num:"M64", loc:"Coma Berenices · 17 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/M64.jpg/600px-M64.jpg", credit:"NASA/ESA/Hubble", cat:"Galaxie", type:"Galaxie spirală"},
+  {id:67, name:"Roiul lui Charles", num:"M67", loc:"Cancer · 2.700 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Messier_Object_067.jpg/600px-Messier_Object_067.jpg", credit:"Wikipedia Commons", cat:"Cluster", type:"Roi deschis"},
+  {id:74, name:"Galaxia Fantomă", num:"M74", loc:"Pisces · 32 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Messier74_-_JWST.jpg/600px-Messier74_-_JWST.jpg", credit:"NASA/ESA/JWST", cat:"Galaxie", type:"Galaxie spirală"},
+  {id:76, name:"Mica Nebuloasă Halteră", num:"M76", loc:"Perseus · 2.500 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/NGC650_1_H_crop.jpg/600px-NGC650_1_H_crop.jpg", credit:"Wikipedia Commons", cat:"Nebuloasă", type:"Nebuloasă planetară"},
+  {id:78, name:"Nebuloasa de reflexie M78", num:"M78", loc:"Orion · 1.600 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Messier_78.jpg/600px-Messier_78.jpg", credit:"ESO", cat:"Nebuloasă", type:"Nebuloasă de reflexie"},
+  {id:81, name:"Galaxia lui Bode", num:"M81", loc:"Ursa Major · 11,8 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/M81_HST.jpg/600px-M81_HST.jpg", credit:"NASA/ESA/Hubble", cat:"Galaxie", type:"Galaxie spirală"},
+  {id:82, name:"Galaxia Trabuc", num:"M82", loc:"Ursa Major · 12 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/M82_HST_ACS_2006-14-a-large_web.jpg/600px-M82_HST_ACS_2006-14-a-large_web.jpg", credit:"NASA/ESA/Hubble", cat:"Galaxie", type:"Galaxie neregulată"},
+  {id:83, name:"Galaxia Roata de Sud", num:"M83", loc:"Hydra · 15 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Messier83_-_Hubble_WFC3.jpg/600px-Messier83_-_Hubble_WFC3.jpg", credit:"NASA/ESA/Hubble", cat:"Galaxie", type:"Galaxie spirală cu bară"},
+  {id:94, name:"Galaxia M94", num:"M94", loc:"Canes Venatici · 16 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/NGC_4736_HST.jpg/600px-NGC_4736_HST.jpg", credit:"NASA/ESA/Hubble", cat:"Galaxie", type:"Galaxie spirală"},
+  {id:97, name:"Nebuloasa Bufniță", num:"M97", loc:"Ursa Major · 2.030 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Owl_Nebula_M97.jpg/600px-Owl_Nebula_M97.jpg", credit:"Wikipedia Commons", cat:"Nebuloasă", type:"Nebuloasă planetară"},
+  {id:101, name:"Galaxia Morisca de Vânt", num:"M101", loc:"Ursa Major · 21 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/M101_hires_STScI-PRC2006-10a.jpg/600px-M101_hires_STScI-PRC2006-10a.jpg", credit:"NASA/ESA/Hubble", cat:"Galaxie", type:"Galaxie spirală"},
+  {id:102, name:"Galaxia ax de fus (NGC 5866)", num:"M102", loc:"Draco · 50 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/M102_HHST.jpg/600px-M102_HHST.jpg", credit:"NASA/ESA/Hubble", cat:"Galaxie", type:"Galaxie lenticulară"},
+  {id:104, name:"Galaxia Sombrero", num:"M104", loc:"Virgo · 31,1 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/M104_ngc4594_sombrero_galaxy_hi-res.jpg/600px-M104_ngc4594_sombrero_galaxy_hi-res.jpg", credit:"NASA/ESA/Hubble", cat:"Galaxie", type:"Galaxie spirală"},
+];
+
+// Category → subtypes mapping
+const SUBTYPES = {
+  "Galaxie": ["Galaxie spirală","Galaxie eliptică","Galaxie lenticulară","Galaxie neregulată","Galaxie spirală cu bară","Galaxie compactă"],
+  "Nebuloasă": ["Nebuloasă de emisie","Nebuloasă planetară","Nebuloasă de reflexie","Rămășiță de supernovă","Nebuloasă obscură"],
+  "Cluster": ["Roi deschis","Roi globular","Asociație stelară"],
+  "Altele": ["Stea dublă","Obiect neidentificat","Pătrat stellar","Quasar"]
+};
+
+const CAT_CLASS = {Galaxie:"galaxy",Nebuloasă:"nebula",Cluster:"cluster",Altele:"other"};
+
+let order = [], current = 0, score = 0, step = 1, selectedCat = '', results = [];
+
+function shuffle(a){let b=[...a];for(let i=b.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+function startQuiz(){
+  document.getElementById('intro-panel').style.display='none';
+  document.getElementById('quiz-panel').style.display='block';
+  order = shuffle(ALL_OBJECTS);
+  current = 0; score = 0; results = [];
+  loadQuestion();
+}
+
+function restart(){
+  document.getElementById('result-panel').style.display='none';
+  document.getElementById('quiz-panel').style.display='block';
+  order = shuffle(ALL_OBJECTS);
+  current = 0; score = 0; results = [];
+  loadQuestion();
+}
+
+function loadQuestion(){
+  if(current >= order.length){ showResult(); return; }
+  const obj = order[current];
+  step = 1; selectedCat = '';
+
+  // Progress
+  const pct = Math.round((current / order.length)*100);
+  document.getElementById('prog').style.width = pct+'%';
+  document.getElementById('prog-label').textContent = (current+1)+' / '+order.length;
+
+  // Image
+  const img = document.getElementById('obj-img');
+  img.style.opacity = '0';
+  document.getElementById('img-loading').style.display='flex';
+  img.src = obj.img;
+  img.alt = obj.name;
+  document.getElementById('img-credit').textContent = obj.credit;
+
+  // Info
+  document.getElementById('obj-name').textContent = obj.name;
+  document.getElementById('obj-num').textContent = obj.num;
+  document.getElementById('obj-loc').textContent = '📍 '+obj.loc;
+
+  // Step
+  document.getElementById('dot1').classList.add('active');
+  document.getElementById('dot2').classList.remove('active');
+  document.getElementById('step-label').textContent = 'Pasul 1: Alege categoria';
+  document.getElementById('question').textContent = 'Ce tip de obiect ceresc este acesta?';
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('feedback').className = 'feedback';
+  document.getElementById('next-btn').style.display = 'none';
+
+  renderCatOptions();
+}
+
+function imgLoaded(){
+  document.getElementById('obj-img').style.opacity = '1';
+  document.getElementById('img-loading').style.display = 'none';
+}
+function imgError(){
+  document.getElementById('img-loading').textContent = 'IMAGINE INDISPONIBILĂ';
+}
+
+function renderCatOptions(){
+  const opts = document.getElementById('options');
+  opts.innerHTML = '';
+  ['Galaxie','Nebuloasă','Cluster','Altele'].forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'opt '+CAT_CLASS[cat];
+    btn.innerHTML = '<div class="opt-icon"></div>' + cat;
+    btn.onclick = () => chooseCat(cat, btn);
+    opts.appendChild(btn);
+  });
+}
+
+function chooseCat(cat, btn){
+  const obj = order[current];
+  const correct = cat === obj.cat;
+  const btns = document.querySelectorAll('.opt');
+  btns.forEach(b => {
+    b.disabled = true;
+    if(b.textContent.trim() === obj.cat) b.classList.add('correct');
+    else if(b === btn && !correct) b.classList.add('wrong');
+  });
+
+  selectedCat = cat;
+
+  if(correct){
+    document.getElementById('feedback').textContent = '✓ Corect! Acum alege tipul exact.';
+    document.getElementById('feedback').className = 'feedback correct';
+    // Move to step 2 after short delay
+    setTimeout(()=>{ step2(cat, obj); }, 700);
+  } else {
+    document.getElementById('feedback').textContent = '✗ Greșit. Categoria corectă este: '+obj.cat+'. Totuși, alege tipul exact:';
+    document.getElementById('feedback').className = 'feedback wrong';
+    setTimeout(()=>{ step2(obj.cat, obj); }, 700);
+  }
+}
+
+function step2(cat, obj){
+  // Update step indicator
+  document.getElementById('dot1').classList.remove('active');
+  document.getElementById('dot2').classList.add('active');
+  document.getElementById('step-label').textContent = 'Pasul 2: Alege tipul exact';
+  document.getElementById('question').textContent = 'Ce fel de '+cat.toLowerCase()+' este?';
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('feedback').className = 'feedback';
+
+  // Build options: correct + 3 distractors from same category subtypes
+  const allSub = SUBTYPES[cat] || [];
+  let pool = allSub.filter(s => s !== obj.type);
+  pool = shuffle(pool).slice(0, 3);
+  let choices = shuffle([obj.type, ...pool]);
+
+  const opts = document.getElementById('options');
+  opts.innerHTML = '';
+  choices.forEach(choice => {
+    const btn = document.createElement('button');
+    btn.className = 'opt '+CAT_CLASS[cat];
+    btn.innerHTML = '<div class="opt-icon"></div>' + choice;
+    btn.onclick = () => chooseType(choice, btn, obj, cat);
+    opts.appendChild(btn);
+  });
+}
+
+function chooseType(choice, btn, obj, cat){
+  const correct = choice === obj.type;
+  const catCorrect = selectedCat === obj.cat;
+
+  const btns = document.querySelectorAll('.opt');
+  btns.forEach(b => {
+    b.disabled = true;
+    if(b.textContent.trim() === obj.type) b.classList.add('correct');
+    else if(b === btn && !correct) b.classList.add('wrong');
+  });
+
+  if(correct && catCorrect){
+    score++;
+    document.getElementById('sc').textContent = score;
+    document.getElementById('feedback').textContent = '✓ Perfect! '+obj.num+' este '+obj.type+'.';
+    document.getElementById('feedback').className = 'feedback correct';
+  } else if(correct){
+    // Category was wrong but type is right (showed correct cat's subtypes anyway)
+    document.getElementById('feedback').textContent = '✓ Tipul corect! Dar categoria a fost greșită. Punctaj parțial negat.';
+    document.getElementById('feedback').className = 'feedback wrong';
+  } else {
+    document.getElementById('feedback').textContent = '✗ Greșit. '+obj.num+' este '+obj.type+'.';
+    document.getElementById('feedback').className = 'feedback wrong';
+  }
+
+  results.push({obj, catCorrect, typeCorrect: correct, fullCorrect: correct && catCorrect});
+  document.getElementById('next-btn').style.display = 'block';
+}
+
+function nextQuestion(){
+  current++;
+  loadQuestion();
+}
+
+function showResult(){
+  document.getElementById('quiz-panel').style.display='none';
+  document.getElementById('result-panel').style.display='block';
+  document.getElementById('prog').style.width='100%';
+
+  const total = ALL_OBJECTS.length;
+  const pct = Math.round((score/total)*100);
+
+  let stars = '';
+  if(pct>=90) stars='★★★★★';
+  else if(pct>=75) stars='★★★★☆';
+  else if(pct>=60) stars='★★★☆☆';
+  else if(pct>=40) stars='★★☆☆☆';
+  else stars='★☆☆☆☆';
+
+  let title='', msg='';
+  if(pct>=90){title='Astronom Desăvârșit!';msg='Cunoști Catalogul Messier ca pe propriul buzunar. Charles Messier ar fi mândru!';}
+  else if(pct>=75){title='Excelent!';msg='Cunoști bine obiectele cerești. Continuă să explorezi universul!';}
+  else if(pct>=60){title='Bine!';msg='O performanță solidă. Merită să revedeți nebuloasele și galaxiile mai rare.';}
+  else if(pct>=40){title='Progres bun';msg='Ai un fundament bun. Recapitulează tipurile de clustere și nebuloase.';}
+  else{title='Mai exersează!';msg='Catalogul Messier are 110 obiecte fascinante. Continuă să explorezi!';}
+
+  document.getElementById('result-stars').textContent = stars;
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-score').textContent = score+' / '+total;
+  document.getElementById('result-msg').textContent = msg+' Scor: '+pct+'%';
+
+  // Review grid
+  const grid = document.getElementById('review-grid');
+  grid.innerHTML = '';
+  results.forEach(r => {
+    const div = document.createElement('div');
+    div.className = 'review-item '+(r.fullCorrect?'ok':'fail');
+    div.innerHTML = '<div class="review-num">'+r.obj.num+'</div><div class="review-name">'+r.obj.name.split(' ').slice(0,3).join(' ')+'</div><div class="review-type">'+r.obj.type+'</div>';
+    grid.appendChild(div);
+  });
+}
+
+function copyLink(){
+  const url = window.location.href;
+  navigator.clipboard.writeText(url).then(()=>{
+    const btn = document.querySelector('.share-btn');
+    btn.textContent='COPIAT!';
+    setTimeout(()=>btn.textContent='COPIAZĂ LINKUL',2000);
+  }).catch(()=>{
+    prompt('Copiază linkul:', url);
+  });
+}
+</script>
+</body>
+</html>
