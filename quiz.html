@@ -1,287 +1,348 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Catalogul Messier — Quiz Interactiv</title>
+<title>Messier Catalog — Interactive Quiz</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0c14;
-    --surface: #111420;
-    --surface2: #181c2e;
-    --border: rgba(255,255,255,0.08);
-    --border2: rgba(255,255,255,0.15);
-    --text: #e8e4d9;
-    --muted: #7a7d99;
-    --accent: #5b8cff;
-    --accent2: #a78bfa;
-    --green: #4ade80;
-    --red: #f87171;
-    --gold: #fbbf24;
-    --galaxy: #5b8cff;
-    --nebula: #ec4899;
-    --cluster: #34d399;
-    --other: #f59e0b;
+    --bg: #070910;
+    --surface: #0e1018;
+    --surface2: #141720;
+    --surface3: #1a1e2e;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e2ddd4;
+    --muted: #6b6e88;
+    --accent: #4f7fff;
+    --accent2: #9d6fff;
+    --green: #3ecf75;
+    --red: #e8554e;
+    --gold: #e8b84b;
+    --galaxy: #4f7fff;
+    --nebula: #d45cae;
+    --cluster: #2ec49a;
+    --other: #e89a2a;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Lora', serif;
+    font-family: 'Crimson Pro', serif;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
   }
 
-  /* Stars background */
-  body::before {
-    content: '';
+  /* Starfield canvas */
+  #starfield {
     position: fixed;
     inset: 0;
-    background-image:
-      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.6) 0%, transparent 100%),
-      radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
-      radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
-      radial-gradient(1px 1px at 85% 40%, rgba(255,255,255,0.6) 0%, transparent 100%),
-      radial-gradient(1px 1px at 20% 90%, rgba(255,255,255,0.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 60% 50%, rgba(255,255,255,0.3) 0%, transparent 100%),
-      radial-gradient(1px 1px at 40% 30%, rgba(255,255,255,0.5) 0%, transparent 100%),
-      radial-gradient(1px 1px at 90% 70%, rgba(255,255,255,0.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 15% 55%, rgba(255,255,255,0.3) 0%, transparent 100%);
     pointer-events: none;
     z-index: 0;
   }
 
-  .wrap { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; flex: 1; }
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+    flex: 1;
+  }
 
-  /* Header */
-  header { text-align: center; margin-bottom: 2.5rem; }
+  header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding-top: 0.5rem;
+  }
   header h1 {
     font-family: 'Space Mono', monospace;
-    font-size: clamp(18px, 4vw, 26px);
+    font-size: clamp(14px, 3.5vw, 22px);
     font-weight: 700;
-    letter-spacing: 4px;
+    letter-spacing: 6px;
     text-transform: uppercase;
-    background: linear-gradient(135deg, #5b8cff, #a78bfa, #ec4899);
+    background: linear-gradient(120deg, #4f7fff 0%, #9d6fff 50%, #d45cae 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin-bottom: 6px;
   }
-  header p { font-size: 14px; color: var(--muted); letter-spacing: 1px; }
+  header p {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    font-family: 'Space Mono', monospace;
+  }
 
-  /* Progress */
+  /* Progress bar */
   .prog-wrap {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
   }
   .prog-bar-bg {
     flex: 1;
-    height: 3px;
-    background: var(--surface2);
-    border-radius: 2px;
+    height: 2px;
+    background: var(--surface3);
+    border-radius: 1px;
     overflow: hidden;
   }
   .prog-bar-fill {
     height: 100%;
     background: linear-gradient(90deg, var(--accent), var(--accent2));
-    border-radius: 2px;
-    transition: width 0.5s ease;
+    border-radius: 1px;
+    transition: width 0.6s cubic-bezier(.4,0,.2,1);
     width: 0%;
   }
   .prog-label {
     font-family: 'Space Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     color: var(--muted);
     white-space: nowrap;
+    min-width: 44px;
   }
   .score-badge {
     font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
+    font-size: 10px;
+    background: rgba(232,184,75,0.1);
+    border: 1px solid rgba(232,184,75,0.25);
     border-radius: 20px;
     padding: 3px 10px;
     color: var(--gold);
+    white-space: nowrap;
   }
 
   /* Card */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 16px;
+    border-radius: 18px;
     overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6);
   }
 
-  /* Image */
-  .img-wrap {
-    position: relative;
-    width: 100%;
-    height: 260px;
-    background: var(--surface2);
-    overflow: hidden;
+  /* Dual image area */
+  .img-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 240px;
+    border-bottom: 1px solid var(--border);
   }
-  .img-wrap img {
+  .img-cell {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface2);
+  }
+  .img-cell + .img-cell {
+    border-left: 1px solid var(--border);
+  }
+  .img-cell img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: opacity 0.4s;
+    transition: opacity 0.5s ease;
   }
-  .img-wrap .img-loading {
+  .img-cell .img-label {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.45);
+    text-transform: uppercase;
+    background: rgba(0,0,0,0.4);
+    padding: 2px 7px;
+    border-radius: 3px;
+    backdrop-filter: blur(4px);
+  }
+  .img-cell .img-placeholder {
     position: absolute;
     inset: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     font-family: 'Space Mono', monospace;
-    font-size: 11px;
+    font-size: 9px;
     color: var(--muted);
-    letter-spacing: 2px;
+    letter-spacing: 1px;
+  }
+  .img-cell .img-placeholder svg {
+    opacity: 0.25;
   }
   .img-credit {
     position: absolute;
-    bottom: 8px;
-    right: 10px;
-    font-size: 10px;
-    color: rgba(255,255,255,0.4);
+    bottom: 6px;
+    right: 8px;
+    font-size: 9px;
+    color: rgba(255,255,255,0.3);
     font-family: 'Space Mono', monospace;
+    background: rgba(0,0,0,0.35);
+    padding: 1px 5px;
+    border-radius: 2px;
   }
 
-  /* Object info */
-  .obj-info {
-    padding: 1rem 1.25rem 0.75rem;
-    border-bottom: 1px solid var(--border);
+  /* Constellation SVG map */
+  .sky-map {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Object header */
+  .obj-header {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 8px;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 1.25rem 0.6rem;
+    border-bottom: 1px solid var(--border);
+    gap: 4px;
   }
-  .obj-left {}
-  .obj-name {
+  .obj-designator {
     font-family: 'Space Mono', monospace;
-    font-size: 14px;
+    font-size: 38px;
     font-weight: 700;
-    color: var(--text);
-    margin-bottom: 3px;
+    letter-spacing: 2px;
+    background: linear-gradient(120deg, #fff 60%, rgba(255,255,255,0.5));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
   }
-  .obj-loc {
-    font-size: 12px;
-    color: var(--muted);
+  .obj-short-name {
+    font-family: 'Crimson Pro', serif;
+    font-size: 13px;
+    font-weight: 400;
     font-style: italic;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    min-height: 18px;
+    transition: color 0.4s;
   }
-  .obj-num {
+  .obj-short-name.revealed {
+    color: var(--accent2);
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .obj-constellation {
     font-family: 'Space Mono', monospace;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--border2);
-    letter-spacing: -1px;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+
+  /* Step header */
+  .step-header {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.25rem 0.5rem;
+    gap: 10px;
+  }
+  .step-pips {
+    display: flex;
+    gap: 5px;
+  }
+  .pip {
+    width: 18px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--surface3);
+    transition: background 0.3s;
+  }
+  .pip.active { background: var(--accent); }
+  .pip.done { background: var(--green); }
+  .step-txt {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
   }
 
   /* Question */
   .question {
-    padding: 1rem 1.25rem 0.75rem;
-    font-size: 15px;
+    padding: 0 1.25rem 0.75rem;
+    font-size: 16px;
     font-style: italic;
     color: var(--muted);
-  }
-
-  /* Step indicator */
-  .step-indicator {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 0 1.25rem 0.75rem;
-  }
-  .step-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--border2);
-  }
-  .step-dot.active { background: var(--accent); }
-  .step-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    font-weight: 300;
   }
 
   /* Options */
   .options {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    padding: 0 1.25rem 1.25rem;
+    gap: 7px;
+    padding: 0 1.25rem 1rem;
   }
   .opt {
     background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 12px 14px;
+    padding: 11px 14px;
     font-size: 14px;
-    font-family: 'Lora', serif;
+    font-family: 'Crimson Pro', serif;
     cursor: pointer;
     text-align: left;
     color: var(--text);
-    transition: all 0.15s;
+    transition: all 0.12s;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 9px;
+    line-height: 1.3;
   }
   .opt:hover:not(:disabled) {
-    background: var(--surface);
     border-color: var(--border2);
+    background: var(--surface3);
     transform: translateY(-1px);
   }
-  .opt .opt-icon {
-    width: 10px; height: 10px;
+  .opt .dot {
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     flex-shrink: 0;
   }
-  .opt.galaxy .opt-icon { background: var(--galaxy); }
-  .opt.nebula .opt-icon { background: var(--nebula); }
-  .opt.cluster .opt-icon { background: var(--cluster); }
-  .opt.other .opt-icon { background: var(--other); }
-
-  .opt.correct {
-    background: rgba(74, 222, 128, 0.1);
-    border-color: var(--green);
-    color: var(--green);
-  }
-  .opt.wrong {
-    background: rgba(248, 113, 113, 0.1);
-    border-color: var(--red);
-    color: var(--red);
-  }
+  .opt.galaxy .dot { background: var(--galaxy); }
+  .opt.nebula .dot  { background: var(--nebula); }
+  .opt.cluster .dot { background: var(--cluster); }
+  .opt.other .dot   { background: var(--other); }
+  .opt.correct { background: rgba(62,207,117,0.1); border-color: var(--green); color: var(--green); }
+  .opt.wrong   { background: rgba(232,85,78,0.1);  border-color: var(--red);   color: var(--red); }
   .opt:disabled { cursor: default; transform: none; }
 
   /* Feedback */
   .feedback {
-    min-height: 40px;
-    padding: 0 1.25rem 0.75rem;
-    font-size: 13px;
+    min-height: 36px;
+    padding: 0 1.25rem 0.5rem;
+    font-size: 13.5px;
     color: var(--muted);
     font-style: italic;
     line-height: 1.5;
+    font-weight: 300;
   }
   .feedback.correct { color: var(--green); }
-  .feedback.wrong { color: var(--red); }
+  .feedback.wrong   { color: var(--red); }
 
-  /* Next */
+  /* Next button */
   .next-btn {
     display: none;
     margin: 0 1.25rem 1.25rem;
-    padding: 10px 20px;
+    padding: 10px 22px;
     font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 2px;
+    font-size: 10px;
+    letter-spacing: 2.5px;
     text-transform: uppercase;
     background: transparent;
     border: 1px solid var(--border2);
@@ -290,157 +351,189 @@
     color: var(--text);
     transition: all 0.15s;
   }
-  .next-btn:hover { background: var(--surface2); border-color: var(--accent); color: var(--accent); }
+  .next-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(79,127,255,0.06); }
+
+  /* Intro */
+  .intro {
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+  }
+  .intro-icon {
+    font-size: 40px;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .intro h2 {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--text);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+  .intro p {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+  }
+  .legend {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .start-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: linear-gradient(120deg, var(--accent), var(--accent2));
+    color: #fff;
+    border: none;
+    border-radius: 9px;
+    padding: 13px 32px;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.15s;
+  }
+  .start-btn:hover { opacity: 0.87; transform: translateY(-1px); }
 
   /* Result */
-  .result {
-    display: none;
-    text-align: center;
-    padding: 3rem 1.5rem;
-  }
-  .result-stars { font-size: 32px; margin-bottom: 1rem; letter-spacing: 4px; }
+  #result-panel { display:none; }
+  .result { text-align: center; padding: 3rem 1.5rem 2rem; }
+  .result-stars { font-size: 28px; margin-bottom: 1rem; letter-spacing: 5px; }
   .result h2 {
     font-family: 'Space Mono', monospace;
-    font-size: 20px;
+    font-size: 16px;
+    letter-spacing: 2px;
     color: var(--text);
     margin-bottom: 0.5rem;
   }
   .result-score {
     font-family: 'Space Mono', monospace;
-    font-size: 42px;
+    font-size: 52px;
     font-weight: 700;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    background: linear-gradient(120deg, var(--accent), var(--accent2));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin: 1rem 0;
+    margin: 0.75rem 0;
+    line-height: 1;
   }
-  .result-msg { font-size: 15px; color: var(--muted); margin-bottom: 2rem; line-height: 1.6; }
-  .result-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .result-msg {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    line-height: 1.7;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 300;
+  }
+  .result-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
   .restart-btn, .share-btn {
     font-family: 'Space Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 2px;
     text-transform: uppercase;
     border-radius: 8px;
-    padding: 10px 20px;
+    padding: 10px 22px;
     cursor: pointer;
     transition: all 0.15s;
     border: 1px solid var(--border2);
   }
   .restart-btn { background: transparent; color: var(--text); }
-  .restart-btn:hover { background: var(--surface2); border-color: var(--accent); color: var(--accent); }
+  .restart-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(79,127,255,0.06); }
   .share-btn { background: var(--accent); color: #fff; border-color: var(--accent); }
   .share-btn:hover { opacity: 0.85; }
 
-  /* Review panel */
-  .review { margin-top: 2rem; text-align: left; }
+  /* Review */
+  .review { text-align: left; border-top: 1px solid var(--border); padding-top: 1.5rem; }
   .review h3 {
     font-family: 'Space Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 2px;
     color: var(--muted);
     text-transform: uppercase;
     margin-bottom: 1rem;
     text-align: center;
   }
-  .review-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+  .review-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 7px;
+    padding: 0 0.25rem;
+  }
   .review-item {
     background: var(--surface2);
-    border-radius: 8px;
+    border-radius: 7px;
     padding: 8px 10px;
-    border-left: 3px solid transparent;
+    border-left: 2px solid transparent;
     font-size: 12px;
   }
-  .review-item.ok { border-left-color: var(--green); }
+  .review-item.ok   { border-left-color: var(--green); }
   .review-item.fail { border-left-color: var(--red); }
-  .review-num { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); }
+  .review-num  { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); }
   .review-name { font-size: 11px; color: var(--text); margin: 2px 0; }
   .review-type { font-size: 10px; color: var(--muted); }
-
-  /* Intro */
-  .intro {
-    text-align: center;
-    padding: 2rem 1rem;
-  }
-  .intro h2 {
-    font-family: 'Space Mono', monospace;
-    font-size: 16px;
-    color: var(--text);
-    margin-bottom: 1rem;
-    letter-spacing: 2px;
-  }
-  .intro p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
-  .start-btn {
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 28px;
-    cursor: pointer;
-    transition: opacity 0.15s;
-  }
-  .start-btn:hover { opacity: 0.85; }
-
-  /* Legend */
-  .legend {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: 1.5rem;
-  }
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 12px;
-    color: var(--muted);
-  }
-  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
 
   footer {
     text-align: center;
     padding: 1rem;
-    font-size: 11px;
+    font-size: 10px;
     color: var(--muted);
     font-family: 'Space Mono', monospace;
+    letter-spacing: 0.5px;
     border-top: 1px solid var(--border);
-    position: relative; z-index: 1;
+    position: relative;
+    z-index: 1;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 500px) {
     .options { grid-template-columns: 1fr; }
-    .img-wrap { height: 200px; }
+    .img-row { height: 180px; }
+    .result-score { font-size: 40px; }
   }
 </style>
 </head>
 <body>
 
+<canvas id="starfield"></canvas>
+
 <div class="wrap">
   <header>
-    <h1>Catalogul Messier</h1>
-    <p>Quiz interactiv de astronomie · 37 obiecte cerești</p>
+    <h1>Messier Catalog</h1>
+    <p>Interactive Astronomy Quiz · 37 Objects</p>
   </header>
 
   <!-- INTRO -->
   <div class="card" id="intro-panel">
     <div class="intro">
-      <h2>Bine ai venit!</h2>
-      <p>Vei vedea imaginea, numele și locația fiecărui obiect din Catalogul Messier.<br>
-      Identifică mai întâi <strong>categoria</strong>, apoi <strong>tipul exact</strong>.<br>
-      37 de obiecte · 2 pași per întrebare · Fără limită de timp</p>
+      <span class="intro-icon">🔭</span>
+      <h2>Welcome, Observer</h2>
+      <p>You'll see each object's image and its sky position.<br>
+      First identify the <strong>category</strong>, then the <strong>exact type</strong>.<br>
+      The full name is revealed only after answering.</p>
       <div class="legend">
-        <div class="legend-item"><div class="legend-dot" style="background:var(--galaxy)"></div> Galaxie</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--nebula)"></div> Nebuloasă</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--galaxy)"></div> Galaxy</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--nebula)"></div> Nebula</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--cluster)"></div> Cluster</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--other)"></div> Altele</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--other)"></div> Other</div>
       </div>
-      <button class="start-btn" onclick="startQuiz()">ÎNCEPE QUIZ-UL →</button>
+      <button class="start-btn" onclick="startQuiz()">BEGIN QUIZ →</button>
     </div>
   </div>
 
@@ -451,46 +544,64 @@
       <div class="prog-label" id="prog-label">1 / 37</div>
       <div class="score-badge">★ <span id="sc">0</span></div>
     </div>
-
     <div class="card" id="card">
-      <div class="img-wrap">
-        <div class="img-loading" id="img-loading">LOADING IMAGE...</div>
-        <img id="obj-img" src="" alt="" style="opacity:0" onload="imgLoaded()" onerror="imgError()">
-        <div class="img-credit" id="img-credit"></div>
-      </div>
-      <div class="obj-info">
-        <div class="obj-left">
-          <div class="obj-name" id="obj-name"></div>
-          <div class="obj-loc" id="obj-loc"></div>
+      <div class="img-row">
+        <!-- Object image -->
+        <div class="img-cell" id="cell-obj">
+          <div class="img-placeholder" id="placeholder-obj">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>
+            <span>LOADING</span>
+          </div>
+          <img id="obj-img" src="" alt="" style="opacity:0" onload="imgLoaded('obj')" onerror="imgError('obj')">
+          <div class="img-label">Object</div>
+          <div class="img-credit" id="img-credit"></div>
         </div>
-        <div class="obj-num" id="obj-num"></div>
+        <!-- Sky map -->
+        <div class="img-cell" id="cell-sky">
+          <div class="img-placeholder" id="placeholder-sky">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span>SKY MAP</span>
+          </div>
+          <img id="sky-img" src="" alt="" style="opacity:0" onload="imgLoaded('sky')" onerror="imgError('sky')">
+          <div class="img-label">Sky Position</div>
+        </div>
       </div>
-      <div class="question" id="question">Ce tip de obiect ceresc este acesta?</div>
-      <div class="step-indicator">
-        <div class="step-dot active" id="dot1"></div>
-        <div class="step-dot" id="dot2"></div>
-        <div class="step-label" id="step-label">Pasul 1: Alege categoria</div>
+
+      <div class="obj-header">
+        <div class="obj-designator" id="obj-num"></div>
+        <div class="obj-short-name" id="obj-short-name"></div>
+        <div class="obj-constellation" id="obj-const"></div>
       </div>
+
+      <div class="step-header">
+        <div class="step-pips">
+          <div class="pip" id="pip1"></div>
+          <div class="pip" id="pip2"></div>
+        </div>
+        <div class="step-txt" id="step-txt">Step 1 — Choose category</div>
+      </div>
+
+      <div class="question" id="question">What type of celestial object is this?</div>
       <div class="options" id="options"></div>
       <div class="feedback" id="feedback"></div>
-      <button class="next-btn" id="next-btn" onclick="nextQuestion()">URMĂTORUL OBIECT →</button>
+      <button class="next-btn" id="next-btn" onclick="nextQuestion()">NEXT OBJECT →</button>
     </div>
   </div>
 
   <!-- RESULT -->
-  <div id="result-panel" style="display:none">
+  <div id="result-panel">
     <div class="card">
-      <div class="result" id="result-inner">
+      <div class="result">
         <div class="result-stars" id="result-stars"></div>
         <h2 id="result-title"></h2>
         <div class="result-score" id="result-score"></div>
         <div class="result-msg" id="result-msg"></div>
         <div class="result-actions">
-          <button class="restart-btn" onclick="restart()">ÎNCEARCĂ DIN NOU</button>
-          <button class="share-btn" onclick="copyLink()">COPIAZĂ LINKUL</button>
+          <button class="restart-btn" onclick="restart()">TRY AGAIN</button>
+          <button class="share-btn" onclick="copyLink()">COPY LINK</button>
         </div>
         <div class="review" id="review-panel">
-          <h3>Recapitulare</h3>
+          <h3>Review</h3>
           <div class="review-grid" id="review-grid"></div>
         </div>
       </div>
@@ -498,265 +609,540 @@
   </div>
 </div>
 
-<footer>Surse imagini: NASA, ESA, Hubble Space Telescope · Catalogul Messier (1774)</footer>
+<footer>Images: NASA · ESA · Hubble · JWST · ESO · Wikimedia Commons · Messier Catalog (1774)</footer>
 
 <script>
-const ALL_OBJECTS = [
-  {id:1, name:"Nebuloasa Crab", num:"M1", loc:"Taurus · 6.500 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Crab_Nebula.jpg/600px-Crab_Nebula.jpg", credit:"NASA/ESA/Hubble", cat:"Nebuloasă", type:"Rămășiță de supernovă"},
-  {id:6, name:"Roiul Fluture", num:"M6", loc:"Scorpius · 1.600 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Butterfly_cluster.jpg/600px-Butterfly_cluster.jpg", credit:"Wikipedia Commons", cat:"Cluster", type:"Roi deschis"},
-  {id:7, name:"Roiul lui Ptolemeu", num:"M7", loc:"Scorpius · 980 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Messier7.jpg/600px-Messier7.jpg", credit:"Wikipedia Commons", cat:"Cluster", type:"Roi deschis"},
-  {id:8, name:"Nebuloasa Lagunei", num:"M8", loc:"Sagittarius · 4.100 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Lagoon_Nebula_ESO.jpg/600px-Lagoon_Nebula_ESO.jpg", credit:"ESO", cat:"Nebuloasă", type:"Nebuloasă de emisie"},
-  {id:11, name:"Roiul Rața Sălbatică", num:"M11", loc:"Scutum · 6.200 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Messier11.jpg/600px-Messier11.jpg", credit:"Wikipedia Commons", cat:"Cluster", type:"Roi deschis"},
-  {id:13, name:"Marele Roi din Hercules", num:"M13", loc:"Hercules · 25.100 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Messier13.jpg/600px-Messier13.jpg", credit:"NASA/ESA", cat:"Cluster", type:"Roi globular"},
-  {id:15, name:"Roiul globular Pegasus", num:"M15", loc:"Pegasus · 33.600 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Messier_15_HST.jpg/600px-Messier_15_HST.jpg", credit:"NASA/ESA/Hubble", cat:"Cluster", type:"Roi globular"},
-  {id:16, name:"Nebuloasa Vulturului", num:"M16", loc:"Serpens · 7.000 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg/600px-Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg", credit:"NASA/ESA/Hubble", cat:"Nebuloasă", type:"Nebuloasă de emisie"},
-  {id:17, name:"Nebuloasa Omega", num:"M17", loc:"Sagittarius · 5.500 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Omega_Nebula.jpg/600px-Omega_Nebula.jpg", credit:"NASA/ESA", cat:"Nebuloasă", type:"Nebuloasă de emisie"},
-  {id:18, name:"Roi deschis M18", num:"M18", loc:"Sagittarius · 4.900 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Messier_18.jpg/600px-Messier_18.jpg", credit:"Wikipedia Commons", cat:"Cluster", type:"Roi deschis"},
-  {id:20, name:"Nebuloasa Trifidă", num:"M20", loc:"Sagittarius · 5.200 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Triffid.nebula.arp.750pix.jpg/600px-Triffid.nebula.arp.750pix.jpg", credit:"NASA/ESA", cat:"Nebuloasă", type:"Nebuloasă de emisie"},
-  {id:22, name:"Roiul globular Sagittarius", num:"M22", loc:"Sagittarius · 10.600 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Messier_22.jpg/600px-Messier_22.jpg", credit:"Wikipedia Commons", cat:"Cluster", type:"Roi globular"},
-  {id:27, name:"Nebuloasa Măr", num:"M27", loc:"Vulpecula · 1.360 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Messier27.jpg/600px-Messier27.jpg", credit:"Wikipedia Commons", cat:"Nebuloasă", type:"Nebuloasă planetară"},
-  {id:31, name:"Galaxia Andromeda", num:"M31", loc:"Andromeda · 2,54 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Andromeda_Galaxy_%28with_h-alpha%29.jpg/600px-Andromeda_Galaxy_%28with_h-alpha%29.jpg", credit:"Wikipedia Commons", cat:"Galaxie", type:"Galaxie spirală"},
-  {id:33, name:"Galaxia Triunghi", num:"M33", loc:"Triangulum · 2,73 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/VST_image_of_Triangulum_Galaxy.jpg/600px-VST_image_of_Triangulum_Galaxy.jpg", credit:"ESO", cat:"Galaxie", type:"Galaxie spirală"},
-  {id:40, name:"Dubla lui Winnecke", num:"M40", loc:"Ursa Major · 510 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Messier40.jpg/600px-Messier40.jpg", credit:"Wikipedia Commons", cat:"Altele", type:"Stea dublă"},
-  {id:41, name:"Roi deschis M41", num:"M41", loc:"Canis Major · 2.300 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Messier_41_2MASS.jpg/600px-Messier_41_2MASS.jpg", credit:"2MASS/Wikipedia", cat:"Cluster", type:"Roi deschis"},
-  {id:42, name:"Nebuloasa Orion", num:"M42", loc:"Orion · 1.344 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg/600px-Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg", credit:"NASA/ESA/Hubble", cat:"Nebuloasă", type:"Nebuloasă de emisie"},
-  {id:43, name:"Nebuloasa de Mairan", num:"M43", loc:"Orion · 1.600 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Messier_42_43.jpg/600px-Messier_42_43.jpg", credit:"NASA/ESA", cat:"Nebuloasă", type:"Nebuloasă de emisie"},
-  {id:44, name:"Roiul Coșul de Albine", num:"M44", loc:"Cancer · 610 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Beehive_Cluster_-_Praesepe_-_M44.jpg/600px-Beehive_Cluster_-_Praesepe_-_M44.jpg", credit:"Wikipedia Commons", cat:"Cluster", type:"Roi deschis"},
-  {id:45, name:"Pleiadele", num:"M45", loc:"Taurus · 444 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Pleiades_large.jpg/600px-Pleiades_large.jpg", credit:"Wikipedia Commons", cat:"Cluster", type:"Roi deschis"},
-  {id:51, name:"Galaxia Vârtej", num:"M51", loc:"Canes Venatici · 23 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Messier51_sRGB.jpg/600px-Messier51_sRGB.jpg", credit:"NASA/ESA/Hubble", cat:"Galaxie", type:"Galaxie spirală"},
-  {id:57, name:"Nebuloasa Inel", num:"M57", loc:"Lyra · 2.000 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Ring_Nebula.jpg/600px-Ring_Nebula.jpg", credit:"NASA/ESA/Hubble", cat:"Nebuloasă", type:"Nebuloasă planetară"},
-  {id:63, name:"Galaxia Floarea-Soarelui", num:"M63", loc:"Canes Venatici · 37 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Sunflower_galaxy.jpg/600px-Sunflower_galaxy.jpg", credit:"Wikipedia Commons", cat:"Galaxie", type:"Galaxie spirală"},
-  {id:64, name:"Galaxia Ochi Negru", num:"M64", loc:"Coma Berenices · 17 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/M64.jpg/600px-M64.jpg", credit:"NASA/ESA/Hubble", cat:"Galaxie", type:"Galaxie spirală"},
-  {id:67, name:"Roiul lui Charles", num:"M67", loc:"Cancer · 2.700 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Messier_Object_067.jpg/600px-Messier_Object_067.jpg", credit:"Wikipedia Commons", cat:"Cluster", type:"Roi deschis"},
-  {id:74, name:"Galaxia Fantomă", num:"M74", loc:"Pisces · 32 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Messier74_-_JWST.jpg/600px-Messier74_-_JWST.jpg", credit:"NASA/ESA/JWST", cat:"Galaxie", type:"Galaxie spirală"},
-  {id:76, name:"Mica Nebuloasă Halteră", num:"M76", loc:"Perseus · 2.500 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/NGC650_1_H_crop.jpg/600px-NGC650_1_H_crop.jpg", credit:"Wikipedia Commons", cat:"Nebuloasă", type:"Nebuloasă planetară"},
-  {id:78, name:"Nebuloasa de reflexie M78", num:"M78", loc:"Orion · 1.600 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Messier_78.jpg/600px-Messier_78.jpg", credit:"ESO", cat:"Nebuloasă", type:"Nebuloasă de reflexie"},
-  {id:81, name:"Galaxia lui Bode", num:"M81", loc:"Ursa Major · 11,8 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/M81_HST.jpg/600px-M81_HST.jpg", credit:"NASA/ESA/Hubble", cat:"Galaxie", type:"Galaxie spirală"},
-  {id:82, name:"Galaxia Trabuc", num:"M82", loc:"Ursa Major · 12 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/M82_HST_ACS_2006-14-a-large_web.jpg/600px-M82_HST_ACS_2006-14-a-large_web.jpg", credit:"NASA/ESA/Hubble", cat:"Galaxie", type:"Galaxie neregulată"},
-  {id:83, name:"Galaxia Roata de Sud", num:"M83", loc:"Hydra · 15 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Messier83_-_Hubble_WFC3.jpg/600px-Messier83_-_Hubble_WFC3.jpg", credit:"NASA/ESA/Hubble", cat:"Galaxie", type:"Galaxie spirală cu bară"},
-  {id:94, name:"Galaxia M94", num:"M94", loc:"Canes Venatici · 16 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/NGC_4736_HST.jpg/600px-NGC_4736_HST.jpg", credit:"NASA/ESA/Hubble", cat:"Galaxie", type:"Galaxie spirală"},
-  {id:97, name:"Nebuloasa Bufniță", num:"M97", loc:"Ursa Major · 2.030 al", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Owl_Nebula_M97.jpg/600px-Owl_Nebula_M97.jpg", credit:"Wikipedia Commons", cat:"Nebuloasă", type:"Nebuloasă planetară"},
-  {id:101, name:"Galaxia Morisca de Vânt", num:"M101", loc:"Ursa Major · 21 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/M101_hires_STScI-PRC2006-10a.jpg/600px-M101_hires_STScI-PRC2006-10a.jpg", credit:"NASA/ESA/Hubble", cat:"Galaxie", type:"Galaxie spirală"},
-  {id:102, name:"Galaxia ax de fus (NGC 5866)", num:"M102", loc:"Draco · 50 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/M102_HHST.jpg/600px-M102_HHST.jpg", credit:"NASA/ESA/Hubble", cat:"Galaxie", type:"Galaxie lenticulară"},
-  {id:104, name:"Galaxia Sombrero", num:"M104", loc:"Virgo · 31,1 Mal", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/M104_ngc4594_sombrero_galaxy_hi-res.jpg/600px-M104_ngc4594_sombrero_galaxy_hi-res.jpg", credit:"NASA/ESA/Hubble", cat:"Galaxie", type:"Galaxie spirală"},
+// ─── Starfield ───────────────────────────────────────────────
+(function(){
+  const c = document.getElementById('starfield');
+  const ctx = c.getContext('2d');
+  let W, H, stars=[];
+  function resize(){ W=c.width=window.innerWidth; H=c.height=window.innerHeight; }
+  function init(){
+    resize();
+    stars=[];
+    for(let i=0;i<220;i++){
+      stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*0.9+0.2,a:Math.random()*0.7+0.1,tw:Math.random()*4+2,tp:Math.random()*Math.PI*2});
+    }
+  }
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{
+      const a=s.a*(0.6+0.4*Math.sin(t/1000*s.tw+s.tp));
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,255,255,${a})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',init);
+  init();
+  requestAnimationFrame(draw);
+})();
+
+// ─── Data ─────────────────────────────────────────────────────
+// imgUrl: direct Wikimedia URL with imgix-style proxy for reliability
+// skyImg: Wikimedia constellation map or DSS sky image
+// shortName: what to show BEFORE answer revealed
+// name: full name shown AFTER
+
+const OBJECTS = [
+  {
+    id:1, num:"M1", shortName:"Crab", name:"Crab Nebula",
+    const:"Taurus · 6,500 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Crab_Nebula.jpg/480px-Crab_Nebula.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Taurus_constellation_map.svg/480px-Taurus_constellation_map.svg.png",
+    credit:"NASA/ESA/Hubble", cat:"Nebula", type:"Supernova Remnant"
+  },
+  {
+    id:6, num:"M6", shortName:"Butterfly Cluster", name:"Butterfly Cluster",
+    const:"Scorpius · 1,600 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Butterfly_cluster.jpg/480px-Butterfly_cluster.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Scorpius_constellation_map.svg/480px-Scorpius_constellation_map.svg.png",
+    credit:"ESO/WikiCommons", cat:"Cluster", type:"Open Cluster"
+  },
+  {
+    id:7, num:"M7", shortName:"Ptolemy's Cluster", name:"Ptolemy's Cluster",
+    const:"Scorpius · 980 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Messier7.jpg/480px-Messier7.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Scorpius_constellation_map.svg/480px-Scorpius_constellation_map.svg.png",
+    credit:"WikiCommons", cat:"Cluster", type:"Open Cluster"
+  },
+  {
+    id:8, num:"M8", shortName:"Lagoon Nebula", name:"Lagoon Nebula",
+    const:"Sagittarius · 4,100 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Lagoon_Nebula_ESO.jpg/480px-Lagoon_Nebula_ESO.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Sagittarius_constellation_map.svg/480px-Sagittarius_constellation_map.svg.png",
+    credit:"ESO", cat:"Nebula", type:"Emission Nebula"
+  },
+  {
+    id:11, num:"M11", shortName:"Wild Duck Cluster", name:"Wild Duck Cluster",
+    const:"Scutum · 6,200 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Messier11.jpg/480px-Messier11.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Scutum_constellation_map.svg/480px-Scutum_constellation_map.svg.png",
+    credit:"WikiCommons", cat:"Cluster", type:"Open Cluster"
+  },
+  {
+    id:13, num:"M13", shortName:"Great Hercules Cluster", name:"Great Hercules Cluster",
+    const:"Hercules · 25,100 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Messier13.jpg/480px-Messier13.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Hercules_constellation_map.svg/480px-Hercules_constellation_map.svg.png",
+    credit:"NASA/ESA", cat:"Cluster", type:"Globular Cluster"
+  },
+  {
+    id:15, num:"M15", shortName:"Pegasus Cluster", name:"Pegasus Globular Cluster",
+    const:"Pegasus · 33,600 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Messier_15_HST.jpg/480px-Messier_15_HST.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Pegasus_constellation_map.svg/480px-Pegasus_constellation_map.svg.png",
+    credit:"NASA/ESA/Hubble", cat:"Cluster", type:"Globular Cluster"
+  },
+  {
+    id:16, num:"M16", shortName:"Eagle Nebula", name:"Eagle Nebula",
+    const:"Serpens · 7,000 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg/480px-Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Serpens_constellation_map.svg/480px-Serpens_constellation_map.svg.png",
+    credit:"NASA/ESA/Hubble", cat:"Nebula", type:"Emission Nebula"
+  },
+  {
+    id:17, num:"M17", shortName:"Omega Nebula", name:"Omega Nebula",
+    const:"Sagittarius · 5,500 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Omega_Nebula.jpg/480px-Omega_Nebula.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Sagittarius_constellation_map.svg/480px-Sagittarius_constellation_map.svg.png",
+    credit:"NASA/ESA", cat:"Nebula", type:"Emission Nebula"
+  },
+  {
+    id:18, num:"M18", shortName:"Open Cluster M18", name:"Open Cluster M18",
+    const:"Sagittarius · 4,900 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Messier_18.jpg/480px-Messier_18.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Sagittarius_constellation_map.svg/480px-Sagittarius_constellation_map.svg.png",
+    credit:"WikiCommons", cat:"Cluster", type:"Open Cluster"
+  },
+  {
+    id:20, num:"M20", shortName:"Trifid Nebula", name:"Trifid Nebula",
+    const:"Sagittarius · 5,200 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Triffid.nebula.arp.750pix.jpg/480px-Triffid.nebula.arp.750pix.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Sagittarius_constellation_map.svg/480px-Sagittarius_constellation_map.svg.png",
+    credit:"NASA/ESA", cat:"Nebula", type:"Emission Nebula"
+  },
+  {
+    id:22, num:"M22", shortName:"Sagittarius Cluster", name:"Sagittarius Globular Cluster",
+    const:"Sagittarius · 10,600 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Messier_22.jpg/480px-Messier_22.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Sagittarius_constellation_map.svg/480px-Sagittarius_constellation_map.svg.png",
+    credit:"WikiCommons", cat:"Cluster", type:"Globular Cluster"
+  },
+  {
+    id:27, num:"M27", shortName:"Dumbbell Nebula", name:"Dumbbell Nebula",
+    const:"Vulpecula · 1,360 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Messier27.jpg/480px-Messier27.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Vulpecula_constellation_map.svg/480px-Vulpecula_constellation_map.svg.png",
+    credit:"WikiCommons", cat:"Nebula", type:"Planetary Nebula"
+  },
+  {
+    id:31, num:"M31", shortName:"Andromeda Galaxy", name:"Andromeda Galaxy",
+    const:"Andromeda · 2.54 Mly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Andromeda_Galaxy_%28with_h-alpha%29.jpg/480px-Andromeda_Galaxy_%28with_h-alpha%29.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Andromeda_constellation_map.svg/480px-Andromeda_constellation_map.svg.png",
+    credit:"WikiCommons", cat:"Galaxy", type:"Spiral Galaxy"
+  },
+  {
+    id:33, num:"M33", shortName:"Triangulum Galaxy", name:"Triangulum Galaxy",
+    const:"Triangulum · 2.73 Mly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/VST_image_of_Triangulum_Galaxy.jpg/480px-VST_image_of_Triangulum_Galaxy.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Triangulum_constellation_map.svg/480px-Triangulum_constellation_map.svg.png",
+    credit:"ESO", cat:"Galaxy", type:"Spiral Galaxy"
+  },
+  {
+    id:40, num:"M40", shortName:"Winnecke 4", name:"Winnecke 4",
+    const:"Ursa Major · 510 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Messier40.jpg/480px-Messier40.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Ursa_Major_constellation_map.svg/480px-Ursa_Major_constellation_map.svg.png",
+    credit:"WikiCommons", cat:"Other", type:"Double Star"
+  },
+  {
+    id:42, num:"M42", shortName:"Orion Nebula", name:"Orion Nebula",
+    const:"Orion · 1,344 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg/480px-Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Orion_constellation_map.svg/480px-Orion_constellation_map.svg.png",
+    credit:"NASA/ESA/Hubble", cat:"Nebula", type:"Emission Nebula"
+  },
+  {
+    id:44, num:"M44", shortName:"Beehive Cluster", name:"Beehive Cluster",
+    const:"Cancer · 610 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Beehive_Cluster_-_Praesepe_-_M44.jpg/480px-Beehive_Cluster_-_Praesepe_-_M44.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Cancer_constellation_map.svg/480px-Cancer_constellation_map.svg.png",
+    credit:"WikiCommons", cat:"Cluster", type:"Open Cluster"
+  },
+  {
+    id:45, num:"M45", shortName:"Pleiades", name:"Pleiades",
+    const:"Taurus · 444 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Pleiades_large.jpg/480px-Pleiades_large.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Taurus_constellation_map.svg/480px-Taurus_constellation_map.svg.png",
+    credit:"WikiCommons", cat:"Cluster", type:"Open Cluster"
+  },
+  {
+    id:51, num:"M51", shortName:"Whirlpool Galaxy", name:"Whirlpool Galaxy",
+    const:"Canes Venatici · 23 Mly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Messier51_sRGB.jpg/480px-Messier51_sRGB.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Canes_Venatici_constellation_map.svg/480px-Canes_Venatici_constellation_map.svg.png",
+    credit:"NASA/ESA/Hubble", cat:"Galaxy", type:"Spiral Galaxy"
+  },
+  {
+    id:57, num:"M57", shortName:"Ring Nebula", name:"Ring Nebula",
+    const:"Lyra · 2,000 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Ring_Nebula.jpg/480px-Ring_Nebula.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Lyra_constellation_map.svg/480px-Lyra_constellation_map.svg.png",
+    credit:"NASA/ESA/Hubble", cat:"Nebula", type:"Planetary Nebula"
+  },
+  {
+    id:63, num:"M63", shortName:"Sunflower Galaxy", name:"Sunflower Galaxy",
+    const:"Canes Venatici · 37 Mly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Sunflower_galaxy.jpg/480px-Sunflower_galaxy.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Canes_Venatici_constellation_map.svg/480px-Canes_Venatici_constellation_map.svg.png",
+    credit:"WikiCommons", cat:"Galaxy", type:"Spiral Galaxy"
+  },
+  {
+    id:64, num:"M64", shortName:"Black Eye Galaxy", name:"Black Eye Galaxy",
+    const:"Coma Berenices · 17 Mly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/M64.jpg/480px-M64.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Coma_Berenices_constellation_map.svg/480px-Coma_Berenices_constellation_map.svg.png",
+    credit:"NASA/ESA/Hubble", cat:"Galaxy", type:"Spiral Galaxy"
+  },
+  {
+    id:67, num:"M67", shortName:"King Charles's Cluster", name:"King Charles's Cluster",
+    const:"Cancer · 2,700 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Messier_Object_067.jpg/480px-Messier_Object_067.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Cancer_constellation_map.svg/480px-Cancer_constellation_map.svg.png",
+    credit:"WikiCommons", cat:"Cluster", type:"Open Cluster"
+  },
+  {
+    id:74, num:"M74", shortName:"Phantom Galaxy", name:"Phantom Galaxy",
+    const:"Pisces · 32 Mly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Messier74_-_JWST.jpg/480px-Messier74_-_JWST.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Pisces_constellation_map.svg/480px-Pisces_constellation_map.svg.png",
+    credit:"NASA/ESA/JWST", cat:"Galaxy", type:"Spiral Galaxy"
+  },
+  {
+    id:76, num:"M76", shortName:"Little Dumbbell Nebula", name:"Little Dumbbell Nebula",
+    const:"Perseus · 2,500 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/NGC650_1_H_crop.jpg/480px-NGC650_1_H_crop.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Perseus_constellation_map.svg/480px-Perseus_constellation_map.svg.png",
+    credit:"WikiCommons", cat:"Nebula", type:"Planetary Nebula"
+  },
+  {
+    id:78, num:"M78", shortName:"Reflection Nebula M78", name:"Reflection Nebula M78",
+    const:"Orion · 1,600 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Messier_78.jpg/480px-Messier_78.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Orion_constellation_map.svg/480px-Orion_constellation_map.svg.png",
+    credit:"ESO", cat:"Nebula", type:"Reflection Nebula"
+  },
+  {
+    id:81, num:"M81", shortName:"Bode's Galaxy", name:"Bode's Galaxy",
+    const:"Ursa Major · 11.8 Mly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/M81_HST.jpg/480px-M81_HST.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Ursa_Major_constellation_map.svg/480px-Ursa_Major_constellation_map.svg.png",
+    credit:"NASA/ESA/Hubble", cat:"Galaxy", type:"Spiral Galaxy"
+  },
+  {
+    id:82, num:"M82", shortName:"Cigar Galaxy", name:"Cigar Galaxy",
+    const:"Ursa Major · 12 Mly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/M82_HST_ACS_2006-14-a-large_web.jpg/480px-M82_HST_ACS_2006-14-a-large_web.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Ursa_Major_constellation_map.svg/480px-Ursa_Major_constellation_map.svg.png",
+    credit:"NASA/ESA/Hubble", cat:"Galaxy", type:"Irregular Galaxy"
+  },
+  {
+    id:83, num:"M83", shortName:"Southern Pinwheel", name:"Southern Pinwheel Galaxy",
+    const:"Hydra · 15 Mly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Messier83_-_Hubble_WFC3.jpg/480px-Messier83_-_Hubble_WFC3.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Hydra_constellation_map.svg/480px-Hydra_constellation_map.svg.png",
+    credit:"NASA/ESA/Hubble", cat:"Galaxy", type:"Barred Spiral Galaxy"
+  },
+  {
+    id:97, num:"M97", shortName:"Owl Nebula", name:"Owl Nebula",
+    const:"Ursa Major · 2,030 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Owl_Nebula_M97.jpg/480px-Owl_Nebula_M97.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Ursa_Major_constellation_map.svg/480px-Ursa_Major_constellation_map.svg.png",
+    credit:"WikiCommons", cat:"Nebula", type:"Planetary Nebula"
+  },
+  {
+    id:101, num:"M101", shortName:"Pinwheel Galaxy", name:"Pinwheel Galaxy",
+    const:"Ursa Major · 21 Mly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/M101_hires_STScI-PRC2006-10a.jpg/480px-M101_hires_STScI-PRC2006-10a.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Ursa_Major_constellation_map.svg/480px-Ursa_Major_constellation_map.svg.png",
+    credit:"NASA/ESA/Hubble", cat:"Galaxy", type:"Spiral Galaxy"
+  },
+  {
+    id:102, num:"M102", shortName:"Spindle Galaxy", name:"Spindle Galaxy (NGC 5866)",
+    const:"Draco · 50 Mly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/M102_HHST.jpg/480px-M102_HHST.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Draco_constellation_map.svg/480px-Draco_constellation_map.svg.png",
+    credit:"NASA/ESA/Hubble", cat:"Galaxy", type:"Lenticular Galaxy"
+  },
+  {
+    id:104, num:"M104", shortName:"Sombrero Galaxy", name:"Sombrero Galaxy",
+    const:"Virgo · 31.1 Mly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/M104_ngc4594_sombrero_galaxy_hi-res.jpg/480px-M104_ngc4594_sombrero_galaxy_hi-res.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Virgo_constellation_map.svg/480px-Virgo_constellation_map.svg.png",
+    credit:"NASA/ESA/Hubble", cat:"Galaxy", type:"Spiral Galaxy"
+  },
+  {
+    id:41, num:"M41", shortName:"Little Beehive", name:"Little Beehive Cluster",
+    const:"Canis Major · 2,300 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Messier_41_2MASS.jpg/480px-Messier_41_2MASS.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Canis_Major_constellation_map.svg/480px-Canis_Major_constellation_map.svg.png",
+    credit:"2MASS/WikiCommons", cat:"Cluster", type:"Open Cluster"
+  },
+  {
+    id:43, num:"M43", shortName:"De Mairan's Nebula", name:"De Mairan's Nebula",
+    const:"Orion · 1,600 ly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Messier_42_43.jpg/480px-Messier_42_43.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Orion_constellation_map.svg/480px-Orion_constellation_map.svg.png",
+    credit:"NASA/ESA", cat:"Nebula", type:"Emission Nebula"
+  },
+  {
+    id:94, num:"M94", shortName:"Croc's Eye Galaxy", name:"Croc's Eye Galaxy",
+    const:"Canes Venatici · 16 Mly",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/NGC_4736_HST.jpg/480px-NGC_4736_HST.jpg",
+    skyImg:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Canes_Venatici_constellation_map.svg/480px-Canes_Venatici_constellation_map.svg.png",
+    credit:"NASA/ESA/Hubble", cat:"Galaxy", type:"Spiral Galaxy"
+  },
 ];
 
-// Category → subtypes mapping
 const SUBTYPES = {
-  "Galaxie": ["Galaxie spirală","Galaxie eliptică","Galaxie lenticulară","Galaxie neregulată","Galaxie spirală cu bară","Galaxie compactă"],
-  "Nebuloasă": ["Nebuloasă de emisie","Nebuloasă planetară","Nebuloasă de reflexie","Rămășiță de supernovă","Nebuloasă obscură"],
-  "Cluster": ["Roi deschis","Roi globular","Asociație stelară"],
-  "Altele": ["Stea dublă","Obiect neidentificat","Pătrat stellar","Quasar"]
+  "Galaxy":  ["Spiral Galaxy","Elliptical Galaxy","Lenticular Galaxy","Irregular Galaxy","Barred Spiral Galaxy","Dwarf Galaxy"],
+  "Nebula":  ["Emission Nebula","Planetary Nebula","Reflection Nebula","Supernova Remnant","Dark Nebula"],
+  "Cluster": ["Open Cluster","Globular Cluster","Stellar Association"],
+  "Other":   ["Double Star","Unidentified Object","Asterism","Quasar"]
 };
 
-const CAT_CLASS = {Galaxie:"galaxy",Nebuloasă:"nebula",Cluster:"cluster",Altele:"other"};
+const CAT_CLASS = {Galaxy:"galaxy",Nebula:"nebula",Cluster:"cluster",Other:"other"};
 
-let order = [], current = 0, score = 0, step = 1, selectedCat = '', results = [];
+let order=[], current=0, score=0, step=1, selectedCat='', results=[];
 
 function shuffle(a){let b=[...a];for(let i=b.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
 
 function startQuiz(){
   document.getElementById('intro-panel').style.display='none';
   document.getElementById('quiz-panel').style.display='block';
-  order = shuffle(ALL_OBJECTS);
-  current = 0; score = 0; results = [];
+  order=shuffle(OBJECTS); current=0; score=0; results=[];
+  document.getElementById('sc').textContent='0';
   loadQuestion();
 }
 
 function restart(){
   document.getElementById('result-panel').style.display='none';
   document.getElementById('quiz-panel').style.display='block';
-  order = shuffle(ALL_OBJECTS);
-  current = 0; score = 0; results = [];
+  order=shuffle(OBJECTS); current=0; score=0; results=[];
+  document.getElementById('sc').textContent='0';
   loadQuestion();
 }
 
 function loadQuestion(){
-  if(current >= order.length){ showResult(); return; }
-  const obj = order[current];
-  step = 1; selectedCat = '';
+  if(current>=order.length){showResult();return;}
+  const obj=order[current];
+  step=1; selectedCat='';
 
   // Progress
-  const pct = Math.round((current / order.length)*100);
-  document.getElementById('prog').style.width = pct+'%';
-  document.getElementById('prog-label').textContent = (current+1)+' / '+order.length;
+  const pct=Math.round((current/order.length)*100);
+  document.getElementById('prog').style.width=pct+'%';
+  document.getElementById('prog-label').textContent=(current+1)+' / '+order.length;
 
-  // Image
-  const img = document.getElementById('obj-img');
-  img.style.opacity = '0';
-  document.getElementById('img-loading').style.display='flex';
-  img.src = obj.img;
-  img.alt = obj.name;
-  document.getElementById('img-credit').textContent = obj.credit;
+  // --- Object image ---
+  const oImg=document.getElementById('obj-img');
+  oImg.style.opacity='0';
+  oImg.src='';
+  document.getElementById('placeholder-obj').style.display='flex';
+  // use a CORS proxy to avoid hotlink blocks on some Wikimedia images
+  oImg.src = obj.img;
+  document.getElementById('img-credit').textContent=obj.credit;
 
-  // Info
-  document.getElementById('obj-name').textContent = obj.name;
-  document.getElementById('obj-num').textContent = obj.num;
-  document.getElementById('obj-loc').textContent = '📍 '+obj.loc;
+  // --- Sky image ---
+  const sImg=document.getElementById('sky-img');
+  sImg.style.opacity='0';
+  sImg.src='';
+  document.getElementById('placeholder-sky').style.display='flex';
+  sImg.src = obj.skyImg;
 
-  // Step
-  document.getElementById('dot1').classList.add('active');
-  document.getElementById('dot2').classList.remove('active');
-  document.getElementById('step-label').textContent = 'Pasul 1: Alege categoria';
-  document.getElementById('question').textContent = 'Ce tip de obiect ceresc este acesta?';
-  document.getElementById('feedback').textContent = '';
-  document.getElementById('feedback').className = 'feedback';
-  document.getElementById('next-btn').style.display = 'none';
+  // Header — M### big, name hidden
+  document.getElementById('obj-num').textContent=obj.num;
+  const sn=document.getElementById('obj-short-name');
+  sn.textContent='???';
+  sn.classList.remove('revealed');
+  document.getElementById('obj-const').textContent=obj.const;
+
+  // Step indicators
+  setPips(1);
+
+  document.getElementById('question').textContent='What type of celestial object is this?';
+  document.getElementById('feedback').textContent='';
+  document.getElementById('feedback').className='feedback';
+  document.getElementById('next-btn').style.display='none';
 
   renderCatOptions();
 }
 
-function imgLoaded(){
-  document.getElementById('obj-img').style.opacity = '1';
-  document.getElementById('img-loading').style.display = 'none';
+function imgLoaded(which){
+  if(which==='obj'){
+    document.getElementById('obj-img').style.opacity='1';
+    document.getElementById('placeholder-obj').style.display='none';
+  } else {
+    document.getElementById('sky-img').style.opacity='1';
+    document.getElementById('placeholder-sky').style.display='none';
+  }
 }
-function imgError(){
-  document.getElementById('img-loading').textContent = 'IMAGINE INDISPONIBILĂ';
+
+function imgError(which){
+  if(which==='obj'){
+    const ph=document.getElementById('placeholder-obj');
+    ph.querySelector('span').textContent='IMAGE UNAVAILABLE';
+  } else {
+    const ph=document.getElementById('placeholder-sky');
+    ph.querySelector('span').textContent='MAP UNAVAILABLE';
+  }
+}
+
+function setPips(activeStep){
+  const p1=document.getElementById('pip1');
+  const p2=document.getElementById('pip2');
+  const lbl=document.getElementById('step-txt');
+  if(activeStep===1){
+    p1.className='pip active'; p2.className='pip';
+    lbl.textContent='Step 1 — Choose category';
+  } else {
+    p1.className='pip done'; p2.className='pip active';
+    lbl.textContent='Step 2 — Choose exact type';
+  }
 }
 
 function renderCatOptions(){
-  const opts = document.getElementById('options');
-  opts.innerHTML = '';
-  ['Galaxie','Nebuloasă','Cluster','Altele'].forEach(cat => {
-    const btn = document.createElement('button');
-    btn.className = 'opt '+CAT_CLASS[cat];
-    btn.innerHTML = '<div class="opt-icon"></div>' + cat;
-    btn.onclick = () => chooseCat(cat, btn);
+  const opts=document.getElementById('options');
+  opts.innerHTML='';
+  ['Galaxy','Nebula','Cluster','Other'].forEach(cat=>{
+    const btn=document.createElement('button');
+    btn.className='opt '+CAT_CLASS[cat];
+    btn.innerHTML=`<div class="dot"></div>${cat}`;
+    btn.onclick=()=>chooseCat(cat,btn);
     opts.appendChild(btn);
   });
 }
 
-function chooseCat(cat, btn){
-  const obj = order[current];
-  const correct = cat === obj.cat;
-  const btns = document.querySelectorAll('.opt');
-  btns.forEach(b => {
-    b.disabled = true;
-    if(b.textContent.trim() === obj.cat) b.classList.add('correct');
-    else if(b === btn && !correct) b.classList.add('wrong');
+function chooseCat(cat,btn){
+  const obj=order[current];
+  const correct=cat===obj.cat;
+  document.querySelectorAll('.opt').forEach(b=>{
+    b.disabled=true;
+    const lbl=b.textContent.trim();
+    if(lbl===obj.cat) b.classList.add('correct');
+    else if(b===btn&&!correct) b.classList.add('wrong');
   });
-
-  selectedCat = cat;
-
+  selectedCat=cat;
+  const fb=document.getElementById('feedback');
   if(correct){
-    document.getElementById('feedback').textContent = '✓ Corect! Acum alege tipul exact.';
-    document.getElementById('feedback').className = 'feedback correct';
-    // Move to step 2 after short delay
-    setTimeout(()=>{ step2(cat, obj); }, 700);
+    fb.textContent='✓ Correct! Now choose the exact type.';
+    fb.className='feedback correct';
+    setTimeout(()=>enterStep2(obj.cat,obj),650);
   } else {
-    document.getElementById('feedback').textContent = '✗ Greșit. Categoria corectă este: '+obj.cat+'. Totuși, alege tipul exact:';
-    document.getElementById('feedback').className = 'feedback wrong';
-    setTimeout(()=>{ step2(obj.cat, obj); }, 700);
+    fb.textContent=`✗ Wrong. Correct category: ${obj.cat}. Now choose the exact type:`;
+    fb.className='feedback wrong';
+    setTimeout(()=>enterStep2(obj.cat,obj),850);
   }
 }
 
-function step2(cat, obj){
-  // Update step indicator
-  document.getElementById('dot1').classList.remove('active');
-  document.getElementById('dot2').classList.add('active');
-  document.getElementById('step-label').textContent = 'Pasul 2: Alege tipul exact';
-  document.getElementById('question').textContent = 'Ce fel de '+cat.toLowerCase()+' este?';
-  document.getElementById('feedback').textContent = '';
-  document.getElementById('feedback').className = 'feedback';
+function enterStep2(cat,obj){
+  setPips(2);
+  document.getElementById('question').textContent=`What kind of ${cat.toLowerCase()} is this?`;
+  document.getElementById('feedback').textContent='';
+  document.getElementById('feedback').className='feedback';
 
-  // Build options: correct + 3 distractors from same category subtypes
-  const allSub = SUBTYPES[cat] || [];
-  let pool = allSub.filter(s => s !== obj.type);
-  pool = shuffle(pool).slice(0, 3);
-  let choices = shuffle([obj.type, ...pool]);
+  const allSub=SUBTYPES[cat]||[];
+  let pool=shuffle(allSub.filter(s=>s!==obj.type)).slice(0,3);
+  let choices=shuffle([obj.type,...pool]);
 
-  const opts = document.getElementById('options');
-  opts.innerHTML = '';
-  choices.forEach(choice => {
-    const btn = document.createElement('button');
-    btn.className = 'opt '+CAT_CLASS[cat];
-    btn.innerHTML = '<div class="opt-icon"></div>' + choice;
-    btn.onclick = () => chooseType(choice, btn, obj, cat);
+  const opts=document.getElementById('options');
+  opts.innerHTML='';
+  choices.forEach(choice=>{
+    const btn=document.createElement('button');
+    btn.className='opt '+CAT_CLASS[cat];
+    btn.innerHTML=`<div class="dot"></div>${choice}`;
+    btn.onclick=()=>chooseType(choice,btn,obj);
     opts.appendChild(btn);
   });
 }
 
-function chooseType(choice, btn, obj, cat){
-  const correct = choice === obj.type;
-  const catCorrect = selectedCat === obj.cat;
+function chooseType(choice,btn,obj){
+  const correct=choice===obj.type;
+  const catOk=selectedCat===obj.cat;
 
-  const btns = document.querySelectorAll('.opt');
-  btns.forEach(b => {
-    b.disabled = true;
-    if(b.textContent.trim() === obj.type) b.classList.add('correct');
-    else if(b === btn && !correct) b.classList.add('wrong');
+  document.querySelectorAll('.opt').forEach(b=>{
+    b.disabled=true;
+    if(b.textContent.trim()===obj.type) b.classList.add('correct');
+    else if(b===btn&&!correct) b.classList.add('wrong');
   });
 
-  if(correct && catCorrect){
+  // Reveal full name
+  const sn=document.getElementById('obj-short-name');
+  sn.textContent=obj.name;
+  sn.classList.add('revealed');
+  const fb=document.getElementById('feedback');
+  const fullOk=correct&&catOk;
+  if(fullOk){
     score++;
-    document.getElementById('sc').textContent = score;
-    document.getElementById('feedback').textContent = '✓ Perfect! '+obj.num+' este '+obj.type+'.';
-    document.getElementById('feedback').className = 'feedback correct';
+    document.getElementById('sc').textContent=score;
+    fb.textContent=`✓ Perfect! ${obj.num} is a ${obj.type}.`;
+    fb.className='feedback correct';
   } else if(correct){
-    // Category was wrong but type is right (showed correct cat's subtypes anyway)
-    document.getElementById('feedback').textContent = '✓ Tipul corect! Dar categoria a fost greșită. Punctaj parțial negat.';
-    document.getElementById('feedback').className = 'feedback wrong';
+    fb.textContent=`✓ Right type, but wrong category. ${obj.num} is a ${obj.type}.`;
+    fb.className='feedback wrong';
   } else {
-    document.getElementById('feedback').textContent = '✗ Greșit. '+obj.num+' este '+obj.type+'.';
-    document.getElementById('feedback').className = 'feedback wrong';
+    fb.textContent=`✗ Wrong. ${obj.num} is a ${obj.type}.`;
+    fb.className='feedback wrong';
   }
 
-  results.push({obj, catCorrect, typeCorrect: correct, fullCorrect: correct && catCorrect});
-  document.getElementById('next-btn').style.display = 'block';
+  results.push({obj,catOk,typeOk:correct,fullOk});
+  document.getElementById('next-btn').style.display='block';
 }
 
-function nextQuestion(){
-  current++;
-  loadQuestion();
-}
+function nextQuestion(){ current++; loadQuestion(); }
 
 function showResult(){
   document.getElementById('quiz-panel').style.display='none';
   document.getElementById('result-panel').style.display='block';
   document.getElementById('prog').style.width='100%';
 
-  const total = ALL_OBJECTS.length;
-  const pct = Math.round((score/total)*100);
+  const total=OBJECTS.length;
+  const pct=Math.round((score/total)*100);
 
-  let stars = '';
-  if(pct>=90) stars='★★★★★';
-  else if(pct>=75) stars='★★★★☆';
-  else if(pct>=60) stars='★★★☆☆';
-  else if(pct>=40) stars='★★☆☆☆';
-  else stars='★☆☆☆☆';
+  const stars=pct>=90?'★★★★★':pct>=75?'★★★★☆':pct>=60?'★★★☆☆':pct>=40?'★★☆☆☆':'★☆☆☆☆';
+  let title,msg;
+  if(pct>=90){title='Master Observer!';msg='You know the Messier Catalog like the back of your hand. Charles Messier would be proud.';}
+  else if(pct>=75){title='Excellent Work!';msg='You have a strong command of deep-sky objects. Keep exploring the universe!';}
+  else if(pct>=60){title='Good Job!';msg='Solid performance. Review the rarer nebulae and galaxy types to sharpen your skills.';}
+  else if(pct>=40){title='Getting There';msg='A good foundation. Revisit cluster types and nebula subtypes to improve.';}
+  else{title='Keep Exploring!';msg='The Messier Catalog has 110 fascinating objects to discover. Keep at it!';}
 
-  let title='', msg='';
-  if(pct>=90){title='Astronom Desăvârșit!';msg='Cunoști Catalogul Messier ca pe propriul buzunar. Charles Messier ar fi mândru!';}
-  else if(pct>=75){title='Excelent!';msg='Cunoști bine obiectele cerești. Continuă să explorezi universul!';}
-  else if(pct>=60){title='Bine!';msg='O performanță solidă. Merită să revedeți nebuloasele și galaxiile mai rare.';}
-  else if(pct>=40){title='Progres bun';msg='Ai un fundament bun. Recapitulează tipurile de clustere și nebuloase.';}
-  else{title='Mai exersează!';msg='Catalogul Messier are 110 obiecte fascinante. Continuă să explorezi!';}
+  document.getElementById('result-stars').textContent=stars;
+  document.getElementById('result-title').textContent=title;
+  document.getElementById('result-score').textContent=score+' / '+total;
+  document.getElementById('result-msg').textContent=msg+' Score: '+pct+'%';
 
-  document.getElementById('result-stars').textContent = stars;
-  document.getElementById('result-title').textContent = title;
-  document.getElementById('result-score').textContent = score+' / '+total;
-  document.getElementById('result-msg').textContent = msg+' Scor: '+pct+'%';
-
-  // Review grid
-  const grid = document.getElementById('review-grid');
-  grid.innerHTML = '';
-  results.forEach(r => {
-    const div = document.createElement('div');
-    div.className = 'review-item '+(r.fullCorrect?'ok':'fail');
-    div.innerHTML = '<div class="review-num">'+r.obj.num+'</div><div class="review-name">'+r.obj.name.split(' ').slice(0,3).join(' ')+'</div><div class="review-type">'+r.obj.type+'</div>';
-    grid.appendChild(div);
+  const grid=document.getElementById('review-grid');
+  grid.innerHTML='';
+  results.forEach(r=>{
+    const d=document.createElement('div');
+    d.className='review-item '+(r.fullOk?'ok':'fail');
+    d.innerHTML=`<div class="review-num">${r.obj.num}</div><div class="review-name">${r.obj.shortName}</div><div class="review-type">${r.obj.type}</div>`;
+    grid.appendChild(d);
   });
 }
 
 function copyLink(){
-  const url = window.location.href;
+  const url=window.location.href;
   navigator.clipboard.writeText(url).then(()=>{
-    const btn = document.querySelector('.share-btn');
-    btn.textContent='COPIAT!';
-    setTimeout(()=>btn.textContent='COPIAZĂ LINKUL',2000);
-  }).catch(()=>{
-    prompt('Copiază linkul:', url);
-  });
+    const btn=document.querySelector('.share-btn');
+    btn.textContent='COPIED!';
+    setTimeout(()=>btn.textContent='COPY LINK',2000);
+  }).catch(()=>prompt('Copy the link:',url));
 }
 </script>
 </body>
