@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Changelog - Damian's Website</title>
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Analytics -->
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="1004cd06-ff96-417c-93b7-64e2e4a45d5b"></script>
+  
+  <style>
+    /* LOG PAGE SPECIFIC STYLES */
+    main {
+      gap: 40px;
+    }
+
+    .log-section {
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .log-section h1 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 2.5em;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text-color);
+      text-align: center;
+    }
+
+    .log-section .subtitle {
+      text-align: center;
+      font-size: 1.1em;
+      color: var(--link-color);
+      margin-bottom: 40px;
+    }
+
+    .log-entry {
+      background: var(--card-bg);
+      padding: 25px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      margin-bottom: 25px;
+    }
+
+    .log-entry .version {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.3em;
+      font-weight: 700;
+      color: var(--text-color);
+      margin-bottom: 5px;
+    }
+
+    .log-entry .date {
+      font-size: 0.9em;
+      color: var(--link-color);
+      margin-bottom: 15px;
+    }
+
+    .log-entry ul {
+      list-style: disc;
+      padding-left: 20px;
+      margin: 0;
+    }
+
+    .log-entry ul li {
+      font-size: 1em;
+      line-height: 1.6;
+      color: var(--text-color);
+      margin-bottom: 8px;
+    }
+
+    .log-entry ul li:last-child {
+      margin-bottom: 0;
+    }
+
+    .no-updates {
+      text-align: center;
+      color: var(--link-color);
+      font-size: 1.1em;
+      padding: 40px;
+    }
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--button-bg);
+      color: var(--bg-color) !important;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+      background: var(--button-hover);
+      transform: translateY(-2px);
+    }
+
+    .center-buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .log-section h1 {
+        font-size: 2em;
+      }
+
+      .log-entry {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <nav>
+    <ul id="nav-menu">
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="resources.html">Resources</a></li>
+      <li><a href="projects.html">Projects</a></li>
+    </ul>
+  </nav>
+  <div class="toggles">
+    <button id="dark-mode-toggle"></button>
+    <div class="lang-buttons">
+      <button class="lang-button active">EN</button>
+      <button class="lang-button">RO</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="log-section">
+    <h1>Changelog</h1>
+    <p class="subtitle">Site Updates & Changes</p>
+    
+    <!-- UPDATE ENTRIES -->
+    <div class="log-entry">
+      <div class="version">v1.0.0</div>
+      <div class="date">January 2026</div>
+      <ul>
+        <li><strong>Initial release</strong> - Website launch</li>
+        <li>Created Profile, Resources, and Projects pages</li>
+        <li>Added dark mode and language toggle (EN/RO)</li>
+        <li>Implemented copyright popup system</li>
+        <li>Added Google Analytics tracking</li>
+      </ul>
+    </div>
+
+    <!-- Add more entries here as updates happen -->
+    
+    <!-- NO UPDATES MESSAGE (remove when you have updates) -->
+    <p class="no-updates">Stay tuned for future updates!</p>
+
+    <div class="center-buttons">
+      <a href="index.html" class="back-button">← Back to Home</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Default language is English. Translation to Romanian was done using BLACKBOX.AI</p>
+  <p><b>&copy; 2026 Mîrza Damian. All rights reserved</b></p>
+</footer>
+
+<script src="script.js"></script>
+
+<!-- COPYRIGHT POPUP -->
+<div id="copyright-popup" class="popup" style="display: none;">
+  <div class="popup-content">
+    <h2>Copyright Notice</h2>
+    <p><b>EN:</b> This website and all its content are protected by international copyright laws. By accessing this site, you acknowledge and agree to respect the intellectual property rights of the owner.</p>
+    <p><b>RO:</b> Acest site web și întregul său conținut sunt protejate de legile internaționale privind drepturile de autor. Accesând acest site, recunoașteți și sunteți de acord să respectați drepturile de proprietate intelectuală ale proprietarului.</p>
+    <div class="popup-buttons">
+      <a href="copyright.html" class="popup-btn popup-btn-info">Additional Information</a>
+      <button onclick="acceptCopyright()" class="popup-btn popup-btn-accept">I Understand</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
