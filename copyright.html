@@ -37,17 +37,14 @@
     }
 
     .copyright-content {
-      background: var(--card-bg);
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      /* NO BOX - text outside */
     }
 
     .copyright-content h2 {
       font-family: 'DM Sans', sans-serif;
       font-size: 1.4em;
       font-weight: 600;
-      margin: 30px 0 15px 0;
+      margin: 35px 0 15px 0;
       color: var(--text-color);
     }
 
@@ -80,13 +77,61 @@
       color: var(--text-color);
     }
 
-    .last-updated {
-      text-align: center;
-      font-size: 0.9em;
-      color: var(--link-color);
+    /* IMPORTANT RULES BOX */
+    .rules-box {
+      background: var(--card-bg);
+      padding: 30px 35px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border-left: 5px solid var(--button-bg);
+      margin: 30px 0;
+    }
+
+    .rules-box h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.3em;
+      font-weight: 600;
+      margin: 0 0 15px 0;
+      color: var(--text-color);
+    }
+
+    .rules-box ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .rules-box ul li {
+      font-size: 1em;
+      line-height: 1.7;
+      color: var(--text-color);
+      margin-bottom: 12px;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .rules-box ul li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--button-bg);
+      font-weight: bold;
+    }
+
+    /* INFO BOX (for contact, etc.) */
+    .info-box {
+      background: var(--header-bg);
+      padding: 25px 30px;
+      border-radius: 8px;
       margin-top: 30px;
-      padding-top: 20px;
-      border-top: 1px solid var(--accent);
+    }
+
+    .info-box p {
+      margin-bottom: 10px;
+    }
+
+    .info-box p:last-child {
+      margin-bottom: 0;
     }
 
     .back-button {
@@ -113,16 +158,24 @@
       justify-content: center;
       gap: 15px;
       flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .last-updated {
+      text-align: center;
+      font-size: 0.9em;
+      color: var(--link-color);
+      margin-top: 30px;
     }
 
     /* Mobile */
     @media (max-width: 768px) {
-      .copyright-content {
-        padding: 25px 20px;
-      }
-
       .copyright-section h1 {
         font-size: 2em;
+      }
+
+      .rules-box {
+        padding: 20px;
       }
 
       .center-buttons {
@@ -159,7 +212,7 @@
     <p class="subtitle">Intellectual Property Rights & Usage Terms</p>
     
     <div class="copyright-content">
-      <h2>1. Ownership</h2>
+      <h2>Ownership</h2>
       <p>
         <strong>All content</strong> on this website, including but not limited to text, images, 
         photographs, graphics, videos, audio clips, code, designs, and overall layout, is the 
@@ -167,7 +220,19 @@
         created by the owner unless otherwise stated.
       </p>
 
-      <h2>2. Protected Elements</h2>
+      <!-- IMPORTANT RULES BOX -->
+      <div class="rules-box">
+        <h3>Key Rules & Restrictions</h3>
+        <ul>
+          <li><strong>No part</strong> of this website may be reproduced, distributed, or used for commercial purposes without prior written permission</li>
+          <li>You may temporarily view and download materials for <strong>personal, non-commercial, private viewing only</strong></li>
+          <li><strong>must not</strong> copy, modify, or alter any materials without permission</li>
+          <li><strong>must not</strong> remove copyright or trademark notices</li>
+          <li><strong>must not</strong> use automated tools to scrape or collect data</li>
+        </ul>
+      </div>
+
+      <h2>Protected Elements</h2>
       <p>The following elements are protected by copyright laws:</p>
       <ul>
         <li>All textual content and written materials</li>
@@ -179,47 +244,17 @@
         <li>Any other creative or original works</li>
       </ul>
 
-      <h2>3. Usage Restrictions</h2>
-      <p>
-        <strong>No part</strong> of this website may be reproduced, distributed, modified, 
-        transmitted, reused, republished, or used for commercial purposes without prior 
-        <strong>written permission</strong> from the copyright owner.
-      </p>
-      <p>
-        You may temporarily view and download one copy of materials for personal, 
-        non-commercial, private viewing only.
-      </p>
-
-      <h2>4. Prohibited Actions</h2>
-      <p>Without explicit permission, you <strong>must not</strong>:</p>
-      <ul>
-        <li>Copy, reproduce, or republish any content</li>
-        <li>Use content for commercial purposes</li>
-        <li>Modify or alter any materials</li>
-        <li>Remove copyright or trademark notices</li>
-        <li>Transfer materials to another person or entity</li>
-        <li>Attempt to bypass or modify security measures</li>
-        <li>Use automated tools to scrape or collect data</li>
-      </ul>
-
-      <h2>5. Third-Party Content</h2>
+      <h2>Third-Party Content</h2>
       <p>
         Some content on this website may belong to third parties and is used with permission 
         or under appropriate licenses. Credit is given where applicable.
       </p>
 
-      <h2>6. Reporting Infringements</h2>
-      <p>
-        If you believe your copyrighted work has been infringed upon, please contact the 
-        website owner with details of the alleged infringement for immediate action.
-      </p>
-
-      <h2>7. Disclaimer</h2>
-      <p>
-        While every effort is made to ensure accuracy, this website is provided "as is" 
-        without any representations or warranties. The owner is not liable for any 
-        errors or omissions in content.
-      </p>
+      <!-- INFO BOX -->
+      <div class="info-box">
+        <p><strong>Reporting Infringements:</strong> If you believe your copyrighted work has been infringed upon, please contact the website owner with details of the alleged infringement.</p>
+        <p><strong>Disclaimer:</strong> This website is provided "as is" without any representations or warranties. The owner is not liable for any errors or omissions in content.</p>
+      </div>
 
       <div class="center-buttons">
         <a href="index.html" class="back-button">← Back to Home</a>
