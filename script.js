@@ -84,37 +84,31 @@ window.addEventListener('resize', () => {
   document.body.classList.toggle('is-mobile', newIsMobile);
 });
 
-// Copyright Popup - BULLETPROOF VERSION
+// ================= COPYRIGHT POPUP =================
 function initCopyrightPopup() {
-  const popup = document.getElementById("copyright-popup");
-  if (!popup) {
-    console.log("Popup element not found");
-    return;
-  }
+  const popup = document.getElementById('copyright-popup');
+  if (!popup) return;
   
-  if (!localStorage.getItem("copyrightAccepted")) {
-    popup.style.display = "flex";
-    console.log("Showing popup - no acceptance found");
-  } else {
-    console.log("Popup hidden - already accepted");
+  const accepted = localStorage.getItem('copyrightAccepted');
+  
+  if (accepted !== 'true') {
+    popup.style.display = 'flex';
   }
 }
 
-function closePopup() {
-  localStorage.setItem("copyrightAccepted", "true");
-  const popup = document.getElementById("copyright-popup");
+function acceptCopyright() {
+  localStorage.setItem('copyrightAccepted', 'true');
+  const popup = document.getElementById('copyright-popup');
   if (popup) {
-    popup.style.display = "none";
+    popup.style.display = 'none';
   }
-  console.log("Popup closed and saved");
 }
 
-// Wait for DOM + run immediately
+// Initialize on DOM ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initCopyrightPopup);
 } else {
-  initCopyrightPopup(); // DOM already loaded
+  initCopyrightPopup();
 }
 
-// Also run on window load as backup
 window.addEventListener('load', initCopyrightPopup);
