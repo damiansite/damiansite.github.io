@@ -10,7 +10,7 @@
   <script defer src="https://cloud.umami.is/script.js" data-website-id="1004cd06-ff96-417c-93b7-64e2e4a45d5b"></script>
   
   <style>
-    /* INDEX PAGE - HORIZONTAL BUTTONS, NO ROUNDING */
+    /* INDEX PAGE - SIMPLE BUTTONS ONLY */
     main {
       min-height: 100vh;
       display: flex;
@@ -19,25 +19,6 @@
       align-items: center;
       padding: 80px 20px 60px;
       gap: 3rem;
-    }
-
-    .index-welcome {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    .index-welcome h1 {
-      font-family: 'DM Sans', sans-serif;
-      font-size: clamp(2.5em, 8vw, 4em);
-      font-weight: 700;
-      margin: 0 0 15px 0;
-      color: var(--text-color);
-    }
-
-    .index-welcome p {
-      font-size: 1.2em;
-      color: var(--link-color);
-      margin: 0;
     }
 
     .index-buttons {
@@ -147,14 +128,8 @@
   
 <body>
 
+  <!-- HEADER - ONLY TOGGLES (NO NAV) -->
   <header>
-    <nav>
-      <ul id="nav-menu">
-        <li><a href="profile.html">Profile</a></li>
-        <li><a href="resources.html">Resources</a></li>
-        <li><a href="projects.html">Projects</a></li>
-      </ul>
-    </nav>
     <div class="toggles">
       <button id="dark-mode-toggle"></button>
       <div class="lang-buttons">
@@ -165,23 +140,21 @@
   </header>
 
   <main>
-    <div class="index-welcome">
-      <h1>Welcome</h1>
-      <p>Explore Damian's personal website</p>
-    </div>
-    
+    <!-- ONLY BUTTONS IN MIDDLE -->
     <div class="index-buttons">
       <a href="profile.html" class="index-button">Profile</a>
       <a href="resources.html" class="index-button">Resources</a>
       <a href="projects.html" class="index-button">Projects</a>
     </div>
     
+    <!-- UPDATE BOX -->
     <div class="update-box">
       <strong>Latest Update</strong>
       <p>No updates</p>
       <a href="log.html" class="log-link">View Changelog →</a>
     </div>
     
+    <!-- FOOTER TEXT -->
     <div class="index-footer-text">
       <p>Default language is English. Translation to Romanian was done using BLACKBOX.AI</p>
       <p><b>&copy; 2026 Mîrza Damian. All rights reserved</b></p>
