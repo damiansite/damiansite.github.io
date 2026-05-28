@@ -10,7 +10,11 @@
   <script defer src="https://cloud.umami.is/script.js" data-website-id="1004cd06-ff96-417c-93b7-64e2e4a45d5b"></script>
   
   <style>
-    /* INDEX PAGE - SIMPLE BUTTONS ONLY */
+    /* INDEX PAGE - HEADER RIGHT ALIGNED */
+    header {
+      justify-content: flex-end !important;
+    }
+
     main {
       min-height: 100vh;
       display: flex;
@@ -128,9 +132,9 @@
   
 <body>
 
-  <!-- HEADER - ONLY TOGGLES (NO NAV) -->
+  <!-- HEADER - TOGGLES FIXED RIGHT -->
   <header>
-    <div class="toggles">
+    <div class="toggles" style="margin-left: auto;">
       <button id="dark-mode-toggle"></button>
       <div class="lang-buttons">
         <button class="lang-button active">EN</button>
