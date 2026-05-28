@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Index</title>
   <link rel="stylesheet" href="style.css">
+  
+  <!-- Analytics -->
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="1004cd06-ff96-417c-93b7-64e2e4a45d5b"></script>
+  
   <style>
     /* INDEX PAGE - HORIZONTAL BUTTONS, NO ROUNDING */
     main {
@@ -22,14 +26,12 @@
       gap: 2rem;
       justify-content: center;
       flex-wrap: wrap;
-      /* HORIZONTAL ON PC */
     }
 
     .index-button {
       background: linear-gradient(135deg, var(--card-bg), var(--header-bg));
       padding: 2rem 3rem;
       text-align: center;
-      /* NO ROUNDING */
       border-radius: 0;
       border: 2px solid transparent;
       box-shadow: 0 8px 30px rgba(0,0,0,0.1);
@@ -73,49 +75,6 @@
     }
   </style>
 </head>
-
-  <script>
-// ENCRYPTED TRACKER - Add to index.html, profile.html, etc.
-(function(){
-  const CRYPTO_KEY = 'DamianAnalytics2024SecretKey!';
-  
-  function encrypt(text) {
-    let result = ''; 
-    for(let i=0;i<text.length;i++){
-      result += String.fromCharCode(text.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
-    }
-    return btoa(result);
-  }
-  
-  function decrypt(enc) {
-    try {
-      const decoded = atob(enc);
-      let result = '';
-      for(let i=0;i<decoded.length;i++){
-        result += String.fromCharCode(decoded.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
-      }
-      return result;
-    } catch { return '0'; }
-  }
-  
-  // Count visits
-  let total = parseInt(decrypt(localStorage.getItem('analytics_total_enc') || encrypt('0'))) + 1;
-  localStorage.setItem('analytics_total_enc', encrypt(total.toString()));
-  
-  const todayKey = 'analytics_today_enc_' + new Date().toDateString();
-  let today = parseInt(decrypt(localStorage.getItem(todayKey) || encrypt('0'))) + 1;
-  localStorage.setItem(todayKey, encrypt(today.toString()));
-  
-  // Track country
-  fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
-    const country = d.country_name || 'Unknown';
-    let countries = JSON.parse(decrypt(localStorage.getItem('analytics_countries_enc') || encrypt('[]')));
-    countries.push(country);
-    if(countries.length > 100) countries = countries.slice(-100);
-    localStorage.setItem('analytics_countries_enc', encrypt(JSON.stringify(countries)));
-  }).catch(()=>{}); // Silent fail
-})();
-</script>
   
 <body>
   <main>
@@ -143,37 +102,18 @@
   
   <script src="script.js"></script>
 
-<script>
-// COPYRIGHT POPUP - FINAL BULLETPROOF VERSION
-document.addEventListener('DOMContentLoaded', function() {
-  const popup = document.getElementById('copyright-popup');
-  const accepted = localStorage.getItem('copyrightAccepted');
-  
-  console.log('Popup check:', accepted); // DEBUG
-  
-  if (accepted !== 'true') {
-    popup.style.display = 'flex';
-  }
-});
-
-function closePopup() {
-  localStorage.setItem('copyrightAccepted', 'true');
-  document.getElementById('copyright-popup').style.display = 'none';
-  console.log('ACCEPTED - stored forever');
-}
-</script>
-
-<!-- Popup with display: none by default -->
-<div id="copyright-popup" class="popup" style="display: none;">
-  <div class="popup-content">
-    <p style="text-align: justify;">
-      <b>EN:</b> This website is protected by copyright. By continuing, you acknowledge and agree to respect the ownership of all content. <a href="copyright.txt">Copyright</a>
-    </p>
-    <p style="text-align: justify;">
-      <b>RO:</b> Acest site web este protejat de drepturi de autor. Prin continuare, recunoașteți și sunteți de acord să respectați proprietatea asupra întregului conținut. <a href="copyright.txt">Copyright</a>
-    <button onclick="closePopup()">Accept</button>
+  <!-- COPYRIGHT POPUP -->
+  <div id="copyright-popup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <h2>Copyright Notice</h2>
+      <p><b>EN:</b> This website and all its content are protected by international copyright laws. By accessing this site, you acknowledge and agree to respect the intellectual property rights of the owner.</p>
+      <p><b>RO:</b> Acest site web și întregul său conținut sunt protejate de legile internaționale privind drepturile de autor. Accesând acest site, recunoașteți și sunteți de acord să respectați drepturile de proprietate intelectuală ale proprietarului.</p>
+      <div class="popup-buttons">
+        <a href="copyright.html" class="popup-btn popup-btn-info">Additional Information</a>
+        <button onclick="acceptCopyright()" class="popup-btn popup-btn-accept">I Understand</button>
+      </div>
+    </div>
   </div>
-</div>
   
 </body>
 </html>
