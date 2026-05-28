@@ -17,8 +17,27 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 120px 20px 60px;
-      gap: 4rem;
+      padding: 80px 20px 60px;
+      gap: 3rem;
+    }
+
+    .index-welcome {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .index-welcome h1 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(2.5em, 8vw, 4em);
+      font-weight: 700;
+      margin: 0 0 15px 0;
+      color: var(--text-color);
+    }
+
+    .index-welcome p {
+      font-size: 1.2em;
+      color: var(--link-color);
+      margin: 0;
     }
 
     .index-buttons {
@@ -50,16 +69,66 @@
       border-color: var(--accent);
     }
 
-    .index-controls {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2rem;
+    /* LARGER UPDATE BOX */
+    .update-box {
+      background-color: var(--card-bg);
+      padding: 1.5rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
       text-align: center;
+      margin-top: 1rem;
+      max-width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .update-box strong {
+      font-size: 1.2em;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .update-box p {
+      font-size: 1em;
+      margin: 0 0 10px 0;
+      line-height: 1.5;
+      color: var(--text-color);
+    }
+
+    .update-box .log-link {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 20px;
+      background: var(--button-bg);
+      color: var(--bg-color) !important;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .update-box .log-link:hover {
+      background: var(--button-hover);
+      transform: translateY(-2px);
+    }
+
+    .index-footer-text {
+      text-align: center;
+      margin: 1.5rem 0 0 0;
+      color: var(--text-color);
+    }
+
+    .index-footer-text p {
+      margin: 0.5rem 0;
     }
 
     /* Mobile */
     @media (max-width: 768px) {
+      main {
+        padding: 60px 15px 40px;
+        gap: 2rem;
+      }
+      
       .index-buttons {
         flex-direction: column;
         align-items: center;
@@ -77,27 +146,46 @@
 </head>
   
 <body>
+
+  <header>
+    <nav>
+      <ul id="nav-menu">
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="projects.html">Projects</a></li>
+      </ul>
+    </nav>
+    <div class="toggles">
+      <button id="dark-mode-toggle"></button>
+      <div class="lang-buttons">
+        <button class="lang-button active">EN</button>
+        <button class="lang-button">RO</button>
+      </div>
+    </div>
+  </header>
+
   <main>
+    <div class="index-welcome">
+      <h1>Welcome</h1>
+      <p>Explore Damian's personal website</p>
+    </div>
+    
     <div class="index-buttons">
       <a href="profile.html" class="index-button">Profile</a>
       <a href="resources.html" class="index-button">Resources</a>
       <a href="projects.html" class="index-button">Projects</a>
     </div>
     
-    <div class="index-controls">
-      <button id="dark-mode-toggle"></button>
-      <div class="lang-buttons">
-        <button class="lang-button active">EN</button>
-        <button class="lang-button">RO</button>
-      </div>
-      <div class="update-box">
-        <strong>Latest Update</strong>
-        <p>No updates</p>
-      </div>
+    <div class="update-box">
+      <strong>Latest Update</strong>
+      <p>No updates</p>
+      <a href="log.html" class="log-link">View Changelog →</a>
     </div>
     
-    <p style="text-align: center; margin: 2rem 0 0 0; color: var(--text-color);">Default language is English. Translation to Romanian was done using BLACKBOX.AI</p>
-    <p style="text-align: center; margin: 0.5rem 0 0 0; color: var(--text-color);"><b>&copy; 2026 Mîrza Damian. All rights reserved</b></p>
+    <div class="index-footer-text">
+      <p>Default language is English. Translation to Romanian was done using BLACKBOX.AI</p>
+      <p><b>&copy; 2026 Mîrza Damian. All rights reserved</b></p>
+    </div>
   </main>
   
   <script src="script.js"></script>
