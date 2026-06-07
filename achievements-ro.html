@@ -4,243 +4,285 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Realizări</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-
   <script>
-// ENCRYPTED TRACKER - Add to index.html, profile.html, etc.
-(function(){
-  const CRYPTO_KEY = 'DamianAnalytics2024SecretKey!';
-  
-  function encrypt(text) {
-    let result = ''; 
-    for(let i=0;i<text.length;i++){
-      result += String.fromCharCode(text.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
-    }
-    return btoa(result);
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
   }
-  
-  function decrypt(enc) {
-    try {
-      const decoded = atob(enc);
-      let result = '';
-      for(let i=0;i<decoded.length;i++){
-        result += String.fromCharCode(decoded.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
-      }
-      return result;
-    } catch { return '0'; }
-  }
-  
-  // Count visits
-  let total = parseInt(decrypt(localStorage.getItem('analytics_total_enc') || encrypt('0'))) + 1;
-  localStorage.setItem('analytics_total_enc', encrypt(total.toString()));
-  
-  const todayKey = 'analytics_today_enc_' + new Date().toDateString();
-  let today = parseInt(decrypt(localStorage.getItem(todayKey) || encrypt('0'))) + 1;
-  localStorage.setItem(todayKey, encrypt(today.toString()));
-  
-  // Track country
-  fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
-    const country = d.country_name || 'Unknown';
-    let countries = JSON.parse(decrypt(localStorage.getItem('analytics_countries_enc') || encrypt('[]')));
-    countries.push(country);
-    if(countries.length > 100) countries = countries.slice(-100);
-    localStorage.setItem('analytics_countries_enc', encrypt(JSON.stringify(countries)));
-  }).catch(()=>{}); // Silent fail
-})();
 </script>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="1004cd06-ff96-417c-93b7-64e2e4a45d5b"></script>
+  <style>
+/* ACHIEVEMENTS - COMPACT BOXES */
+.achievement-subject { margin-bottom: 2.5rem; }
+.achievement-subject h3 { margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--accent); }
+
+/* BOXES - SAME LEFT EDGE COLOR + MORE SPACE FOR PHASE */
+.achievement-box {
+  position: relative;
+  margin-bottom: 0.5rem;
+  padding: 1.6rem 0.85rem 0.85rem 1.1rem;
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  list-style: none;
+  overflow: hidden;
+}
+
+/* SAME EDGE COLOR - LIGHT & DARK */
+.achievement-box::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--accent);
+}
+
+.achievement-box.republican,
+.achievement-box.international {
+  background: var(--header-bg);
+}
+
+/* PHASE LABEL - VISIBLE COLOR */
+.achievement-box .phase {
+  position: absolute;
+  top: 0.4rem;
+  left: 1rem;
+  font-size: 0.65em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+/* COMPACT ENTRIES */
+.achievement-box .entries {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.achievement-box .entry {
+  display: flex;
+  align-items: center;
+}
+
+.achievement-box .year {
+  font-weight: 700;
+  min-width: 42px;
+}
+
+.achievement-box .place {
+  font-weight: 700;
+  padding-left: 1.3rem;
+}
+
+.achievement-box .rank {
+  margin-left: auto;
+  font-size: 0.9em;
+  opacity: 0.65;
+}
+
+/* MEDAL COLORS */
+.place-1st { color: #d4af37; }
+.place-2nd { color: #6b6b6b; }
+.place-3rd { color: #a07040; }
+.place-hm { font-weight: 600; }
+
+/* MEMORIAL NOTE */
+.memorial-note {
+  font-size: 0.85em;
+  opacity: 0.7;
+  font-style: italic;
+  margin: 0 0 0.75rem 0;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .achievement-box { padding: 1.5rem 0.75rem 0.75rem 1rem; }
+  .achievement-box .phase { left: 0.85rem; }
+  .achievement-box .entry { gap: 0.35rem; }
+  .achievement-box .year { min-width: 38px; font-size: 0.95em; }
+  .achievement-box .place { padding-left: 1rem; }
+}
+  </style>
+</head>
 <body>
   <header>
-    <nav>
-      <ul>
-        <li><a href="profile-ro.html">Profil</a></li>
-        <li><a href="resources-ro.html">Resurse</a></li>
-        <li><a href="projects-ro.html">Proiecte</a></li>
-      </ul>
-    </nav>
-    <div class="toggles">
-      <button id="dark-mode-toggle"></button>
-      <div class="lang-buttons">
-        <button class="lang-button">EN</button>
-        <button class="lang-button active">RO</button>
-      </div>
-    </div>
+    <nav><ul><li><a href="profile-ro.html">Profil</a></li><li><a href="resources-ro.html">Resurse</a></li><li><a href="projects-ro.html">Proiecte</a></li></ul></nav>
+    <div class="toggles"><button id="dark-mode-toggle"></button><div class="lang-buttons"><button class="lang-button">EN</button><button class="lang-button active">RO</button></div></div>
   </header>
   <main>
     <section class="section">
       <h2>Realizări</h2>
-      <p class="intro">Mai jos sunt prezentate realizările mele academice în următoarele <a href="competitions-ro.html" class="standalone-link">competiții</a>.</p>
-      <h3><b>Olimpiade</b></h3>
-      <ul>
-        <li>
-          <strong>Matematică</strong>
-          <hr>
-          <ul>
-            <li>Multiple Olimpiade de Matematică la Nivel Sector:</li>
-            <ul>
-              <li><b>2023</b> - Mențiune de Onoare (#36 clasament din 165)</li>
-              <li><b>2024</b> - Locul 2 (#9 clasament din 173)</li>
-              <li><b>2025</b> - Locul 3 (#21 clasament)</li>
-              <li><b>2026</b> - Locul 1 (#4 clasament din 106)</li>
-            </ul>
-            <li>Multiple Olimpiade de Matematică la Nivel Municipal:</li>
-            <ul>
-              <li><b>2024</b> - Mențiune de Onoare (#9 clasament din 31)</li>
-              <li><b>2025</b> - Mențiune de Onoare (#9 clasament)</li>
-              <li><b>2026</b> - Locul 2 (#2 din 28)</li>
-            </ul>
-          </ul>
+      <p class="intro">Mai jos sunt prezentate realizările mele academice în următoarele <a href="competitions-ro.html" class="standalone-link">concursuri</a>.</p>
+      
+      <!-- MATHEMATICS -->
+      <div class="achievement-subject">
+        <h3><b>Matematică</b></h3>
+        
+        <li class="achievement-box republican">
+          <span class="phase">Republican</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place">Locul #11</span><span class="rank">(din 40+)</span></div>
+          </div>
         </li>
-        <li>
-          <strong>Fizică</strong>
-          <hr>
-          <ul>
-            <li>Multiple Olimpiade de Fizică la Nivel Sector:</li>
+        
+        <li class="achievement-box">
+          <span class="phase">Municipal</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place place-2nd">Locul 2</span><span class="rank">(#2/28)</span></div>
+            <div class="entry"><span class="year">2025</span><span class="place place-hm">Mențiune</span><span class="rank">(#9/31)</span></div>
+            <div class="entry"><span class="year">2024</span><span class="place place-hm">Mențiune</span><span class="rank">(#9/31)</span></div>
+          </div>
+        </li>
+        
+        <li class="achievement-box">
+          <span class="phase">Sector</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place place-1st">Locul 1</span><span class="rank">(#4/106)</span></div>
+            <div class="entry"><span class="year">2025</span><span class="place place-3rd">Locul 3</span><span class="rank">(#21/165)</span></div>
+            <div class="entry"><span class="year">2024</span><span class="place place-2nd">Locul 2</span><span class="rank">(#9/173)</span></div>
+            <div class="entry"><span class="year">2023</span><span class="place place-hm">Mențiune</span><span class="rank">(#36/165)</span></div>
+          </div>
+        </li>
+      </div>
+      
+      <!-- PHYSICS -->
+      <div class="achievement-subject">
+        <h3><b>Fizică</b></h3>
+        
+        <li class="achievement-box international">
+          <span class="phase">Balcanică</span>
+          <div class="entries">
+            <div class="entry"><span class="year">30 Iunie 2026</span><span class="place"></span><span class="rank">(# / )</span></div>
+          </div>
+        </li>
+        
+        <li class="achievement-box republican">
+          <span class="phase">Selecția Lotului Olimpic</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place">Locul #12</span><span class="rank">(din 40)</span></div>
+          </div>
+        </li>
+        
+        <li class="achievement-box republican">
+          <span class="phase">Republican</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place place-hm">Mențiune</span><span class="rank">(#9/40+)</span></div>
+          </div>
+        </li>
+        
+        <li class="achievement-box">
+          <span class="phase">Municipal</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place place-2nd">Locul 2</span><span class="rank">(#3/26)</span></div>
+            <div class="entry"><span class="year">2025</span><span class="place place-hm">Mențiune</span><span class="rank">(#9/38)</span></div>
+            <div class="entry"><span class="year">2024</span><span class="place place-hm">Mențiune</span><span class="rank">(#8/30)</span></div>
+          </div>
+        </li>
+        
+        <li class="achievement-box">
+          <span class="phase">Sector</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place place-3rd">Locul 3</span><span class="rank">(#10/78)</span></div>
+            <div class="entry"><span class="year">2025</span><span class="place place-3rd">Locul 3</span><span class="rank">(#26/99)</span></div>
+            <div class="entry"><span class="year">2024</span><span class="place place-2nd">Locul 2</span><span class="rank">(#15/107)</span></div>
+          </div>
+        </li>
+      </div>
+      
+      <!-- INFORMATICS -->
+      <div class="achievement-subject">
+        <h3><b>Informatică</b></h3>
+        
+        <li class="achievement-box">
+          <span class="phase">Sector</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place place-2nd">Locul 2</span><span class="rank">(#9/65)</span></div>
+            <div class="entry"><span class="year">2025</span><span class="place place-hm">Mențiune</span><span class="rank">(#23/60)</span></div>
+          </div>
+        </li>
+      </div>
+      
+      <!-- ASTRONOMY -->
+      <div class="achievement-subject">
+        <h3><b>Astronomie și Astrofizică</b></h3>
+        
+        <li class="achievement-box republican">
+          <span class="phase">Republican</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place place-3rd">Medalie de Bronz</span><span class="rank">(#8/35)</span></div>
+            <div class="entry"><span class="year">2025</span><span class="place place-2nd">Medalie de Argint</span><span class="rank">(#9/30)</span></div>
+          </div>
+        </li>
+      </div>
+      
+      <!-- CHEMISTRY -->
+      <div class="achievement-subject">
+        <h3><b>Chimie</b></h3>
+        
+        <li class="achievement-box">
+          <span class="phase">Sector</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2023</span><span class="place place-hm">Mențiune</span><span class="rank">(#44/80)</span></div>
+          </div>
+        </li>
+      </div>
+      
+      <!-- "MIHAI MARINCIUC" MEMORIAL -->
+      <div class="achievement-subject">
+        <h3><b>Concursul Memorial "Mihai Marinciuc" de Fizică</b></h3>
+        
+        <p class="memorial-note">Concursul este echivalent cu Olimpiada Republicană de Fizică. Mai multe detalii vezi în <a href="competitions-ro.html">concursuri</a></p>
+        
+        <li class="achievement-box republican">
+          <span class="phase">Concurs</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place place-hm">Mențiune</span><span class="rank">(#5/40)</span></div>
+            <div class="entry"><span class="year">2025</span><span class="place place-hm">Mențiune</span><span class="rank">(#7/35)</span></div>
+            <div class="entry"><span class="year">2024</span><span class="place place-hm">Mențiune</span><span class="rank">(#7/38)</span></div>
+            <div class="entry"><span class="year">2023</span><span class="place place-hm">Mențiune</span><span class="rank">(#10/35)</span></div>
+            <div class="entry"><span class="year">2021</span><span class="place place-hm">Mențiune</span><span class="rank">(#15/30)</span></div>
+          </div>
+        </li>
+      </div>
+      
+      <!-- CAMPS -->
+      <section class="section">
+        <h2>Tabere și Cursuri</h2>
+        <ul>
+          <li>
+            <strong>Cursul de Avioane și Drone</strong>
+            <hr>
             <ul>
-              <li><b>2024</b> - Locul 2 (#15 clasament din 107)</li>
-              <li><b>2025</b> - Locul 3 (#26 clasament din 99)</li>
-              <li><b>2026</b> - Locul 3 (#10 clasament din 78)</li>
+              <li><b>2018, organizat de Fablab și Tekwill</b></li>
+              <li>Am învățat bazele aerodinamicii pentru planoare. Am construit unul și l-am testat (am obținut locul 2).</li>
             </ul>
-            <li>Multiple Olimpiade de Fizică la Nivel Municipal:</li>
+          </li>
+          <li>
+            <strong><a href="the-path-to-scientific-discoveries.html" class="standalone-link">A III-a Ediție a Școlii de Vară "Drumul spre Descoperiri Științifice"</a></strong>
+            <hr>
             <ul>
-              <li><b>2024</b> - Mențiune de Onoare (#8 clasament din 30)</li>
-              <li><b>2025</b> - Mențiune de Onoare (#9 clasament din 38)</li>
-              <li><b>2026</b> - Locul 2 (#3 clasament din 26)</li>
+              <li><b>Iunie 2025, organizat de Academia de Științe a Moldovei</b></li>
+              <li>Participant selectat la un program de școală de vară în care savanți, academicieni și experți distinși din diverse discipline științifice participă. Am primit instruire teoretică și practică în dezvoltarea științifică și metodologii de cercetare și relația societății cu știința prin prelecțiuni și discuții ținute la program. Participarea a consolidat cunoștințele mele despre relația dintre dezvoltarea științifică și dezvoltarea tehnologică și bunăstarea societății, făcându-mă mai interesat de domeniul cercetării.</li>
             </ul>
-            <li>Olimpiade de Fizică la Nivel Republican:</li>
+          </li>
+          <li>
+            <strong><a href="https://bpu-hps-summer-school-2025.eu/" class="standalone-link">A II-a Școală de Vară Balcanică despre Fizica Cuantică</a></strong>
+            <hr>
             <ul>
-              <li><b>2026</b> - Mențiune de Onoare (#9 clasament din 40+)</li>
+              <li><b>August 2025, organizat de Balkan Physical Union, European Physical Society, Hellenic Physical Society și alții</b></li>
+              <li>Am participat la o școală de vară internațională despre principiile de bază ale fizicii cuantice și aplicațiile sale, care a adunat studenți din întreaga regiune balcanică. Am obținut cunoștințe despre conceptele de bază ale fizicii cuantice, cum ar fi dualitatea undă-particulă a obiectelor, suprapunerea și entrelacerea și am realizat importanța acestor concepte în tehnologiile cuantice moderne, cum ar fi calculul cuantic și sensingul cuantic. Am participat la cursuri practice și de laborator în timpul cărora au fost efectuate experimentele celebre ale fizicii, printre care experimentul fotoelectric, experimentul dublei fante și experimentul Franck-Hertz.</li>
             </ul>
-          </ul>
-        </li>
-        <li>
-          <strong>Informatică</strong>
-          <hr>
-          <ul>
-            <li>Multiple Olimpiade de Informatică la Nivel Sector:</li>
-            <ul>
-              <li><b>2025</b> - Mențiune de Onoare (#23 clasament)</li>
-              <li><b>2026</b> - Locul 2 (#9 clasament din 65)</li>
-            </ul>
-          </ul>
-        </li>
-        <li>
-          <strong>Astronomie și astrofizică</strong>
-          <hr>
-          <ul>
-            <li>Multiple Olimpiade Republicană de Astronomie și Astrofizică:</li>
-            <ul>
-              <li><b>2025</b> - Medalia de Argint (#9 clasament)</li>
-              <li><b>2026</b> - Medalia de Bronz (#8 clasament)</li>
-            </ul>
-          </ul>
-        </li>
-        <li>
-          <strong>Chimie</strong>
-          <hr>
-          <ul>
-            <li>Olimpiada de Chimie la Nivel Sector:</li>
-            <ul>
-              <li><b>2023</b> - Mențiune de Onoare (#44 clasament)</li>
-            </ul>
-          </ul>
-        </li>
-      </ul>
-      <h3><b>Concursul Memorial de Fizică "Mihai Marinciuc"</b></h3>
-      <ul>
-        <li>
-          <p class="intro">Era echivalent cu un concurs republican. Mihai Marinciuc a fost un mare profesor de fizică și pentru atribuțiile sale în domeniul fizicii, U.T.M. a creat acest concurs.</p>
-          <hr>
-          <ul>
-            <ul>
-              <li><b>2021</b> - Mențiune de Onoare (#15 clasament)</li>
-              <li><b>2023</b> - Mențiune de Onoare (#10 clasament)</li>
-              <li><b>2024</b> - Mențiune de Onoare (#7 clasament)</li>
-              <li><b>2025</b> - Mențiune de Onoare (#7 clasament)</li>
-              <li><b>2026</b> - Mențiune de Onoare (#5 clasament)</li>
-            </ul>
-          </ul>
-        </li>
-      </ul>
-      <h3><b>Concursul Memorial de Matematică "Constantin Spătaru"</b></h3>
-      <ul>
-        <li>
-          <p class="intro">Era echivalent cu olimpiada municipală. Constantin Spătaru a fost un mare profesor de matematică și în memoria sa a fost creat acest concurs. Din păcate, a încetat să aibă loc.</p>
-          <hr>
-          <ul>
-            <ul>
-              <li><b>2019</b> - Mențiune de Onoare (#41 clasament din 181)</li>
-              <li><b>2020</b> - Locul 3 (#3 clasament din 180+)</li>
-            </ul>
-          </ul>
-        </li>
-      </ul>
-    </section>
-    <section class="section">
-      <h2>Tabere și cursuri</h2>
-      <ul>
-        <li>
-          <strong>Curs de Modelare a Avioane și Dronelor</strong>
-          <hr>
-          <ul>
-            <li><b>2018, organizat de FabLab și Tekwill</b></li>
-            <li>Am învățat bazele aerodinamicii pentru un planor. Am construit un planor și l-am testat pentru rezistență și cât timp rămâne în aer (unde am obținut locul 2). Ca proiect final a fost să controlez un planor propulsat (cu un mic motor în față) și să-l țin în aer cât mai mult timp posibil.</li>
-          </ul>
-        </li>
-        <li>
-          <strong><a href="the-path-to-scientific-discoveries-ro.html" class="standalone-link">A Treia Ediție a Școlii de Vară "Calea Spre Descoperiri Științifice"</a></strong>
-          <hr>
-          <ul>
-            <li><b>Iunie 2025, organizat de Academia de Științe a Moldovei</b></li>
-            <li>În timpul multiplelor vizite ale unor figuri importante în domeniul lor și ascultând perspectiva lor, am înțeles de ce omenirea este dependentă și de ce este necesar să facem descoperiri științifice, nu pentru câștig personal, ci pentru binele societății.</li>
-          </ul>
-        </li>
-        <li>
-          <strong><a href="https://bpu-hps-summer-school-2025.eu/" class="standalone-link">A Doua Școală de Vară Balcanică pentru Studenți în Fizică Cuantică</a></strong>
-          <hr>
-          <ul>
-            <li><b>August 2025, organizat de Uniunea Fizică Balcanică, Societatea Europeană de Fizică, Societatea Elenă de Fizică și alții</b></li>
-            <li>În timpul multiplelor zile ale școlii de vară, am învățat concepte noi și mi-am îmbunătățit cunoștințele în fizica cuantică, dezvoltând idei noi despre cum să o interpretez și de ce fizica, în special fizica cuantică, este baza dezvoltării viitoare a lumii noastre.</li>
-          </ul>
-        </li>
-      </ul>
-    </section>
+          </li>
+        </ul>
+      </section>
   </main>
   <footer>
-    <p>Originalul este în Engleză. Traducerea este efectuată de BLACKBOX.AI</p>
-    <p><b>&copy; 2026 Mîrza Damian. Toate drepturile rezervate.</b></p>
+    <p>Limba implicită este Engleză. Traducerea în Română a fost făcută folosind BLACKBOX.AI</p>
+    <p><b><a href="copyright.txt" style="color: inherit; text-decoration: none;">&copy; 2026 Mîrza Damian. Toate drepturile rezervate</a></b></p>
   </footer>
   <script src="script.js"></script>
-  <script>
-// COPYRIGHT POPUP - FINAL BULLETPROOF VERSION
-document.addEventListener('DOMContentLoaded', function() {
-  const popup = document.getElementById('copyright-popup');
-  const accepted = localStorage.getItem('copyrightAccepted');
-  
-  console.log('Popup check:', accepted); // DEBUG
-  
-  if (accepted !== 'true') {
-    popup.style.display = 'flex';
-  }
-});
-
-function closePopup() {
-  localStorage.setItem('copyrightAccepted', 'true');
-  document.getElementById('copyright-popup').style.display = 'none';
-  console.log('ACCEPTED - stored forever');
-}
-</script>
-
-<!-- Popup with display: none by default -->
-<div id="copyright-popup" class="popup" style="display: none;">
-  <div class="popup-content">
-    <p style="text-align: justify;">
-      <b>EN:</b> This website is protected by copyright. By continuing, you acknowledge and agree to respect the ownership of all content. <a href="copyright.txt">Copyright</a>
-    </p>
-    <p style="text-align: justify;">
-      <b>RO:</b> Acest site web este protejat de drepturi de autor. Prin continuare, recunoașteți și sunteți de acord să respectați proprietatea asupra întregului conținut. <a href="copyright.txt">Copyright</a>
-    <button onclick="closePopup()">Accept</button>
-  </div>
-</div>
+  <div id="copyright-popup" class="popup" style="display:none"><div class="popup-content"><h2>Notificare Drepturi de Autor</h2><p><b>EN:</b> This website and all its content are protected by international copyright laws.</p><p><b>RO:</b> Acest site și tot conținutul sunt protejate de legile drepturilor de autor.</p><div class="popup-buttons"><a href="copyright-ro.html" class="popup-btn popup-btn-info">Informații Suplimentare</a><button onclick="acceptCopyright()" class="popup-btn popup-btn-accept">Înțeleg</button></div></div></div>
 </body>
-</html>
+</
