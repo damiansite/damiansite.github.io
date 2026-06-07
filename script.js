@@ -1,23 +1,24 @@
-// Dark Mode Toggle (Header)
+// ================= DARK MODE TOGGLE =================
 const darkModeToggle = document.getElementById('dark-mode-toggle');
-const body = document.body;
 
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
-  body.classList.add('dark-mode');
-  darkModeToggle.textContent = 'L';
-} else {
-  darkModeToggle.textContent = 'D';
+function updateDarkModeButton() {
+  if (!darkModeToggle) return;
+  const isDark = document.body.classList.contains('dark-mode');
+  darkModeToggle.textContent = isDark ? 'L' : 'D';
 }
 
-darkModeToggle.addEventListener('click', () => {
-  body.classList.toggle('dark-mode');
-  const theme = body.classList.contains('dark-mode') ? 'dark' : 'light';
-  localStorage.setItem('theme', theme);
-  darkModeToggle.textContent = theme === 'dark' ? 'L' : 'D';
-});
+updateDarkModeButton();
 
-// Language Toggle (Header and Index Controls)
+if (darkModeToggle) {
+  darkModeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    updateDarkModeButton();
+  });
+}
+
+// ================= LANGUAGE TOGGLE =================
 document.querySelectorAll('.lang-button').forEach(button => {
   button.addEventListener('click', (e) => {
     console.log('Language button clicked:', e.target.textContent);
