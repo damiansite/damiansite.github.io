@@ -3,53 +3,147 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Competiții</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-
+  <title>Concursuri</title>
   <script>
-// ENCRYPTED TRACKER - Add to index.html, profile.html, etc.
-(function(){
-  const CRYPTO_KEY = 'DamianAnalytics2024SecretKey!';
-  
-  function encrypt(text) {
-    let result = ''; 
-    for(let i=0;i<text.length;i++){
-      result += String.fromCharCode(text.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
-    }
-    return btoa(result);
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
   }
-  
-  function decrypt(enc) {
-    try {
-      const decoded = atob(enc);
-      let result = '';
-      for(let i=0;i<decoded.length;i++){
-        result += String.fromCharCode(decoded.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
-      }
-      return result;
-    } catch { return '0'; }
-  }
-  
-  // Count visits
-  let total = parseInt(decrypt(localStorage.getItem('analytics_total_enc') || encrypt('0'))) + 1;
-  localStorage.setItem('analytics_total_enc', encrypt(total.toString()));
-  
-  const todayKey = 'analytics_today_enc_' + new Date().toDateString();
-  let today = parseInt(decrypt(localStorage.getItem(todayKey) || encrypt('0'))) + 1;
-  localStorage.setItem(todayKey, encrypt(today.toString()));
-  
-  // Track country
-  fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
-    const country = d.country_name || 'Unknown';
-    let countries = JSON.parse(decrypt(localStorage.getItem('analytics_countries_enc') || encrypt('[]')));
-    countries.push(country);
-    if(countries.length > 100) countries = countries.slice(-100);
-    localStorage.setItem('analytics_countries_enc', encrypt(JSON.stringify(countries)));
-  }).catch(()=>{}); // Silent fail
-})();
 </script>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="1004cd06-ff96-417c-93b7-64e2e4a45d5b"></script>
+  <style>
+/* Perfect list + subtle arrows - refined */
+.olympiad-list {
+  position: relative;
+  margin: 3rem 0;
+  padding-left: 0;
+}
+
+.olympiad-list > li {
+  position: relative;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  list-style: none;
+  transition: all 0.3s ease;
+}
+
+.olympiad-list > li:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+
+/* ONLY outside left accent line */
+.olympiad-list > li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--accent);
+  border-radius: 8px 0 0 8px;
+}
+
+.olympiad-list > li strong {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.25em;
+  font-weight: 600;
+  color: var(--text-color);
+  display: block;
+  margin: -0.25rem 0 1rem 0;
+}
+
+/* Nested lists - smaller font, aligned with title */
+.olympiad-list ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.olympiad-list ul li {
+  font-size: 0.95em;
+  line-height: 1.65;
+  color: var(--text-color);
+  opacity: 0.92;
+  margin-bottom: 0.5rem;
+  padding-left: 0;
+}
+
+/* Subtle background downward arrow */
+.olympiad-list > li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -1rem;
+  bottom: -1.5rem;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 24px solid rgba(0,0,0,0.08);
+  opacity: 0.3;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Dark mode arrow */
+body.dark-mode .olympiad-list > li:not(:last-child)::after {
+  border-top-color: rgba(255,255,255,0.08);
+}
+
+/* PASS RATE VISUALIZATION BAR */
+.pass-rate-bar {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pass-rate-track {
+  flex: 1;
+  height: 8px;
+  background: var(--header-bg);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.pass-rate-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 4px;
+}
+
+.pass-rate-text {
+  font-size: 0.75em;
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .olympiad-list > li {
+    margin-bottom: 2rem;
+    padding: 1.75rem;
+  }
+  
+  .olympiad-list > li:not(:last-child)::after {
+    right: -0.5rem;
+    border-top-width: 20px;
+    border-left-width: 10px;
+    border-right-width: 10px;
+  }
+  
+  .olympiad-list ul li {
+    font-size: 0.92em;
+  }
+}
+  </style>
+</head>
 <body>
+  <!-- Header -->
   <header>
     <nav>
       <ul>
@@ -66,91 +160,74 @@
       </div>
     </div>
   </header>
+
   <main>
     <section class="section">
-      <h2>Competiții</h2>
-      <p class="intro">Mai jos sunt prezentate competițiile în care am participat și explicate pentru persoanele care nu sunt familiarizate cu ele. Puteți vedea rezultatele pe care le-am obținut în <a href="profile-ro.html">profil</a>.</p>
+      <h2>Concursuri</h2>
+      <p class="intro">Mai jos sunt prezentate concursurile la care am participat și explicate pentru persoanele care nu sunt familiarizate cu ele. Rezultatele le poți vedea în <a href="profile-ro.html">profil</a>.</p>
+      
       <h3><b>Olimpiade</b></h3>
-      <p class="intro">Dacă o persoană ia locul 1, 2 sau 3, nu ar trebui să treacă etapele anterioare și doar revine la etapa în care a luat locul anul trecut. Altfel, dacă nu ai participări anterioare, începi de la început. În plus, majoritatea disciplinelor încep din clasa a 9-a, cu unele excepții: Română și Matematică (din clasa a 7-a), Informatică (din clasa a 8-a).</p>
-      <ul>
+      <p class="intro" style="text-align:justify">Dacă o persoană obține locul 1, 2 sau 3 nu trebuie să treacă fazele anterioare și revine doar la faza unde a obținut loc anul trecut. În caz contrar, dacă nu ai participări anterioare, începi de la început. În plus, majoritatea disciplinelor încep din clasa a IX-a, cu excepții care încep din clasa a VII-a sau a VIII-a.</p>
+      
+      <ul class="olympiad-list">
         <li>
-          <strong>Etapa Școlară</strong>
-          <hr>
+          <strong>Faza Școlară</strong>
           <ul>
-            <li>Organizată în fiecare liceu separat și sunt diferite, are scopul de a selecta din fiecare școală cei mai buni dintre cei mai buni și de a-i trimite să reprezinte liceul la etapele ulterioare. Dificultatea variază de la profesor la profesor.</li>
+            <li style="text-align:justify">Organizată separat în fiecare liceu și sunt diferite, are scopul de a selecta din fiecare școală pe cei mai buni și de a-i trimite să reprezinte liceul în fazele următoare. Dificultatea variază de la profesor la profesor.</li>
           </ul>
         </li>
         <li>
-          <strong>Etapa de Sector</strong>
-          <hr>
+          <strong>Faza de Sector</strong>
           <ul>
-            <li>Organizată doar în Chișinău și are ca scop să filtreze cei mai buni 25-30 din toți studenții. Acei 25-30 participă ulterior la etapa următoare. Testul ar trebui să aibă o dificultate puțin mai mare decât școala.</li>
-          </ul> 
+            <li style="text-align:justify">Organizată doar în Chișinău și are scopul de a filtra cei mai buni 25-30 de elevi din toți elevii. Acei 25-30 participă apoi la faza următoare. Testul ar trebui să aibă o dificultate puțin mai mare decât la școală.</li>
+          </ul>
+          <div class="pass-rate-bar">
+            <div class="pass-rate-track"><div class="pass-rate-fill" style="width: 30%;"></div></div>
+            <span class="pass-rate-text">~trec 30 (10-15 mențiuni) / 100</span>
+          </div>
         </li>
         <li>
-          <strong>Etapa Municipală/Regională</strong>
-          <hr>
+          <strong>Faza Municipală/Regională</strong>
           <ul>
-            <li>Din Chișinău trec primii 6 studenți, din alte orașe mari pot trece 3 și din alte regiuni din republică doar locul 1. Testul arată că necesită un nivel puțin mai avansat comparativ cu etapa anterioară.</li>
+            <li style="text-align:justify">Din Chișinău trec primii 6 elevi, din alte orașe mari pot trece 3, iar din alte regiuni ale republicii doar 1. Testul necesită un nivel puțin mai avansat față de faza anterioară.</li>
           </ul>
+          <div class="pass-rate-bar">
+            <div class="pass-rate-track"><div class="pass-rate-fill" style="width: 20%;"></div></div>
+            <span class="pass-rate-text">trec 6 (4 mențiuni) / 30</span>
+          </div>
         </li>
         <li>
-          <strong>Etapa Republicană</strong>
-          <hr>
+          <strong>Faza Republicană</strong>
           <ul>
-            <li>Primii 10 din fiecare clasă (6 locuri și 4 mențiuni) trec la etapa următoare (dacă doresc să participe). Dificultatea este cea mai mare, majoritatea seturi de probleme unice și noi pentru întreaga republică.</li>
+            <li style="text-align:justify">Primii 10 din fiecare clasă (6 locuri și 4 mențiuni) trec la faza următoare (dacă doresc să participe). Dificultatea este cea mai mare, probleme unice și noi pentru întreaga republică.</li>
           </ul>
+          <div class="pass-rate-bar">
+            <div class="pass-rate-track"><div class="pass-rate-fill" style="width: 25%;"></div></div>
+            <span class="pass-rate-text">10 (6 locuri + 4 mențiuni) / 40+</span>
+          </div>
         </li>
         <li>
-          <strong>Etapa de Selecție a Slotului Olimpic</strong>
-          <hr>
+          <strong>Faza de Selectare a Lotului Olimpic</strong>
           <ul>
-            <li>Din persoanele participante doar 4-5 vor trece la Slotul Olimpic care participă internațional.</li>
+            <li style="text-align:justify">Din participanți trec doar 4-5 la Lotul Olimpic care participă internațional. Pentru Matematică și discipline care încep mai devreme de clasa a IX-a, numărul crește la 60.</li>
           </ul>
+          <div class="pass-rate-bar">
+            <div class="pass-rate-track"><div class="pass-rate-fill" style="width: 10%;"></div></div>
+            <span class="pass-rate-text">trec 4-5 / 40 (sau 60*)</span>
+          </div>
         </li>
       </ul>
-      <h3>Concursul Memorial de Fizică "Mihai Marinciuc"</h3>
-      <p class="intro">Organizat de Universitatea Tehnică a Moldovei, unde studenții din întreaga republică pot participa. Problemele (doar în română și rusă) și rezultatele pot fi găsite pe site-ul lor: <a href="https://fizica.utm.md/data/concurs_marinciuc.php">fizica.utm.md</a></p>
-      <h3>Concursul Memorial de Matematică "Constantin Spătaru"</h3>
-      <p class="intro">A fost desființat de-a lungul anilor, dar anterior când încă avea loc era echivalentul Olimpiadei Municipale, chiar dacă participau studenți din școli din afara orașului. În plus, comparativ cu olimpiadele oficiale, această competiție era din clasa a 4-a.</p>
-    </section>
+
+      <h3>Concursul Memorial Republican "Mihai Marinciuc" de Fizică</h3>
+      <p class="intro" style="text-align:justify">Organizat de Universitatea Tehnică a Moldovei, unde elevi din întreaga <b>republică</b> pot participa. Problemele (doar în română și rusă) și rezultatele pot fi găsite pe site-ul lor: <a href="https://fizica.utm.md/data/concurs_marinciuc.php" class="standalone-link">fizica.utm.md</a></p>
+      </section>
   </main>
+
   <footer>
-    <p>Originalul este în Engleză. Traducerea este efectuată de BLACKBOX.AI</p>
-    <p><b>&copy; 2026 Mîrza Damian. Toate drepturile rezervate.</b></p>
+    <p>Limba implicită este Engleză. Traducerea în Română a fost făcută folosind BLACKBOX.AI</p>
+    <p><b><a href="copyright.txt" style="color: inherit; text-decoration: none;">&copy; 2026 Mîrza Damian. Toate drepturile rezervate</a></b></p>
   </footer>
   <script src="script.js"></script>
-
-  <script>
-// COPYRIGHT POPUP - FINAL BULLETPROOF VERSION
-document.addEventListener('DOMContentLoaded', function() {
-  const popup = document.getElementById('copyright-popup');
-  const accepted = localStorage.getItem('copyrightAccepted');
-  
-  console.log('Popup check:', accepted); // DEBUG
-  
-  if (accepted !== 'true') {
-    popup.style.display = 'flex';
-  }
-});
-
-function closePopup() {
-  localStorage.setItem('copyrightAccepted', 'true');
-  document.getElementById('copyright-popup').style.display = 'none';
-  console.log('ACCEPTED - stored forever');
-}
-</script>
-
-<!-- Popup with display: none by default -->
-<div id="copyright-popup" class="popup" style="display: none;">
-  <div class="popup-content">
-    <p style="text-align: justify;">
-      <b>EN:</b> This website is protected by copyright. By continuing, you acknowledge and agree to respect the ownership of all content. <a href="copyright.txt">Copyright</a>
-    </p>
-    <p style="text-align: justify;">
-      <b>RO:</b> Acest site web este protejat de drepturi de autor. Prin continuare, recunoașteți și sunteți de acord să respectați proprietatea asupra întregului conținut. <a href="copyright.txt">Copyright</a>
-    <button onclick="closePopup()">Accept</button>
-  </div>
-</div>
+  <div id="copyright-popup" class="popup" style="display:none"><div class="popup-content"><h2>Notificare Drepturi de Autor</h2><p><b>EN:</b> This website and all its content are protected by international copyright laws.</p><p><b>RO:</b> Acest site și tot conținutul sunt protejate de legile drepturilor de autor.</p><div class="popup-buttons"><a href="copyright-ro.html" class="popup-btn popup-btn-info">Informații Suplimentare</a><button onclick="acceptCopyright()" class="popup-btn popup-btn-accept">Înțeleg</button></div></div></div>
 </body>
 </html>
