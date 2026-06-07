@@ -4,17 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Index</title>
+  <script>
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+  }
+</script>
   <link rel="stylesheet" href="style.css">
+  
+  <!-- Analytics -->
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="0da5a0f4-df51-4b86-8e8a-2c1b12beb392"></script>
+  
   <style>
-    /* INDEX PAGE - HORIZONTAL BUTTONS, NO ROUNDING */
+    /* INDEX PAGE - HEADER RIGHT ALIGNED */
+    header {
+      justify-content: flex-end !important;
+    }
+
     main {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 120px 20px 60px;
-      gap: 4rem;
+      padding: 80px 20px 60px;
+      gap: 3rem;
     }
 
     .index-buttons {
@@ -22,14 +35,12 @@
       gap: 2rem;
       justify-content: center;
       flex-wrap: wrap;
-      /* HORIZONTAL ON PC */
     }
 
     .index-button {
       background: linear-gradient(135deg, var(--card-bg), var(--header-bg));
       padding: 2rem 3rem;
       text-align: center;
-      /* NO ROUNDING */
       border-radius: 0;
       border: 2px solid transparent;
       box-shadow: 0 8px 30px rgba(0,0,0,0.1);
@@ -48,16 +59,66 @@
       border-color: var(--accent);
     }
 
-    .index-controls {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2rem;
+    /* LARGER UPDATE BOX */
+    .update-box {
+      background-color: var(--card-bg);
+      padding: 1.5rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
       text-align: center;
+      margin-top: 1rem;
+      max-width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .update-box strong {
+      font-size: 1.2em;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .update-box p {
+      font-size: 1em;
+      margin: 0 0 10px 0;
+      line-height: 1.5;
+      color: var(--text-color);
+    }
+
+    .update-box .log-link {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 20px;
+      background: var(--button-bg);
+      color: var(--bg-color) !important;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .update-box .log-link:hover {
+      background: var(--button-hover);
+      transform: translateY(-2px);
+    }
+
+    .index-footer-text {
+      text-align: center;
+      margin: 1.5rem 0 0 0;
+      color: var(--text-color);
+    }
+
+    .index-footer-text p {
+      margin: 0.5rem 0;
     }
 
     /* Mobile */
     @media (max-width: 768px) {
+      main {
+        padding: 60px 15px 40px;
+        gap: 2rem;
+      }
+      
       .index-buttons {
         flex-direction: column;
         align-items: center;
@@ -73,107 +134,56 @@
     }
   </style>
 </head>
-
-  <script>
-// ENCRYPTED TRACKER - Add to index.html, profile.html, etc.
-(function(){
-  const CRYPTO_KEY = 'DamianAnalytics2024SecretKey!';
   
-  function encrypt(text) {
-    let result = ''; 
-    for(let i=0;i<text.length;i++){
-      result += String.fromCharCode(text.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
-    }
-    return btoa(result);
-  }
-  
-  function decrypt(enc) {
-    try {
-      const decoded = atob(enc);
-      let result = '';
-      for(let i=0;i<decoded.length;i++){
-        result += String.fromCharCode(decoded.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
-      }
-      return result;
-    } catch { return '0'; }
-  }
-  
-  // Count visits
-  let total = parseInt(decrypt(localStorage.getItem('analytics_total_enc') || encrypt('0'))) + 1;
-  localStorage.setItem('analytics_total_enc', encrypt(total.toString()));
-  
-  const todayKey = 'analytics_today_enc_' + new Date().toDateString();
-  let today = parseInt(decrypt(localStorage.getItem(todayKey) || encrypt('0'))) + 1;
-  localStorage.setItem(todayKey, encrypt(today.toString()));
-  
-  // Track country
-  fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
-    const country = d.country_name || 'Unknown';
-    let countries = JSON.parse(decrypt(localStorage.getItem('analytics_countries_enc') || encrypt('[]')));
-    countries.push(country);
-    if(countries.length > 100) countries = countries.slice(-100);
-    localStorage.setItem('analytics_countries_enc', encrypt(JSON.stringify(countries)));
-  }).catch(()=>{}); // Silent fail
-})();
-</script>
 <body>
+
+  <!-- HEADER - TOGGLES FIXED RIGHT -->
+  <header>
+    <div class="toggles" style="margin-left: auto;">
+      <button id="dark-mode-toggle"></button>
+      <div class="lang-buttons">
+        <button class="lang-button">EN</button>
+        <button class="lang-button active">RO</button>
+      </div>
+    </div>
+  </header>
+
   <main>
+    <!-- ONLY BUTTONS IN MIDDLE -->
     <div class="index-buttons">
       <a href="profile-ro.html" class="index-button">Profil</a>
       <a href="resources-ro.html" class="index-button">Resurse</a>
       <a href="projects-ro.html" class="index-button">Proiecte</a>
     </div>
     
-    <div class="index-controls">
-      <button id="dark-mode-toggle"></button>
-      <div class="lang-buttons">
-        <button class="lang-button">EN</button>
-        <button class="lang-button active">RO</button>
-      </div>
-      <div class="update-box">
-        <strong>Ultima actualizare</strong>
-        <p>Nicio actualizare</p>
-      </div>
+    <!-- UPDATE BOX -->
+    <div class="update-box">
+      <strong>Ultima actualizare</strong>
+      <p>Actualizare la paginele web, care pot fi găsite în jurnalul de modificări</p>
+      <a href="log.html" class="log-link">Vezi jurnalul de modificări →</a>
     </div>
     
-    <p style="text-align: center; margin: 2rem 0 0 0; color: var(--text-color);">Originalul este în Engleză. Traducerea este efectuată de BLACKBOX.AI</p>
-    <p style="text-align: center; margin: 0.5rem 0 0 0; color: var(--text-color);"><b>&copy; 2026 Mîrza Damian. Toate drepturile rezervate</b></p>
+    <!-- FOOTER TEXT -->
+    <div class="index-footer-text">
+      <p>Limba implicită este Engleză. Traducerea în Română a fost făcută folosind BLACKBOX.AI</p>
+      <p><b>&copy; 2026 Mîrza Damian. Toate drepturile rezervate</b></p>
+    </div>
   </main>
-
-
   
   <script src="script.js"></script>
 
-  <script>
-// COPYRIGHT POPUP - FINAL BULLETPROOF VERSION
-document.addEventListener('DOMContentLoaded', function() {
-  const popup = document.getElementById('copyright-popup');
-  const accepted = localStorage.getItem('copyrightAccepted');
-  
-  console.log('Popup check:', accepted); // DEBUG
-  
-  if (accepted !== 'true') {
-    popup.style.display = 'flex';
-  }
-});
-
-function closePopup() {
-  localStorage.setItem('copyrightAccepted', 'true');
-  document.getElementById('copyright-popup').style.display = 'none';
-  console.log('ACCEPTED - stored forever');
-}
-</script>
-
-<!-- Popup with display: none by default -->
-<div id="copyright-popup" class="popup" style="display: none;">
-  <div class="popup-content">
-    <p style="text-align: justify;">
-      <b>EN:</b> This website is protected by copyright. By continuing, you acknowledge and agree to respect the ownership of all content. <a href="copyright.txt">Copyright</a>
-    </p>
-    <p style="text-align: justify;">
-      <b>RO:</b> Acest site web este protejat de drepturi de autor. Prin continuare, recunoașteți și sunteți de acord să respectați proprietatea asupra întregului conținut. <a href="copyright.txt">Copyright</a>
-    <button onclick="closePopup()">Accept</button>
+  <!-- COPYRIGHT POPUP -->
+  <div id="copyright-popup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <h2>Notificare privind drepturile de autor</h2>
+      <p><b>EN:</b> Acest site web și întregul său conținut sunt protejate de legile internaționale privind drepturile de autor. Accesând acest site, recunoașteți și sunteți de acord să respectați drepturile de proprietate intelectuală ale proprietarului.</p>
+      <p><b>RO:</b> Acest site web și întregul său conținut sunt protejate de legile internaționale privind drepturile de autor. Accesând acest site, recunoașteți și sunteți de acord să respectați drepturile de proprietate intelectuală ale proprietarului.</p>
+      <div class="popup-buttons">
+        <a href="copyright-ro.html" class="popup-btn popup-btn-info">Informații suplimentare</a>
+        <button onclick="acceptCopyright()" class="popup-btn popup-btn-accept">Înțeleg</button>
+      </div>
+    </div>
   </div>
-</div>
+  
 </body>
 </html>
