@@ -4,7 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gallery</title>
+  <script>
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+  }
+</script>
   <link rel="stylesheet" href="style.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="1004cd06-ff96-417c-93b7-64e2e4a45d5b"></script>
   <style>
     /* ================= GALLERY PAGE STYLES ================= */
     
@@ -160,48 +166,6 @@
   </style>
 </head>
 
-  <script>
-// ENCRYPTED TRACKER - Add to index.html, profile.html, etc.
-(function(){
-  const CRYPTO_KEY = 'DamianAnalytics2024SecretKey!';
-  
-  function encrypt(text) {
-    let result = ''; 
-    for(let i=0;i<text.length;i++){
-      result += String.fromCharCode(text.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
-    }
-    return btoa(result);
-  }
-  
-  function decrypt(enc) {
-    try {
-      const decoded = atob(enc);
-      let result = '';
-      for(let i=0;i<decoded.length;i++){
-        result += String.fromCharCode(decoded.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
-      }
-      return result;
-    } catch { return '0'; }
-  }
-  
-  // Count visits
-  let total = parseInt(decrypt(localStorage.getItem('analytics_total_enc') || encrypt('0'))) + 1;
-  localStorage.setItem('analytics_total_enc', encrypt(total.toString()));
-  
-  const todayKey = 'analytics_today_enc_' + new Date().toDateString();
-  let today = parseInt(decrypt(localStorage.getItem(todayKey) || encrypt('0'))) + 1;
-  localStorage.setItem(todayKey, encrypt(today.toString()));
-  
-  // Track country
-  fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
-    const country = d.country_name || 'Unknown';
-    let countries = JSON.parse(decrypt(localStorage.getItem('analytics_countries_enc') || encrypt('[]')));
-    countries.push(country);
-    if(countries.length > 100) countries = countries.slice(-100);
-    localStorage.setItem('analytics_countries_enc', encrypt(JSON.stringify(countries)));
-  }).catch(()=>{}); // Silent fail
-})();
-</script>
 <body>
 
 <header>
@@ -684,8 +648,86 @@
         <p class="gallery-desc">Moldova • 2026</p>
       </div>
     </div>
+	
+	<div class="gallery-item" data-full="img58.jpg">
+      <img src="img58.jpg" alt="Photo 58">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Sunset over trees</h3>
+        <p class="gallery-desc">Romania • 2026</p>
+      </div>
+    </div>
 
-    
+    <div class="gallery-item" data-full="img59.jpg">
+      <img src="img59.jpg" alt="Photo 59">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Plane</h3>
+        <p class="gallery-desc">Romania • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img60.jpg">
+      <img src="img60.jpg" alt="Photo 60">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">House Facade</h3>
+        <p class="gallery-desc">Romania • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img61.jpg">
+      <img src="img61.jpg" alt="Photo 61">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Dewdrops from branch</h3>
+        <p class="gallery-desc">Romania • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img62.jpg">
+      <img src="img62.jpg" alt="Photo 62">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Village from the hill</h3>
+        <p class="gallery-desc">Romania • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img63.jpg">
+      <img src="img63.jpg" alt="Photo 63">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Crane Fly</h3>
+        <p class="gallery-desc">Romania • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img64.jpg">
+      <img src="img64.jpg" alt="Photo 64">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Vintage Gramophone</h3>
+        <p class="gallery-desc">Romania • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img65.jpg">
+      <img src="img65.jpg" alt="Photo 65">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Lighter designs</h3>
+        <p class="gallery-desc">Romania • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img66.jpg">
+      <img src="img66.jpg" alt="Photo 66">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Rotational mechanism</h3>
+        <p class="gallery-desc">Romania • 2026</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-full="img67.jpg">
+      <img src="img67.jpg" alt="Photo 67">
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Vintage camera</h3>
+        <p class="gallery-desc">Romania • 2026</p>
+      </div>
+    </div>
     
   </div>
 </main>
@@ -751,36 +793,6 @@
   });
 </script>
 
-  <script>
-// COPYRIGHT POPUP - FINAL BULLETPROOF VERSION
-document.addEventListener('DOMContentLoaded', function() {
-  const popup = document.getElementById('copyright-popup');
-  const accepted = localStorage.getItem('copyrightAccepted');
-  
-  console.log('Popup check:', accepted); // DEBUG
-  
-  if (accepted !== 'true') {
-    popup.style.display = 'flex';
-  }
-});
-
-function closePopup() {
-  localStorage.setItem('copyrightAccepted', 'true');
-  document.getElementById('copyright-popup').style.display = 'none';
-  console.log('ACCEPTED - stored forever');
-}
-</script>
-
-<!-- Popup with display: none by default -->
-<div id="copyright-popup" class="popup" style="display: none;">
-  <div class="popup-content">
-    <p style="text-align: justify;">
-      <b>EN:</b> This website is protected by copyright. By continuing, you acknowledge and agree to respect the ownership of all content. <a href="copyright.txt">Copyright</a>
-    </p>
-    <p style="text-align: justify;">
-      <b>RO:</b> Acest site web este protejat de drepturi de autor. Prin continuare, recunoașteți și sunteți de acord să respectați proprietatea asupra întregului conținut. <a href="copyright.txt">Copyright</a>
-    <button onclick="closePopup()">Accept</button>
-  </div>
-</div>
+<div id="copyright-popup" class="popup" style="display:none"><div class="popup-content"><h2>Copyright Notice</h2><p><b>EN:</b> This website and all its content are protected by international copyright laws.</p><p><b>RO:</b> Acest site și tot conținutul sunt protejate de legile drepturilor de autor.</p><div class="popup-buttons"><a href="copyright.html" class="popup-btn popup-btn-info">Additional Information</a><button onclick="acceptCopyright()" class="popup-btn popup-btn-accept">I Understand</button></div></div></div>
 </body>
 </html>
