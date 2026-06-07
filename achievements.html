@@ -4,251 +4,285 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Achievements</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-
   <script>
-// ENCRYPTED TRACKER - Add to index.html, profile.html, etc.
-(function(){
-  const CRYPTO_KEY = 'DamianAnalytics2024SecretKey!';
-  
-  function encrypt(text) {
-    let result = ''; 
-    for(let i=0;i<text.length;i++){
-      result += String.fromCharCode(text.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
-    }
-    return btoa(result);
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
   }
-  
-  function decrypt(enc) {
-    try {
-      const decoded = atob(enc);
-      let result = '';
-      for(let i=0;i<decoded.length;i++){
-        result += String.fromCharCode(decoded.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
-      }
-      return result;
-    } catch { return '0'; }
-  }
-  
-  // Count visits
-  let total = parseInt(decrypt(localStorage.getItem('analytics_total_enc') || encrypt('0'))) + 1;
-  localStorage.setItem('analytics_total_enc', encrypt(total.toString()));
-  
-  const todayKey = 'analytics_today_enc_' + new Date().toDateString();
-  let today = parseInt(decrypt(localStorage.getItem(todayKey) || encrypt('0'))) + 1;
-  localStorage.setItem(todayKey, encrypt(today.toString()));
-  
-  // Track country
-  fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
-    const country = d.country_name || 'Unknown';
-    let countries = JSON.parse(decrypt(localStorage.getItem('analytics_countries_enc') || encrypt('[]')));
-    countries.push(country);
-    if(countries.length > 100) countries = countries.slice(-100);
-    localStorage.setItem('analytics_countries_enc', encrypt(JSON.stringify(countries)));
-  }).catch(()=>{}); // Silent fail
-})();
 </script>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="1004cd06-ff96-417c-93b7-64e2e4a45d5b"></script>
+  <style>
+/* ACHIEVEMENTS - COMPACT BOXES */
+.achievement-subject { margin-bottom: 2.5rem; }
+.achievement-subject h3 { margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--accent); }
+
+/* BOXES - SAME LEFT EDGE COLOR + MORE SPACE FOR PHASE */
+.achievement-box {
+  position: relative;
+  margin-bottom: 0.5rem;
+  padding: 1.6rem 0.85rem 0.85rem 1.1rem;
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  list-style: none;
+  overflow: hidden;
+}
+
+/* SAME EDGE COLOR - LIGHT & DARK */
+.achievement-box::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--accent);
+}
+
+.achievement-box.republican,
+.achievement-box.international {
+  background: var(--header-bg);
+}
+
+/* PHASE LABEL - VISIBLE COLOR */
+.achievement-box .phase {
+  position: absolute;
+  top: 0.4rem;
+  left: 1rem;
+  font-size: 0.65em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-color); /* VISIBLE COLOR */
+  font-weight: 500;
+}
+
+/* COMPACT ENTRIES */
+.achievement-box .entries {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.achievement-box .entry {
+  display: flex;
+  align-items: center;
+}
+
+.achievement-box .year {
+  font-weight: 700;
+  min-width: 42px;
+}
+
+.achievement-box .place {
+  font-weight: 700;
+  padding-left: 1.3rem;
+}
+
+.achievement-box .rank {
+  margin-left: auto;
+  font-size: 0.9em;
+  opacity: 0.65;
+}
+
+/* MEDAL COLORS */
+.place-1st { color: #d4af37; }
+.place-2nd { color: #6b6b6b; }
+.place-3rd { color: #a07040; }
+.place-hm { font-weight: 600; }
+
+/* MEMORIAL NOTE */
+.memorial-note {
+  font-size: 0.85em;
+  opacity: 0.7;
+  font-style: italic;
+  margin: 0 0 0.75rem 0;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .achievement-box { padding: 1.5rem 0.75rem 0.75rem 1rem; }
+  .achievement-box .phase { left: 0.85rem; }
+  .achievement-box .entry { gap: 0.35rem; }
+  .achievement-box .year { min-width: 38px; font-size: 0.95em; }
+  .achievement-box .place { padding-left: 1rem; }
+}
+  </style>
+</head>
 <body>
   <header>
-    <nav>
-      <ul>
-        <li><a href="profile.html">Profile</a></li>
-        <li><a href="resources.html">Resources</a></li>
-        <li><a href="projects.html">Projects</a></li>
-      </ul>
-    </nav>
-    <div class="toggles">
-      <button id="dark-mode-toggle"></button>
-      <div class="lang-buttons">
-        <button class="lang-button active">EN</button>
-        <button class="lang-button">RO</button>
-      </div>
-    </div>
+    <nav><ul><li><a href="profile.html">Profile</a></li><li><a href="resources.html">Resources</a></li><li><a href="projects.html">Projects</a></li></ul></nav>
+    <div class="toggles"><button id="dark-mode-toggle"></button><div class="lang-buttons"><button class="lang-button active">EN</button><button class="lang-button">RO</button></div></div>
   </header>
   <main>
     <section class="section">
       <h2>Achievements</h2>
       <p class="intro">Below are presented my academic achievements in the following <a href="competitions.html" class="standalone-link">competitions</a>.</p>
-      <h3><b>Olympiads</b></h3>
-      <ul>
-        <li>
-          <strong>Mathematics</strong>
-          <hr>
-          <ul>
-            <li>Multiple District Mathematics Olympiads:</li>
-            <ul>
-              <li><b>2023</b> - Honorary Mention (#36 rank out of 165)</li>
-              <li><b>2024</b> - 2nd Place (#9 rank out of 173)</li>
-              <li><b>2025</b> - 3rd Place (#21 rank)</li>
-              <li><b>2026</b> - 1st Place (#4 rank out of 106)</li>
-            </ul>
-            <li>Multiple Municipal Mathematics Olympiads:</li>
-            <ul>
-              <li><b>2024</b> - Honorary Mention (#9 rank out of 31)</li>
-              <li><b>2025</b> - Honorary Mention (#9 rank)</li>
-              <li><b>2026</b> - 2nd Place (#2 out of 28)</li>
-            </ul>
-          </ul>
+      
+      <!-- MATHEMATICS -->
+      <div class="achievement-subject">
+        <h3><b>Mathematics</b></h3>
+        
+        <li class="achievement-box republican">
+          <span class="phase">Republican</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place">#11 rank</span><span class="rank">(from 40+)</span></div>
+          </div>
         </li>
-        <li>
-          <strong>Physics</strong>
-          <hr>
-          <ul>
-            <li>Multiple District Physics Olympiads:</li>
+        
+        <li class="achievement-box">
+          <span class="phase">Municipal</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place place-2nd">2nd Place</span><span class="rank">(#2/28)</span></div>
+            <div class="entry"><span class="year">2025</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#9/31)</span></div>
+            <div class="entry"><span class="year">2024</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#9/31)</span></div>
+          </div>
+        </li>
+        
+        <li class="achievement-box">
+          <span class="phase">District</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place place-1st">1st Place</span><span class="rank">(#4/106)</span></div>
+            <div class="entry"><span class="year">2025</span><span class="place place-3rd">3rd Place</span><span class="rank">(#21/165)</span></div>
+            <div class="entry"><span class="year">2024</span><span class="place place-2nd">2nd Place</span><span class="rank">(#9/173)</span></div>
+            <div class="entry"><span class="year">2023</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#36/165)</span></div>
+          </div>
+        </li>
+      </div>
+      
+      <!-- PHYSICS -->
+      <div class="achievement-subject">
+        <h3><b>Physics</b></h3>
+        
+		<li class="achievement-box international">
+          <span class="phase">Balkan</span>
+          <div class="entries">
+            <div class="entry"><span class="year">June 30, 2026</span><span class="place"></span><span class="rank">(# / )</span></div>
+          </div>
+        </li>
+		
+		<li class="achievement-box republican">
+          <span class="phase">Olympic Slot Selection</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place">#12 rank</span><span class="rank">(from 40)</span></div>
+          </div>
+        </li>
+		
+        <li class="achievement-box republican">
+          <span class="phase">Republican</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#9/40+)</span></div>
+          </div>
+        </li>
+        
+        <li class="achievement-box">
+          <span class="phase">Municipal</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place place-2nd">2nd Place</span><span class="rank">(#3/26)</span></div>
+            <div class="entry"><span class="year">2025</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#9/38)</span></div>
+            <div class="entry"><span class="year">2024</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#8/30)</span></div>
+          </div>
+        </li>
+        
+        <li class="achievement-box">
+          <span class="phase">District</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place place-3rd">3rd Place</span><span class="rank">(#10/78)</span></div>
+            <div class="entry"><span class="year">2025</span><span class="place place-3rd">3rd Place</span><span class="rank">(#26/99)</span></div>
+            <div class="entry"><span class="year">2024</span><span class="place place-2nd">2nd Place</span><span class="rank">(#15/107)</span></div>
+          </div>
+        </li>
+      </div>
+      
+      <!-- INFORMATICS -->
+      <div class="achievement-subject">
+        <h3><b>Informatics</b></h3>
+        
+        <li class="achievement-box">
+          <span class="phase">District</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place place-2nd">2nd Place</span><span class="rank">(#9/65)</span></div>
+            <div class="entry"><span class="year">2025</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#23/60)</span></div>
+          </div>
+        </li>
+      </div>
+      
+      <!-- ASTRONOMY -->
+      <div class="achievement-subject">
+        <h3><b>Astronomy and Astrophysics</b></h3>
+        
+        <li class="achievement-box republican">
+          <span class="phase">Republican</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place place-3rd">Bronze Medal</span><span class="rank">(#8/35)</span></div>
+            <div class="entry"><span class="year">2025</span><span class="place place-2nd">Silver Medal</span><span class="rank">(#9/30)</span></div>
+          </div>
+        </li>
+      </div>
+      
+      <!-- CHEMISTRY -->
+      <div class="achievement-subject">
+        <h3><b>Chemistry</b></h3>
+        
+        <li class="achievement-box">
+          <span class="phase">District</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2023</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#44/80)</span></div>
+          </div>
+        </li>
+      </div>
+      
+      <!-- "MIHAI MARINCIUC" MEMORIAL -->
+      <div class="achievement-subject">
+        <h3><b>"Mihai Marinciuc" Memorial Physics Competition</b></h3>
+        
+        <p class="memorial-note">The contest is equivalent to the Republican Physics Olympiad. More details you can see in <a href="competitions.html">competitions</a></p>
+        
+        <li class="achievement-box republican">
+          <span class="phase">Contest</span>
+          <div class="entries">
+            <div class="entry"><span class="year">2026</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#5/40)</span></div>
+            <div class="entry"><span class="year">2025</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#7/35)</span></div>
+            <div class="entry"><span class="year">2024</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#7/38)</span></div>
+            <div class="entry"><span class="year">2023</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#10/35)</span></div>
+            <div class="entry"><span class="year">2021</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#15/30)</span></div>
+          </div>
+        </li>
+      </div>
+      
+      <!-- CAMPS -->
+      <section class="section">
+        <h2>Camps and Courses</h2>
+        <ul>
+          <li>
+            <strong>Model Aircraft and Drones course</strong>
+            <hr>
             <ul>
-              <li><b>2024</b> - 2nd Place (#15 rank out of 107)</li>
-              <li><b>2025</b> - 3rd Place (#26 rank out of 99)</li>
-              <li><b>2026</b> - 3rd Place (#10 rank out of 78)</li>
+              <li><b>2018, organised by Fablab and Tekwill</b></li>
+              <li>Learned the basics of aerodynamics for a glider. Constructed a glider and tested it for resistance and how much time it remains in air (where achieved 2nd place). As final project was to control a propulsated glider (with a small motor in front) and to hold it in air for as much time as possible.</li>
             </ul>
-            <li>Multiple Municipal Physics Olympiads:</li>
+          </li>
+          <li>
+            <strong><a href="the-path-to-scientific-discoveries.html" class="standalone-link">Third Edition of the Summer School "The Path to Scientific Discoveries"</a></strong>
+            <hr>
             <ul>
-              <li><b>2024</b> - Honorary Mention (#8 rank out of 30)</li>
-              <li><b>2025</b> - Honorary Mention (#9 rank out of 38)</li>
-              <li><b>2026</b> - 2nd Place (#3 rank out of 26)</li>
+              <li><b>June 2025, organised by Academy of Sciences of Moldova</b></li>
+              <li>Selected participant at a summer school program in which scientists, scholars, and distinguished experts from diverse scientific disciplines participate. Received theoretical and practical instruction in scientific development and methodologies of research and society’s relationship with science through lectures and discussions held at the program. The participation enhanced my knowledge about the relationship between scientific development and technological development and welfare of society, making me more interested in field of research.</li>
             </ul>
-            <li>Republican Physics Olympiads:</li>
+          </li>
+          <li>
+            <strong><a href="https://bpu-hps-summer-school-2025.eu/" class="standalone-link">Second Balkan Student Summer School on Quantum Physics</a></strong>
+            <hr>
             <ul>
-              <li><b>2026</b> - Honorary Mention (#9 rank out of 40+)</li>
+              <li><b>August 2025, organised by Balkan Physical Union, European Physical Society, Hellenic Physical Society and others</b></li>
+              <li>Participated in an international summer school on the basic principles of quantum physics and its applications, which brought together students from the entire Balkan region. Gained knowledge on the basic concepts of quantum physics such as the wave-particle duality of objects, superposition and entanglement and realized the importance of these concepts in modern quantum technologies such as quantum computing and quantum sensing. Attended lectures and laboratory courses during which the famous experiments of physics were performed, among which were the photoelectric effect experiment, the double-slit experiment and the Franck-Hertz experiment.</li>
             </ul>
-          </ul>
-        </li>
-        <li>
-          <strong>Informatics</strong>
-          <hr>
-          <ul>
-            <li>Multiple District Informatics Olympiad:</li>
-            <ul>
-              <li><b>2025</b> - Honorary Mention (#23 rank)</li>
-              <li><b>2026</b> - 2nd Place (#9 rank out of 65) </li>
-            </ul>
-          </ul>
-        </li>
-        <li>
-          <strong>Astronomy and Astrophysics</strong>
-          <hr>
-          <ul>
-            <li>Multiple Republican Astronomy and Astrophysics Olympiads:</li>
-            <ul>
-              <li><b>2025</b> - Silver Medal (#9 rank)</li>
-              <li><b>2026</b> - Bronze Medal (#8 rank)</li>
-            </ul>
-          </ul>
-        </li>
-        <li>
-          <strong>Chemistry</strong>
-          <hr>
-          <ul>
-            <li>District Chemistry Olympiad:</li>
-            <ul>
-              <li><b>2023</b> - Honorary Mention (#44 rank)</li>
-            </ul>
-          </ul>
-        </li>
-      </ul>
-    <h3><b>"Mihai Marinciuc" Memorial Physics Competition</b></h3>
-      <ul>
-        <li>
-          <p class="intro">It was an equivalent to republican contest. Mihai Marinciuc was one great physics teacher and for his attributions in physics domain, T.U.M. created this contest.</p>
-          <hr>
-          <ul>
-            <ul>
-            <li><b>2021</b> - Honorary Mention (#15 rank)</li>
-            <li><b>2023</b> - Honorary Mention (#10 rank)</li>
-            <li><b>2024</b> - Honorary Mention (#7 rank)</li>
-            <li><b>2025</b> - Honorary Mention (#7 rank)</li>
-            <li><b>2026</b> - Honorary Mention (#5 rank)</li>
-            </ul>
-          </ul>
-        </li>
-      </ul>
-    <h3><b>"Constantin Spătaru" Memorial Mathematics Competition</b></h3>
-      <ul>
-        <li>
-          <p class="intro">It was an equivalent to municipal olympiad. Constantin Spătaru was one great math teacher and in his memorial was created this contest. Sadly it stopped taking place.</p>
-          <hr>
-          <ul>
-            <ul>
-            <li><b>2019</b> - Honorary Mention (#41 rank out of 181)</li>
-            <li><b>2020</b> - 3rd Place (#3 rank out of 180+)</li>
-            </ul>
-          </ul>
-        </li>
-      </ul>
-    </section>
-    <section class="section">
-      <h2>Camps and courses</h2>
-      <ul>
-        <li>
-          <strong>Model Aircraft and Drones course</strong>
-          <hr>
-          <ul>
-            <li><b>2018, organised by Fablab and Tekwill</b></li>
-            <li>Learned the basics of aerodynamics for a glider. Constructed a glider and tested it for resistance and how much time it remains in air (where achieved 2nd place). As final project was to control a propulsated glider (with a small motor in front) and to hold it in air for as much time as possible.</li>
-          </ul>
-        </li>
-        <li>
-          <strong><a href="the-path-to-scientific-discoveries.html" class="standalone-link">Third Edition of the Summer School "The Path to Scientific Discoveries"</a></strong>
-          <hr>
-          <ul>
-            <li><b>June 2025, organised by Academy of Sciences of Moldova</b></li>
-            <li>During the multiple visits of important figures in their field and listening their perspective, understood why humanity is dependent and why is necessary to do scientific discoveries, not for personal gain, rather for the good of the society.</li>
-          </ul>
-        </li>
-        <li>
-          <strong><a href="https://bpu-hps-summer-school-2025.eu/" class="standalone-link">Second Balkan Student Summer School on Quantum Physics</a></strong>
-          <hr>
-          <ul>
-            <li><b>August 2025, organised by Balkan Physical Union, European Physical Society, Hellenic Physical Society and others</b></li>
-            <li>During the multiple days of the summer school, learned new concepts and enhanced my knowledge on quantum physics, developing new ideas of how to interpret it and why physics, especially quantum physics is the base of future development of our world.</li>
-          </ul>
-        </li>
-      </ul>
-    </section>
-    
+          </li>
+        </ul>
+      </section>
   </main>
   <footer>
     <p>Default language is English. Translation to Romanian was done using BLACKBOX.AI</p>
-    <p>
-  <b>
-    <a href="copyright.txt" style="color: inherit; text-decoration: none; cursor: default;">
-      &copy; 2026 Mîrza Damian. All rights reserved
-    </a>
-  </b>
-</p>
+    <p><b><a href="copyright.txt" style="color: inherit; text-decoration: none;">&copy; 2026 Mîrza Damian. All rights reserved</a></b></p>
   </footer>
   <script src="script.js"></script>
-
-  <script>
-// COPYRIGHT POPUP - FINAL BULLETPROOF VERSION
-document.addEventListener('DOMContentLoaded', function() {
-  const popup = document.getElementById('copyright-popup');
-  const accepted = localStorage.getItem('copyrightAccepted');
-  
-  console.log('Popup check:', accepted); // DEBUG
-  
-  if (accepted !== 'true') {
-    popup.style.display = 'flex';
-  }
-});
-
-function closePopup() {
-  localStorage.setItem('copyrightAccepted', 'true');
-  document.getElementById('copyright-popup').style.display = 'none';
-  console.log('ACCEPTED - stored forever');
-}
-</script>
-
-<!-- Popup with display: none by default -->
-<div id="copyright-popup" class="popup" style="display: none;">
-  <div class="popup-content">
-    <p style="text-align: justify;">
-      <b>EN:</b> This website is protected by copyright. By continuing, you acknowledge and agree to respect the ownership of all content. <a href="copyright.txt">Copyright</a>
-    </p>
-    <p style="text-align: justify;">
-      <b>RO:</b> Acest site web este protejat de drepturi de autor. Prin continuare, recunoașteți și sunteți de acord să respectați proprietatea asupra întregului conținut. <a href="copyright.txt">Copyright</a>
-    <button onclick="closePopup()">Accept</button>
-  </div>
-</div>
+  <div id="copyright-popup" class="popup" style="display:none"><div class="popup-content"><h2>Copyright Notice</h2><p><b>EN:</b> This website and all its content are protected by international copyright laws.</p><p><b>RO:</b> Acest site web și tot conținutul sunt protejate de legile drepturilor de autor.</p><div class="popup-buttons"><a href="copyright.html" class="popup-btn popup-btn-info">Additional Information</a><button onclick="acceptCopyright()" class="popup-btn popup-btn-accept">I Understand</button></div></div></div>
 </body>
 </html>
