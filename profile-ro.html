@@ -4,446 +4,61 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profil</title>
+  <script>
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+  }
+</script>
   <link rel="stylesheet" href="style.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="1004cd06-ff96-417c-93b7-64e2e4a45d5b"></script>
   <style>
-
-/* ================= FIXED SPACING ONLY ================= */
-
-/* HERO - remove forced height & reduce padding */
-.profile-hero {
-  position: relative;
-  min-height: auto; /* FIXED */
-  overflow: hidden;
-  padding: 40px 20px 30px; /* FIXED */
-  margin: 0;
-}
-
-/* remove vertical stretching */
-.hero-content {
-  max-width: 1400px;
-  margin: 0 auto;
-  height: auto; /* FIXED */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 3rem;
-}
-
-/* reduce global spacing */
-main {
-  flex: 1;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px 20px; /* FIXED */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 40px; /* FIXED */
-  width: 100%;
-}
-
-/* reduce gap before Languages */
-.section {
-  padding: 0 20px 30px; /* FIXED */
-}
-
-/* mobile stretch fix */
-@media (max-width: 1024px) {
-  .hero-content {
-    flex-direction: column;
-    height: auto;
-    min-height: auto; /* FIXED */
-  }
-}
-
-/* ================= ORIGINAL CSS BELOW (UNCHANGED) ================= */
-
-/* GRADIENT ONLY ON HEY TEXT - NO BIG BOX ANYWHERE */
-body {
-  background: var(--bg-color);
-}
-
-/* ONLY HEY TEXT HAS GRADIENT - SMALL PERFECT BOX */
-.hero-text-container {
-  background: linear-gradient(135deg, 
-    rgba(249, 249, 249, 0.98) 0%, 
-    rgba(255, 255, 255, 1) 50%, 
-    rgba(233, 233, 233, 0.98) 100%);
-  border-radius: 20px;
-  height: 400px; /* match image */
-  display: flex;
-  padding: 2rem;
-  box-shadow: 0 12px 35px rgba(0,0,0,0.08);
-  max-width: 600px; /* was 550px */
-  width: 100%;
-}
-
-body.dark-mode .hero-text-container {
-  background: linear-gradient(135deg, 
-    rgba(26, 26, 26, 0.98) 0%, 
-    rgba(51, 51, 51, 1) 50%, 
-    rgba(42, 42, 42, 0.98) 100%);
-}
-
-/* TEXT SECTION */
-.hero-text-section {
-  flex: 1;
-  max-width: 700px;
-  text-align: left;
-  display: flex;
-  flex-direction: column; 
-  height: 100%;
-  justify-content: space-between; /* KEY FIX */
-}
-
-/* IMAGE */
-.hero-image-section {
-  flex: 1;
-  max-width: 500px; /* was 450px */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: transparent;
-}
-
-.hero-image {
-  width: 100%;
-  max-width: 380px;
-  height: 400px;
-  object-fit: cover;
-  border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.hero-image:hover {
-  transform: scale(1.03);
-  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
-}
-
-/* background 
-.hero-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-}*/
-
-/* animations */
-.hero-text {
-  margin-bottom: 0.5rem;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.hero-text.reveal {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.hey-text {
-  font-family: 'DM Sans', sans-serif;
-  font-size: clamp(2.8em, 8vw, 5em);
-  font-weight: 800;
-  margin: 0 0 1rem 0;
-}
-
-.welcome-subtitle {
-  font-size: clamp(1.2em, 4vw, 1.6em);
-  margin: 0 0 0.4rem 0; /* tighter */
-}
-
-.welcome-description {
-  font-size: clamp(1em, 2.5vw, 1.2em);
-  margin: 0 0 2rem 0; /* slightly reduced but keeps space before buttons */
-}
-
-.cta-buttons {
-  display: flex;
-  gap: 2rem; 
-  justify-content: flex-start;
-}
-    
-.cta-button {
-  padding: 1rem 2.5rem;
-  font-size: 1.1em;
-  font-weight: 600;
-  border-radius: 50px;
-  cursor: pointer;
-  text-decoration: none;
-
-  margin-top: 1rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  font-family: 'DM Sans', sans-serif;
-
-  background: #ffffff; /* white */
-  color: #000000 !important; /* black text */
-
-  border: 1px solid rgba(0,0,0,0.1); /* subtle definition */
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-
-  transition: all 0.3s ease;
-}
-
-/* REMOVE underline from global link rule */
-.cta-button:hover {
-  background: #666666; /* gray */
-  color: #ffffff !important; /* white text */
-  text-decoration: none !important;
-
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-}
-
-/* ================= MOBILE FIX - REPLACE ALL MOBILE CSS ================= */
-@media (max-width: 1024px) {
-  /* Fix parent containers */
-  .profile-hero {
-    padding: 30px 15px 25px !important; /* tighter */
-  }
-  
-  .hero-content {
-    flex-direction: column;
-    height: auto !important;
-    min-height: unset !important;
-    padding: 0 !important;
-    gap: 2rem;
-  }
-  
-  /* CRITICAL - reset hero-text-container completely */
-  .hero-text-container {
-    height: auto !important;
-    min-height: unset !important;
-    max-height: none !important;
-    padding: 1.2rem !important; /* minimal padding */
-    margin: 0 !important;
-  }
-  
-  .hero-text-section {
-    height: auto !important;
-    justify-content: flex-start !important;
-    gap: 0.8rem;
-  }
-  
-  /* Smaller image */
-  .hero-image-section {
-    max-width: 100%;
-  }
-  
-  .hero-image {
-    width: 100%;
-    max-width: 280px;
-    height: 280px;
-    margin: 0;
-  }
-  
-  /* Tighter text */
-  .hey-text {
-    font-size: clamp(2.5em, 8vw, 4em); /* bigger on mobile */
-    line-height: 1.1; /* tighter line height */
-  }
-  
-  .cta-buttons {
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-  
-  .cta-button {
-    padding: 0.8rem 1.8rem;
-    font-size: 1em;
-  }
-}
-
-@media (max-width: 480px) {
-  .profile-hero {
-    padding: 20px 10px 20px !important;
-  }
-  
-  .hero-text-container {
-    padding: 1rem !important;
-  }
-}
-/* ================= REST OF YOUR ORIGINAL FILE CONTINUES EXACTLY ================= */
-
+/* PROFILE-HERO */
+.profile-hero { position: relative; min-height: auto; padding: 40px 20px 30px; }
+.hero-content { max-width: 1400px; margin: 0 auto; height: auto; display: flex; align-items: center; justify-content: center; gap: 3rem; }
+main { flex: 1; max-width: 1200px; margin: 0 auto; padding: 20px; gap: 40px; }
+.section { padding: 0 20px 30px; }
+@media (max-width: 1024px) { .hero-content { flex-direction: column; height: auto; } }
+body { background: var(--bg-color); }
+.hero-text-container { background: linear-gradient(135deg, rgba(249,249,249,0.98), rgba(255,255,255,1), rgba(233,233,233,0.98)); border-radius: 20px; height: 400px; display: flex; padding: 2rem; box-shadow: 0 12px 35px rgba(0,0,0,0.08); max-width: 600px; width: 100%; }
+body.dark-mode .hero-text-container { background: linear-gradient(135deg, rgba(26,26,26,0.98), rgba(51,51,51,1), rgba(42,42,42,0.98)); }
+.hero-text-section { flex: 1; max-width: 700px; text-align: left; display: flex; flex-direction: column; height: 100%; justify-content: space-between; }
+.hero-image-section { flex: 1; max-width: 500px; display: flex; justify-content: center; align-items: center; }
+.hero-image { width: 100%; max-width: 380px; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); transition: all 0.4s; }
+.hero-image:hover { transform: scale(1.03); box-shadow: 0 25px 60px rgba(0,0,0,0.25); }
+.hero-text { margin-bottom: 0.5rem; opacity: 0; transform: translateY(40px); transition: all 0.9s; }
+.hero-text.reveal { opacity: 1; transform: translateY(0); }
+.hey-text { font-family: 'DM Sans', sans-serif; font-size: clamp(2.8em, 8vw, 5em); font-weight: 800; margin: 0 0 1rem; }
+.welcome-subtitle { font-size: clamp(1.2em, 4vw, 1.6em); margin: 0 0 0.4rem; }
+.welcome-description { font-size: clamp(1em, 2.5vw, 1.2em); margin: 0 0 2rem; }
+.cta-buttons { display: flex; gap: 2rem; justify-content: flex-start; }
+.cta-button { padding: 1rem 2.5rem; font-size: 1.1em; font-weight: 600; border-radius: 50px; text-decoration: none; margin-top: 1rem; display: inline-flex; background: #fff; color: #000 !important; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+.cta-button:hover { background: #666; color: #fff !important; }
+@media (max-width: 1024px) { .profile-hero { padding: 30px 15px 25px; } .hero-content { flex-direction: column; gap: 2rem; } .hero-text-container { height: auto; padding: 1.2rem; } .hero-text-section { height: auto; } .hero-image { max-width: 280px; height: 280px; } .hey-text { font-size: clamp(2.5em, 8vw, 4em); } .cta-buttons { gap: 1rem; flex-wrap: wrap; } .cta-button { padding: 0.8rem 1.8rem; font-size: 1em; } }
+@media (max-width: 480px) { .profile-hero { padding: 20px 10px 20px; } .hero-text-container { padding: 1rem; } }
   </style>
 </head>
-
-  <script>
-// ENCRYPTED TRACKER - Add to index.html, profile.html, etc.
-(function(){
-  const CRYPTO_KEY = 'DamianAnalytics2024SecretKey!';
-  
-  function encrypt(text) {
-    let result = ''; 
-    for(let i=0;i<text.length;i++){
-      result += String.fromCharCode(text.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
-    }
-    return btoa(result);
-  }
-  
-  function decrypt(enc) {
-    try {
-      const decoded = atob(enc);
-      let result = '';
-      for(let i=0;i<decoded.length;i++){
-        result += String.fromCharCode(decoded.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
-      }
-      return result;
-    } catch { return '0'; }
-  }
-  
-  // Count visits
-  let total = parseInt(decrypt(localStorage.getItem('analytics_total_enc') || encrypt('0'))) + 1;
-  localStorage.setItem('analytics_total_enc', encrypt(total.toString()));
-  
-  const todayKey = 'analytics_today_enc_' + new Date().toDateString();
-  let today = parseInt(decrypt(localStorage.getItem(todayKey) || encrypt('0'))) + 1;
-  localStorage.setItem(todayKey, encrypt(today.toString()));
-  
-  // Track country
-  fetch('https://ipapi.co/json/').then(r=>r.json()).then(d=>{
-    const country = d.country_name || 'Unknown';
-    let countries = JSON.parse(decrypt(localStorage.getItem('analytics_countries_enc') || encrypt('[]')));
-    countries.push(country);
-    if(countries.length > 100) countries = countries.slice(-100);
-    localStorage.setItem('analytics_countries_enc', encrypt(JSON.stringify(countries)));
-  }).catch(()=>{}); // Silent fail
-})();
-</script>
 <body>
-
-<!-- YOUR HTML BELOW IS 100% UNCHANGED EXCEPT TRANSLATED TEXT -->
-
 <header>
-  <nav>
-    <ul id="nav-menu">
-      <li><a href="profile-ro.html">Profil</a></li>
-      <li><a href="resources-ro.html">Resurse</a></li>
-      <li><a href="projects-ro.html">Proiecte</a></li>
-    </ul>
-  </nav>
-  <div class="toggles">
-    <button id="dark-mode-toggle"></button>
-    <div class="lang-buttons">
-      <button class="lang-button">EN</button>
-      <button class="lang-button active">RO</button>
-    </div>
-  </div>
+  <nav><ul id="nav-menu"><li><a href="profile-ro.html">Profil</a></li><li><a href="resources-ro.html">Resurse</a></li><li><a href="projects-ro.html">Proiecte</a></li></ul></nav>
+  <div class="toggles"><button id="dark-mode-toggle"></button><div class="lang-buttons"><button class="lang-button">EN</button><button class="lang-button active">RO</button></div></div>
 </header>
-
 <main>
-
-<section class="profile-hero">
-  <div class="hero-bg"></div>
-
-  <div class="hero-content">
-    <div class="hero-text-container">
-      <div class="hero-text-section">
-        <div class="hero-text">
-          <h1 class="hey-text">Salut!</h1>
-        </div>
-        <div class="hero-text">
-          <p class="welcome-subtitle">Bine ați venit pe site-ul personal al lui Damian</p>
-        </div>
-        <div class="hero-text">
-          <p class="welcome-description">
-            Pasionat de <strong>fizică</strong>, <strong>matematică</strong>, 
-            <strong>informatică</strong>, <strong>astronomie</strong> și <strong>fotografie</strong>.
-          </p>
-        </div>
-        <div class="cta-buttons">
-          <a href="achievements-ro.html" class="cta-button">Realizări</a>
-          <a href="gallery-ro.html" class="cta-button">Galerie</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="hero-image-section">
-      <img src="person.jpg" alt="Imagine" class="hero-image">
+<section class="profile-hero"><div class="hero-bg"></div><div class="hero-content">
+  <div class="hero-text-container">
+    <div class="hero-text-section">
+      <div class="hero-text"><h1 class="hey-text">Salut!</h1></div>
+      <div class="hero-text"><p class="welcome-subtitle">Bine ai venit pe site-ul personal al lui Damian</p></div>
+      <div class="hero-text"><p class="welcome-description">Pasionat de <strong>fizică</strong>, <strong>matematică</strong>, <strong>informatică</strong>, <strong>astronomie</strong> și <strong>fotografie</strong>.</p></div>
+      <div class="cta-buttons"><a href="achievements-ro.html" class="cta-button">Realizări</a><a href="gallery-ro.html" class="cta-button">Galerie</a></div>
     </div>
   </div>
-</section>
-
-    <!-- Languages -->
-    <section class="section">
-      <h2>Limbi străine</h2>
-      <p class="intro">Mai jos sunt limbile cunoscute cu nivelurile lor. Pentru rusă și franceză, nivelul de cunoștințe este aproximativ, fără test oficial susținut.</p>
-      <div class="language-boxes">
-        <div class="language-box">
-          <strong>Română</strong>
-          <p>Nativ (C2)</p>
-        </div>
-        <div class="language-box">
-          <strong>Engleză</strong>
-          <p>Avansat (C1)</p>
-        </div>
-        <div class="language-box">
-          <strong>Rusă</strong>
-          <p>Intermediar (B1)</p>
-        </div>
-        <div class="language-box">
-          <strong>Franceză</strong>
-          <p>Începător (A1)</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>Originalul este în Engleză. Traducerea este efectuată de BLACKBOX.AI</p>
-    <p><b>&copy; 2026 Mîrza Damian. Toate drepturile rezervate</b></p>
-  </footer>
-
-  <script src="script.js"></script>
-  <script>
-    // Elegant scroll reveal
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.querySelectorAll('.hero-text, .cta-buttons').forEach(el => {
-            el.classList.add('reveal');
-          });
-        }
-      });
-    }, { threshold: 0.3 });
-
-    observer.observe(document.querySelector('.hero-content'));
-  </script>
-  <script>
-// COPYRIGHT POPUP - FINAL BULLETPROOF VERSION
-document.addEventListener('DOMContentLoaded', function() {
-  const popup = document.getElementById('copyright-popup');
-  const accepted = localStorage.getItem('copyrightAccepted');
-  
-  console.log('Popup check:', accepted); // DEBUG
-  
-  if (accepted !== 'true') {
-    popup.style.display = 'flex';
-  }
-});
-
-function closePopup() {
-  localStorage.setItem('copyrightAccepted', 'true');
-  document.getElementById('copyright-popup').style.display = 'none';
-  console.log('ACCEPTED - stored forever');
-}
-</script>
-
-<!-- Popup with display: none by default -->
-<div id="copyright-popup" class="popup" style="display: none;">
-  <div class="popup-content">
-    <p style="text-align: justify;">
-      <b>EN:</b> This website is protected by copyright. By continuing, you acknowledge and agree to respect the ownership of all content. <a href="copyright.txt">Copyright</a>
-    </p>
-    <p style="text-align: justify;">
-      <b>RO:</b> Acest site web este protejat de drepturi de autor. Prin continuare, recunoașteți și sunteți de acord să respectați proprietatea asupra întregului conținut. <a href="copyright.txt">Copyright</a>
-    <button onclick="closePopup()">Accept</button>
-  </div>
-</div>
+  <div class="hero-image-section"><img src="person.jpg" alt="Imagine" class="hero-image"></div>
+</div></section>
+<section class="section"><h2>Limbi străine</h2><p class="intro">Mai jos sunt limbile cunoscute cu nivelurile lor. Pentru Rusă și Franceză sunt niveluri aproximative, fără test oficial.</p><div class="language-boxes"><div class="language-box"><strong>Română</strong><p>Nativă (C2)</p></div><div class="language-box"><strong>Engleză</strong><p>Avansat (C1)</p></div><div class="language-box"><strong>Rusă</strong><p>Intermediar (B1)</p></div><div class="language-box"><strong>Franceză</strong><p>Începător (A1)</p></div></div></section>
+</main>
+<footer><p>Limba implicită este Engleză. Traducerea în Română a fost făcută folosind BLACKBOX.AI</p><p><b>© 2026 Mîrza Damian. Toate drepturile rezervate</b></p></footer>
+<script src="script.js"></script>
+<script>const o=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.hero-text, .cta-buttons').forEach(e=>e.classList.add('reveal'))}})},{threshold:0.3});o.observe(document.querySelector('.hero-content'));</script>
+<div id="copyright-popup" class="popup" style="display:none"><div class="popup-content"><h2>Notificare Drepturi de Autor</h2><p><b>EN:</b> This website and all its content are protected by international copyright laws.</p><p><b>RO:</b> Acest site și tot conținutul sunt protejate de legile drepturilor de autor.</p><div class="popup-buttons"><a href="copyright-ro.html" class="popup-btn popup-btn-info">Informații Suplimentare</a><button onclick="acceptCopyright()" class="popup-btn popup-btn-accept">Înțeleg</button></div></div></div>
 </body>
 </html>
