@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Index</title>
+  
+  <!-- APPLY THEME BEFORE CSS LOADS -->
+  <script>
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+  
   <link rel="stylesheet" href="style.css">
   
   <!-- Analytics -->
@@ -154,7 +163,7 @@
     <!-- UPDATE BOX -->
     <div class="update-box">
       <strong>Latest Update</strong>
-      <p>No updates</p>
+      <p>Updates to the website, which can be found in the Changelog</p>
       <a href="log.html" class="log-link">View Changelog →</a>
     </div>
     
