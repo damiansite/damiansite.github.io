@@ -21,11 +21,25 @@
   position: relative;
   margin-bottom: 0.5rem;
   padding: 1.6rem 0.85rem 0.85rem 1.1rem;
-  background: var(--card-bg);
   border-radius: 8px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   list-style: none;
   overflow: hidden;
+}
+
+/* REGULAR BOXES - DIFFERENT IN LIGHT/DARK MODE */
+.achievement-box:not(.republican):not(.international) {
+  background: var(--card-bg);
+}
+
+/* Light mode: regular boxes are white */
+body:not(.dark-mode) .achievement-box:not(.republican):not(.international) {
+  background: #ffffff;
+}
+
+/* Dark mode: regular boxes are much darker */
+body.dark-mode .achievement-box:not(.republican):not(.international) {
+  background: #222222;
 }
 
 /* SAME EDGE COLOR - LIGHT & DARK */
@@ -37,7 +51,25 @@
   background: var(--accent);
 }
 
-/* ===== REPUBLICAN/INTERNATIONAL: GOLDEN "L" SHAPE (TOP + LEFT BORDER) ===== */
+/* ===== REPUBLICAN/INTERNATIONAL: DARKER IN LIGHT MODE, LIGHTER IN DARK MODE ===== */
+.achievement-box.republican,
+.achievement-box.international {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06), 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+/* Light mode: darker background for Republican/International */
+body:not(.dark-mode) .achievement-box.republican,
+body:not(.dark-mode) .achievement-box.international {
+  background: #d8d8d8;
+}
+
+/* Dark mode: lighter background for Republican/International (contrast against dark regular boxes) */
+body.dark-mode .achievement-box.republican,
+body.dark-mode .achievement-box.international {
+  background: #3a3a3a;
+}
+
+/* Golden "L" shape (TOP + LEFT BORDER) */
 .achievement-box.republican::before,
 .achievement-box.international::before {
   background: #d4af37;
@@ -58,13 +90,6 @@
   border-radius: 8px 8px 0 0;
 }
 
-/* Subtle background enhancement for these boxes */
-.achievement-box.republican,
-.achievement-box.international {
-  background: var(--header-bg);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06), 0 0 15px rgba(212, 175, 55, 0.1);
-}
-
 /* Hover effect for the golden L */
 .achievement-box.republican:hover::after,
 .achievement-box.international:hover::after {
@@ -76,6 +101,21 @@
 .achievement-box.international:hover::before {
   box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
   transition: box-shadow 0.4s ease;
+}
+
+/* ===== 2ND PLACE TEXT - DIFFERENT IN LIGHT/DARK MODE ===== */
+.place-2nd {
+  font-weight: 700;
+}
+
+/* Light mode: dark grey */
+body:not(.dark-mode) .place-2nd {
+  color: #6b6b6b;
+}
+
+/* Dark mode: bright grey for better visibility */
+body.dark-mode .place-2nd {
+  color: #c0c0c0;
 }
 
 /* PHASE LABEL - VISIBLE COLOR */
@@ -120,7 +160,6 @@
 
 /* MEDAL COLORS */
 .place-1st { color: #d4af37; }
-.place-2nd { color: #6b6b6b; }
 .place-3rd { color: #a07040; }
 .place-hm { font-weight: 600; }
 
