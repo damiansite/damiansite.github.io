@@ -37,9 +37,45 @@
   background: var(--accent);
 }
 
+/* ===== REPUBLICAN/INTERNATIONAL: GOLDEN "L" SHAPE (TOP + LEFT BORDER) ===== */
+.achievement-box.republican::before,
+.achievement-box.international::before {
+  background: #d4af37;
+  width: 4px;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+}
+
+.achievement-box.republican::after,
+.achievement-box.international::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #d4af37, #f0d060, #d4af37);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+  border-radius: 8px 8px 0 0;
+}
+
+/* Subtle background enhancement for these boxes */
 .achievement-box.republican,
 .achievement-box.international {
   background: var(--header-bg);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06), 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+/* Hover effect for the golden L */
+.achievement-box.republican:hover::after,
+.achievement-box.international:hover::after {
+  box-shadow: 0 0 35px rgba(212, 175, 55, 0.7);
+  transition: box-shadow 0.4s ease;
+}
+
+.achievement-box.republican:hover::before,
+.achievement-box.international:hover::before {
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+  transition: box-shadow 0.4s ease;
 }
 
 /* PHASE LABEL - VISIBLE COLOR */
@@ -50,7 +86,7 @@
   font-size: 0.65em;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: var(--text-color); /* VISIBLE COLOR */
+  color: var(--text-color);
   font-weight: 500;
 }
 
@@ -103,6 +139,17 @@
   .achievement-box .entry { gap: 0.35rem; }
   .achievement-box .year { min-width: 38px; font-size: 0.95em; }
   .achievement-box .place { padding-left: 1rem; }
+  
+  /* Slightly thinner on mobile */
+  .achievement-box.republican::before,
+  .achievement-box.international::before {
+    width: 3px;
+  }
+  
+  .achievement-box.republican::after,
+  .achievement-box.international::after {
+    height: 3px;
+  }
 }
   </style>
 </head>
@@ -264,7 +311,7 @@
             <hr>
             <ul>
               <li><b>June 2025, organised by Academy of Sciences of Moldova</b></li>
-              <li>Selected participant at a summer school program in which scientists, scholars, and distinguished experts from diverse scientific disciplines participate. Received theoretical and practical instruction in scientific development and methodologies of research and society’s relationship with science through lectures and discussions held at the program. The participation enhanced my knowledge about the relationship between scientific development and technological development and welfare of society, making me more interested in field of research.</li>
+              <li>Selected participant at a summer school program in which scientists, scholars, and distinguished experts from diverse scientific disciplines participate. Received theoretical and practical instruction in scientific development and methodologies of research and society's relationship with science through lectures and discussions held at the program. The participation enhanced my knowledge about the relationship between scientific development and technological development and welfare of society, making me more interested in field of research.</li>
             </ul>
           </li>
           <li>
