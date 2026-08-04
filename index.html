@@ -1,193 +1,1195 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Index</title>
-  
-  <!-- APPLY THEME BEFORE CSS LOADS -->
-  <script>
-    if (localStorage.getItem('theme') === 'dark') {
-      document.documentElement.classList.add('dark-mode');
-    }
-  </script>
-  
-  <link rel="stylesheet" href="style.css">
-  
-  <!-- Analytics -->
-  <script defer src="https://cloud.umami.is/script.js" data-website-id="0da5a0f4-df51-4b86-8e8a-2c1b12beb392"></script>
-  
-  <style>
-    /* INDEX PAGE - HEADER RIGHT ALIGNED */
-    header {
-      justify-content: flex-end !important;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home</title>
 
-    main {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 80px 20px 60px;
-      gap: 3rem;
-    }
+<!-- Apply theme before CSS loads to avoid flash -->
+<script>
+  if (localStorage.getItem('theme') === 'dark') {
+    document.documentElement.classList.add('dark-mode');
+  }
+</script>
 
-    .index-buttons {
-      display: flex;
-      gap: 2rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+<link rel="stylesheet" href="style.css">
 
-    .index-button {
-      background: linear-gradient(135deg, var(--card-bg), var(--header-bg));
-      padding: 2rem 3rem;
-      text-align: center;
-      border-radius: 0;
-      border: 2px solid transparent;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      text-decoration: none;
-      color: var(--text-color);
-      font-size: 1.5rem;
-      font-weight: 600;
-      font-family: 'DM Sans', sans-serif;
-      min-width: 200px;
-    }
+<style>
+  /* ================= INDEX PAGE LAYOUT ================= */
 
-    .index-button:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-      border-color: var(--accent);
-    }
+  .page-wrap {
+    display: flex;
+    width: 100%;
+    min-height: calc(100vh - 78px - 70px); /* minus header/footer approx */
+    position: relative;
+  }
 
-    /* LARGER UPDATE BOX */
-    .update-box {
-      background-color: var(--card-bg);
-      padding: 1.5rem 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      text-align: center;
-      margin-top: 1rem;
-      max-width: 550px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+  /* Live table of contents - fixed left, centered in first 20% */
+  .toc-rail {
+    width: 18%;
+    min-width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    top: 100px;
+    height: calc(100vh - 100px);
+    align-self: flex-start;
+  }
 
-    .update-box strong {
-      font-size: 1.2em;
-      display: block;
-      margin-bottom: 0.8rem;
-    }
+  .toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
 
-    .update-box p {
-      font-size: 1em;
-      margin: 0 0 10px 0;
-      line-height: 1.5;
-      color: var(--text-color);
-    }
+  .toc-list a {
+    text-decoration: none;
+    color: var(--link-color);
+    font-weight: 500;
+    font-size: 1.05rem;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    padding-left: 1rem;
+    border-left: 2px solid transparent;
+  }
 
-    .update-box .log-link {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 10px 20px;
-      background: var(--button-bg);
-      color: var(--bg-color) !important;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
+  .toc-list a.active {
+    color: var(--text-color);
+    font-weight: 700;
+    border-left: 2px solid var(--text-color);
+    transform: translateX(4px);
+  }
 
-    .update-box .log-link:hover {
-      background: var(--button-hover);
-      transform: translateY(-2px);
-    }
+  .toc-list a:hover {
+    color: var(--text-color);
+  }
 
-    .index-footer-text {
-      text-align: center;
-      margin: 1.5rem 0 0 0;
-      color: var(--text-color);
-    }
+  /* Content column - middle 60% (relative to page-wrap, since toc+progress take ~36%) */
+  .content-col {
+    width: 64%;
+    padding: 8vh 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14vh;
+  }
 
-    .index-footer-text p {
-      margin: 0.5rem 0;
-    }
+  /* Progress bar rail - fixed on right side, centered vertically */
+  .progress-rail {
+    position: fixed;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    pointer-events: none;
+  }
 
-    /* Mobile */
-    @media (max-width: 768px) {
-      main {
-        padding: 60px 15px 40px;
-        gap: 2rem;
-      }
-      
-      .index-buttons {
-        flex-direction: column;
-        align-items: center;
-        gap: 1.5rem;
-      }
-      
-      .index-button {
-        width: 100%;
-        max-width: 300px;
-        padding: 1.5rem 2rem;
-        font-size: 1.3rem;
-      }
+  .progress-track {
+    width: 4px;
+    height: 220px;
+    background: var(--accent);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: var(--text-color);
+    border-radius: 4px;
+    transition: height 0.1s linear;
+  }
+
+  /* Sections */
+  .content-section {
+    scroll-margin-top: 140px;
+    max-width: 760px;
+    width: 100%;
+    text-align: left;
+  }
+
+  .content-section h1 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 2.1em;
+    margin: 0 0 1.5rem 0;
+    font-weight: 700;
+  }
+
+  .content-section h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.5em;
+    margin: 0 0 1rem 0;
+    font-weight: 700;
+  }
+
+  .content-section > p {
+    font-size: 1.1em;
+    line-height: 1.7em;
+    margin: 0 0 1.2rem;
+    max-width: 640px;
+  }
+
+  /* Hero intro at top */
+  .hero-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .profile-header-row {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    justify-content: space-between;
+  }
+
+  .profile-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .profile-text p {
+    font-size: 1.1em;
+    line-height: 1.7em;
+    margin: 0;
+  }
+
+  .profile-photo-wrap {
+    flex-shrink: 0;
+  }
+
+  .profile-photo {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 12px 34px rgba(0,0,0,0.15);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .profile-photo:hover {
+    transform: scale(1.03);
+    box-shadow: 0 18px 44px rgba(0,0,0,0.22);
+  }
+
+  @media (max-width: 640px) {
+    .profile-header-row {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      gap: 1.4rem;
     }
-  </style>
+    .profile-photo {
+      width: 120px;
+      height: 120px;
+    }
+  }
+
+  .hero-intro .hey-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(2.4em, 6vw, 3.6em);
+    font-weight: 800;
+    margin: 0;
+  }
+
+  .hero-intro .sub {
+    font-size: 1.2em;
+    color: var(--link-color);
+    margin: 0;
+  }
+
+  /* Cards used across sections */
+  .card {
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    text-align: left;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 34px rgba(0,0,0,0.15);
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .card h3 {
+    font-family: 'DM Sans', sans-serif;
+    margin: 0 0 0.6rem 0;
+    font-size: 1.15em;
+  }
+
+  .card p {
+    font-size: 0.98em;
+    margin: 0;
+    color: var(--link-color);
+    line-height: 1.5;
+  }
+
+  .resource-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .resource-topics {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+    margin-top: 1.6rem;
+  }
+
+  .book-copyright-notice {
+    background: color-mix(in srgb, var(--accent) 22%, var(--bg-color));
+    border-left: 3px solid var(--text-color);
+    border-radius: 8px;
+    padding: 1.1rem 1.3rem;
+    margin-top: 0.8rem;
+  }
+
+  .book-copyright-notice .book-copyright-title {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.95em;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin: 0 0 0.5rem 0;
+    color: var(--text-color);
+  }
+
+  .book-copyright-notice p {
+    font-size: 0.9em;
+    line-height: 1.6em;
+    color: var(--text-color);
+    margin: 0;
+  }
+
+  .resource-topic h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.1em;
+    margin: 0 0 0.8rem 0;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--accent);
+  }
+
+  .resource-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .book-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .book-title {
+    margin: 0;
+    color: var(--text-color);
+    font-weight: 700;
+    font-size: 1.08em;
+  }
+
+  .book-author {
+    margin: 0;
+    color: var(--link-color);
+    font-weight: 400;
+    font-size: 0.88em;
+  }
+
+  /* ================= PROJECTS ================= */
+  .project-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .project-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .project-title {
+    margin: 0;
+    color: var(--text-color);
+    font-weight: 700;
+    font-size: 1.08em;
+  }
+
+  .project-meta {
+    margin: 0;
+    color: var(--link-color);
+    font-weight: 400;
+    font-size: 0.88em;
+  }
+
+  .project-pdf-btn[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .button {
+    background: linear-gradient(135deg, var(--button-bg), var(--button-hover));
+    color: var(--bg-color) !important;
+    padding: 0.7rem 1.4rem;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    font-weight: 600;
+    white-space: nowrap;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    font-family: 'Quicksand', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.22);
+  }
+
+  /* Mobile: hide toc + progress rails, stack content full width */
+  @media (max-width: 900px) {
+    .toc-rail, .progress-rail {
+      display: none;
+    }
+    .content-col {
+      width: 100%;
+      padding: 6vh 1.2rem;
+      gap: 10vh;
+    }
+  }
+
+  /* Hide progress bar in fullscreen */
+  .page-wrap:fullscreen .progress-rail,
+  .page-wrap:-webkit-full-screen .progress-rail,
+  .page-wrap:-moz-full-screen .progress-rail,
+  .page-wrap:-ms-fullscreen .progress-rail {
+    display: none !important;
+  }
+
+  /* ================= LANGUAGE LEVELS ================= */
+  .lang-card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .lang-card {
+    text-align: center;
+  }
+
+  .lang-card h3 {
+    text-align: center;
+  }
+
+  .lang-level-big {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.8em !important;
+    font-weight: 700;
+    color: var(--text-color) !important;
+    margin: 0.2rem 0 0.15rem !important;
+  }
+
+  @media (max-width: 640px) {
+    .lang-card-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.7rem;
+    }
+    .lang-card {
+      padding: 1rem 0.6rem;
+    }
+    .lang-card h3 {
+      font-size: 0.85em;
+    }
+    .lang-level-big {
+      font-size: 1.4em !important;
+    }
+  }
+
+  /* ================= PORTFOLIO SHOWCASE BOX ================= */
+  .portfolio-showcase {
+    width: 100%;
+    margin: 1.5rem 0 0.5rem 0;
+  }
+
+  .portfolio-card {
+    width: 100%;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    border-radius: 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--accent);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    padding: 2.5rem 2rem;
+    text-align: center;
+  }
+
+  .portfolio-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.14);
+    border-color: var(--text-color);
+  }
+
+  .portfolio-card h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.6em;
+    margin: 0;
+    font-weight: 700;
+    color: var(--text-color);
+  }
+
+  .portfolio-card p {
+    margin: 0;
+    color: var(--link-color);
+    font-size: 1.05em;
+    max-width: 480px;
+  }
+
+  /* Calm, modern button animation - subtle glow and gentle lift */
+  .portfolio-link {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 14px 34px;
+    border-radius: 8px;
+    color: var(--bg-color);
+    text-decoration: none;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--button-bg), var(--button-hover));
+    font-family: 'Quicksand', sans-serif;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+  }
+
+  /* Subtle glow ring that expands on hover */
+  .portfolio-link::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 10px;
+    background: var(--text-color);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+    filter: blur(8px);
+  }
+
+  .portfolio-link:hover::before {
+    opacity: 0.15;
+  }
+
+  .portfolio-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  }
+
+  .portfolio-link:active {
+    transform: scale(0.97);
+  }
+
+  /* ================= ACHIEVEMENTS ================= */
+  .achievement-subject {
+    margin-bottom: 2rem;
+  }
+
+  .achievement-subject:last-child {
+    margin-bottom: 0;
+  }
+
+  .achievement-subject h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.15em;
+    margin: 0 0 0.9rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--accent);
+  }
+
+  .achievement-box {
+    position: relative;
+    margin-bottom: 0.6rem;
+    padding: 1.7rem 1rem 1rem 1.2rem;
+    border-radius: 10px;
+    background: var(--card-bg);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    overflow: hidden;
+  }
+
+  .achievement-box::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent);
+  }
+
+  .achievement-box.highlight {
+    background: #d8d8d8;
+  }
+
+  html.dark-mode .achievement-box.highlight {
+    background: #444444;
+  }
+
+  .achievement-box.highlight::before {
+    background: #d4af37;
+    width: 4px;
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+  }
+
+  .achievement-box.highlight::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #d4af37, #f0d060, #d4af37);
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.4);
+    border-radius: 10px 10px 0 0;
+  }
+
+  .achievement-box .phase {
+    position: absolute;
+    top: 0.5rem;
+    left: 1.1rem;
+    font-size: 0.68em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--link-color);
+    font-weight: 600;
+  }
+
+  .achievement-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .achievement-entry {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    font-size: 0.98em;
+  }
+
+  .achievement-entry .year {
+    font-weight: 700;
+    min-width: 42px;
+  }
+
+  .achievement-entry .place {
+    font-weight: 700;
+  }
+
+  .achievement-entry .rank {
+    margin-left: auto;
+    font-size: 0.88em;
+    color: var(--link-color);
+  }
+
+  .place-1st { color: #d4af37; }
+  .place-2nd { font-weight: 700; }
+  .place-3rd { color: #a07040; }
+  .place-hm { font-weight: 600; }
+
+  .memorial-note {
+    font-size: 0.88em;
+    color: var(--link-color);
+    font-style: italic;
+    margin: 0 0 0.9rem 0;
+  }
+
+  /* ================= CAMPS & COURSES ================= */
+  .camp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+
+  .camp-entry {
+    padding-bottom: 1.6rem;
+    border-bottom: 1px solid var(--accent);
+  }
+
+  .camp-entry:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .camp-title {
+    font-weight: 700;
+    font-size: 1.08em;
+    margin: 0 0 0.25rem 0;
+  }
+
+  .camp-meta {
+    font-size: 0.84em;
+    color: var(--link-color);
+    font-weight: 600;
+    font-style: italic;
+    margin: 0 0 0.55rem 0;
+  }
+
+  .camp-desc {
+    font-size: 0.98em;
+    line-height: 1.65em;
+    margin: 0;
+    color: var(--text-color);
+  }
+
+  /* ================= POPUP CLOSE BUTTON ================= */
+  .popup-close-btn {
+    background: linear-gradient(135deg, var(--button-bg), var(--button-hover)) !important;
+    color: var(--bg-color) !important;
+    padding: 0.7rem 1.4rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: 'Quicksand', sans-serif;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .popup-close-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.22);
+  }
+</style>
 </head>
-  
+
 <body>
 
-  <!-- HEADER - TOGGLES FIXED RIGHT -->
-  <header>
-    <div class="toggles" style="margin-left: auto;">
-      <button id="dark-mode-toggle"></button>
-      <div class="lang-buttons">
-        <button class="lang-button active">EN</button>
-        <button class="lang-button">RO</button>
-      </div>
-    </div>
-  </header>
+<header>
+  <nav>
+    <ul id="nav-menu">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+    </ul>
+  </nav>
+  <div class="toggles">
+    <button id="dark-mode-toggle"><span>D</span></button>
+  </div>
+</header>
 
-  <main>
-    <!-- ONLY BUTTONS IN MIDDLE -->
-    <div class="index-buttons">
-      <a href="profile.html" class="index-button">Profile</a>
-      <a href="resources.html" class="index-button">Resources</a>
-      <a href="projects.html" class="index-button">Projects</a>
-    </div>
-    
-    <!-- UPDATE BOX -->
-    <div class="update-box">
-      <strong>Latest Update</strong>
-      <p>Updates to the website, which can be found in the Changelog</p>
-      <a href="log.html" class="log-link">View Changelog →</a>
-    </div>
-    
-    <!-- FOOTER TEXT -->
-    <div class="index-footer-text">
-      <p>Default language is English. Translation to Romanian was done using BLACKBOX.AI</p>
-      <p><b>&copy; 2026 Mîrza Damian. All rights reserved</b></p>
-    </div>
-  </main>
-  
-  <script src="script.js"></script>
+<main>
+  <div class="page-wrap">
 
-  <!-- COPYRIGHT POPUP -->
-  <div id="copyright-popup" class="popup" style="display: none;">
-    <div class="popup-content">
-      <h2>Copyright Notice</h2>
-      <p><b>EN:</b> This website and all its content are protected by international copyright laws. By accessing this site, you acknowledge and agree to respect the intellectual property rights of the owner.</p>
-      <p><b>RO:</b> Acest site web și întregul său conținut sunt protejate de legile internaționale privind drepturile de autor. Accesând acest site, recunoașteți și sunteți de acord să respectați drepturile de proprietate intelectuală ale proprietarului.</p>
-      <div class="popup-buttons">
-        <a href="copyright.html" class="popup-btn popup-btn-info">Additional Information</a>
-        <button onclick="acceptCopyright()" class="popup-btn popup-btn-accept">I Understand</button>
+    <!-- Live table of contents (first 20%) -->
+    <aside class="toc-rail">
+      <ul class="toc-list">
+        <li><a href="#who-i-am" data-section="who-i-am">Profile</a></li>
+        <li><a href="#resources" data-section="resources">Resources</a></li>
+        <li><a href="#projects" data-section="projects">Projects</a></li>
+      </ul>
+    </aside>
+
+    <!-- Content (middle 60%) -->
+    <div class="content-col">
+
+      <section class="content-section hero-intro" id="who-i-am">
+        <div class="profile-header-row">
+          <div class="profile-text">
+            <h1 style="margin-bottom:0;">Profile</h1>
+            <p>
+              I have a strong interest in physics, mathematics, informatics, and astronomy,
+              and I have pursued these subjects through academic competitions, courses, and
+              independent projects. This page presents an overview of my background, the
+              resources I have found valuable, and a selection of my projects.
+            </p>
+          </div>
+          <div class="profile-photo-wrap">
+            <img src="images/person.jpg" alt="Profile photo" class="profile-photo">
+          </div>
+        </div>
+
+        <div class="card-grid lang-card-grid">
+          <div class="card lang-card">
+            <h3>Romanian</h3>
+            <p class="lang-level-big">C2</p>
+            <p>Native</p>
+          </div>
+          <div class="card lang-card">
+            <h3>English</h3>
+            <p class="lang-level-big">C1</p>
+            <p>Advanced</p>
+          </div>
+          <div class="card lang-card">
+            <h3>Russian</h3>
+            <p class="lang-level-big">B1</p>
+            <p>Intermediate</p>
+          </div>
+        </div>
+
+        <!-- ================= PORTFOLIO SHOWCASE BOX ================= -->
+        <div class="portfolio-showcase">
+          <div class="portfolio-card">
+            <h2>Photography Portfolio</h2>
+            <p>Explore my collection of moments captured along the way — landscapes, cities, and everything in between.</p>
+            <a href="gallery.html" class="portfolio-link">
+              Explore Gallery
+            </a>
+          </div>
+        </div>
+
+        <!-- ================= ACHIEVEMENTS ================= -->
+        <div>
+          <h2 style="margin-bottom:1rem;">Achievements</h2>
+          <p style="margin-bottom:1.5rem; color:var(--link-color); font-size:0.98em;">
+            An overview of my results in academic competitions.
+          </p>
+
+          <!-- MATHEMATICS -->
+          <div class="achievement-subject">
+            <h3>Mathematics</h3>
+
+            <div class="achievement-box highlight">
+              <span class="phase">Republican</span>
+              <div class="achievement-entries">
+                <div class="achievement-entry"><span class="year">2026</span><span class="place">#11 rank</span><span class="rank">(from 40+)</span></div>
+              </div>
+            </div>
+
+            <div class="achievement-box">
+              <span class="phase">Municipal</span>
+              <div class="achievement-entries">
+                <div class="achievement-entry"><span class="year">2026</span><span class="place place-2nd">2nd Place</span><span class="rank">(#2/28)</span></div>
+                <div class="achievement-entry"><span class="year">2025</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#9/31)</span></div>
+                <div class="achievement-entry"><span class="year">2024</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#9/31)</span></div>
+              </div>
+            </div>
+
+            <div class="achievement-box">
+              <span class="phase">District</span>
+              <div class="achievement-entries">
+                <div class="achievement-entry"><span class="year">2026</span><span class="place place-1st">1st Place</span><span class="rank">(#4/106)</span></div>
+                <div class="achievement-entry"><span class="year">2025</span><span class="place place-3rd">3rd Place</span><span class="rank">(#21/165)</span></div>
+                <div class="achievement-entry"><span class="year">2024</span><span class="place place-2nd">2nd Place</span><span class="rank">(#9/173)</span></div>
+                <div class="achievement-entry"><span class="year">2023</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#36/165)</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PHYSICS -->
+          <div class="achievement-subject">
+            <h3>Physics</h3>
+
+            <div class="achievement-box highlight">
+              <span class="phase">Balkan</span>
+              <div class="achievement-entries">
+                <div class="achievement-entry"><span class="year">2026</span><span class="place">Special Prize</span></div>
+              </div>
+            </div>
+
+            <div class="achievement-box highlight">
+              <span class="phase">Olympic Slot Selection</span>
+              <div class="achievement-entries">
+                <div class="achievement-entry"><span class="year">2026</span><span class="place">#12 rank</span><span class="rank">(from 40)</span></div>
+              </div>
+            </div>
+
+            <div class="achievement-box highlight">
+              <span class="phase">Republican</span>
+              <div class="achievement-entries">
+                <div class="achievement-entry"><span class="year">2026</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#9/40+)</span></div>
+              </div>
+            </div>
+
+            <div class="achievement-box">
+              <span class="phase">Municipal</span>
+              <div class="achievement-entries">
+                <div class="achievement-entry"><span class="year">2026</span><span class="place place-2nd">2nd Place</span><span class="rank">(#3/26)</span></div>
+                <div class="achievement-entry"><span class="year">2025</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#9/38)</span></div>
+                <div class="achievement-entry"><span class="year">2024</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#8/30)</span></div>
+              </div>
+            </div>
+
+            <div class="achievement-box">
+              <span class="phase">District</span>
+              <div class="achievement-entries">
+                <div class="achievement-entry"><span class="year">2026</span><span class="place place-3rd">3rd Place</span><span class="rank">(#10/78)</span></div>
+                <div class="achievement-entry"><span class="year">2025</span><span class="place place-3rd">3rd Place</span><span class="rank">(#26/99)</span></div>
+                <div class="achievement-entry"><span class="year">2024</span><span class="place place-2nd">2nd Place</span><span class="rank">(#15/107)</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- INFORMATICS -->
+          <div class="achievement-subject">
+            <h3>Informatics</h3>
+
+            <div class="achievement-box">
+              <span class="phase">District</span>
+              <div class="achievement-entries">
+                <div class="achievement-entry"><span class="year">2026</span><span class="place place-2nd">2nd Place</span><span class="rank">(#9/65)</span></div>
+                <div class="achievement-entry"><span class="year">2025</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#23/60)</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ASTRONOMY -->
+          <div class="achievement-subject">
+            <h3>Astronomy and Astrophysics</h3>
+
+            <div class="achievement-box highlight">
+              <span class="phase">Republican</span>
+              <div class="achievement-entries">
+                <div class="achievement-entry"><span class="year">2026</span><span class="place place-3rd">Bronze Medal</span><span class="rank">(#8/35)</span></div>
+                <div class="achievement-entry"><span class="year">2025</span><span class="place place-2nd">Silver Medal</span><span class="rank">(#9/30)</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CHEMISTRY -->
+          <div class="achievement-subject">
+            <h3>Chemistry</h3>
+
+            <div class="achievement-box">
+              <span class="phase">District</span>
+              <div class="achievement-entries">
+                <div class="achievement-entry"><span class="year">2023</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#44/80)</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MIHAI MARINCIUC MEMORIAL -->
+          <div class="achievement-subject">
+            <h3>"Mihai Marinciuc" Memorial Physics Competition</h3>
+            <p class="memorial-note">Equivalent in level to the Republican Physics Olympiad.</p>
+
+            <div class="achievement-box highlight">
+              <span class="phase">Contest</span>
+              <div class="achievement-entries">
+                <div class="achievement-entry"><span class="year">2026</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#5)</span></div>
+                <div class="achievement-entry"><span class="year">2025</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#7)</span></div>
+                <div class="achievement-entry"><span class="year">2024</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#7)</span></div>
+                <div class="achievement-entry"><span class="year">2023</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#10)</span></div>
+                <div class="achievement-entry"><span class="year">2021</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#15)</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= CAMPS AND COURSES ================= -->
+        <div>
+          <h2 style="margin-bottom:1rem;">Camps and Courses</h2>
+          <div class="camp-list">
+            <div class="camp-entry">
+              <p class="camp-title">Model Aircraft and Drones Course</p>
+              <p class="camp-meta">2018 &mdash; Organised by Fablab and Tekwill</p>
+              <p class="camp-desc">
+                Learned the basics of aerodynamics for a glider. Constructed a glider and
+                tested it for resistance and flight duration, achieving 2nd place. The final
+                project involved controlling a motorised glider and keeping it airborne for
+                as long as possible.
+              </p>
+            </div>
+            <div class="camp-entry">
+              <p class="camp-title">Third Edition of the Summer School "The Path to Scientific Discoveries"</p>
+              <p class="camp-meta">June 2025 &mdash; Organised by the Academy of Sciences of Moldova</p>
+              <p class="camp-desc">
+                Selected participant at a summer school program bringing together scientists,
+                scholars, and experts from diverse scientific disciplines. Received theoretical
+                and practical instruction in scientific development, research methodology, and
+                the relationship between science and society through lectures and discussions.
+                The program deepened my interest in the field of research.
+              </p>
+            </div>
+            <div class="camp-entry">
+              <p class="camp-title">Second Balkan Student Summer School on Quantum Physics</p>
+              <p class="camp-meta">August 2025 &mdash; Organised by the Balkan Physical Union, European Physical Society, Hellenic Physical Society, and others</p>
+              <p class="camp-desc">
+                Participated in an international summer school on the fundamentals of quantum
+                physics and its applications, bringing together students from across the Balkan
+                region. Gained an understanding of wave-particle duality, superposition, and
+                entanglement, and their relevance to modern quantum technologies such as quantum
+                computing and quantum sensing. Attended lectures and laboratory sessions
+                reproducing classic experiments, including the photoelectric effect, the
+                double-slit experiment, and the Franck&ndash;Hertz experiment.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section" id="resources">
+        <h1>Resources</h1>
+        <p>
+          A selection of books I have found valuable, organised by subject. This section is
+          still being expanded.
+        </p>
+
+        <div class="book-copyright-notice">
+          <p class="book-copyright-title">Copyright Notice &mdash; Books</p>
+          <p>
+            The books listed below are <strong>not my property</strong>. Copyright in each
+            work belongs to its respective author(s) and publisher. Several titles are shared
+            for <strong>educational use only</strong> and are not licensed for commercial
+            redistribution. Before downloading, sharing, or otherwise using any linked file,
+            you are responsible for verifying its copyright status and confirming that your
+            intended use is permitted, and for not misusing material restricted to
+            educational purposes.
+          </p>
+        </div>
+
+        <div class="resource-topics">
+
+          <div class="resource-topic">
+            <h3>Physics</h3>
+            <div class="resource-list">
+              <div class="card resource-row">
+                <div class="book-info">
+                  <p class="book-title">A Brief History of Time</p>
+                  <p class="book-author">Stephen Hawking</p>
+                </div>
+                <a href="#" class="button">Open</a>
+              </div>
+              <div class="card resource-row">
+                <div class="book-info">
+                  <p class="book-title">The Feynman Lectures on Physics</p>
+                  <p class="book-author">Richard P. Feynman</p>
+                </div>
+                <a href="#" class="button">Open</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="resource-topic">
+            <h3>Mathematics</h3>
+            <div class="resource-list">
+              <div class="card resource-row">
+                <div class="book-info">
+                  <p class="book-title">How to Solve It</p>
+                  <p class="book-author">George Pólya</p>
+                </div>
+                <a href="#" class="button">Open</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="resource-topic">
+            <h3>Astronomy</h3>
+            <div class="resource-list">
+              <div class="card resource-row">
+                <div class="book-info">
+                  <p class="book-title">Cosmos</p>
+                  <p class="book-author">Carl Sagan</p>
+                </div>
+                <a href="#" class="button">Open</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="resource-topic">
+            <h3>Computer Science</h3>
+            <div class="resource-list">
+              <div class="card resource-row">
+                <div class="book-info">
+                  <p class="book-title">Clean Code</p>
+                  <p class="book-author">Robert C. Martin</p>
+                </div>
+                <a href="#" class="button">Open</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="content-section" id="projects">
+        <h1>Projects</h1>
+        <p>A selection of independent projects I have worked on.</p>
+        <p style="font-size:0.9em; color:var(--link-color); margin-top:-0.6rem;">
+          Write-ups are still being finalised; PDF links will be enabled as they become available.
+        </p>
+        <div style="display:flex; flex-direction:column; gap:1rem;">
+
+          <div class="card project-row">
+            <div class="project-info">
+              <p class="project-title">Project One</p>
+              <p class="project-meta">Damian M&icirc;rza &middot; 2026</p>
+            </div>
+            <a href="#" class="button project-pdf-btn" aria-disabled="true">View PDF</a>
+          </div>
+
+          <div class="card project-row">
+            <div class="project-info">
+              <p class="project-title">Project Two</p>
+              <p class="project-meta">Damian M&icirc;rza &middot; 2026</p>
+            </div>
+            <a href="#" class="button project-pdf-btn" aria-disabled="true">View PDF</a>
+          </div>
+
+          <div class="card project-row">
+            <div class="project-info">
+              <p class="project-title">Project Three</p>
+              <p class="project-meta">Damian M&icirc;rza &middot; 2026</p>
+            </div>
+            <a href="#" class="button project-pdf-btn" aria-disabled="true">View PDF</a>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Progress bar -->
+    <aside class="progress-rail">
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
       </div>
+    </aside>
+
+  </div>
+</main>
+
+<footer>
+  <div class="social-links">
+    <a href="mailto:youremail@gmail.com" aria-label="Email">
+      <svg viewBox="0 0 24 24"><path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Zm2 0v.01L12 12l8-5.99V6H4Zm16 2.24-7.4 5.55a1 1 0 0 1-1.2 0L4 8.24V18h16V8.24Z"/></svg>
+    </a>
+    <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook">
+      <svg viewBox="0 0 24 24"><path d="M13.5 21v-7.5H16l.4-3H13.5V8.5c0-.87.24-1.46 1.5-1.46h1.6V4.35C16.3 4.24 15.3 4.1 14.15 4.1c-2.4 0-4.05 1.46-4.05 4.15v2.35H7.6v3h2.5V21h3.4Z"/></svg>
+    </a>
+    <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.58.01 4.85.07 1.17.05 1.97.24 2.43.4a4.9 4.9 0 0 1 1.77 1.15 4.9 4.9 0 0 1 1.15 1.77c.16.46.35 1.26.4 2.43.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.24 1.97-.4 2.43a4.9 4.9 0 0 1-1.15 1.77 4.9 4.9 0 0 1-1.77 1.15c-.46.16-1.26.35-2.43.4-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.97-.24-2.43-.4a4.9 4.9 0 0 1-1.77-1.15 4.9 4.9 0 0 1-1.15-1.77c-.16-.46-.35-1.26-.4-2.43C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.85c.05-1.17.24-1.97.4-2.43a4.9 4.9 0 0 1 1.15-1.77A4.9 4.9 0 0 1 5.6 1.8c.46-.16 1.26-.35 2.43-.4C9.3 1.34 9.68 1.33 12 1.33Zm0 1.8c-3.15 0-3.5.01-4.74.07-.96.04-1.48.2-1.82.34-.46.18-.79.4-1.13.75-.35.34-.57.67-.75 1.13-.14.34-.3.86-.34 1.82-.06 1.24-.07 1.6-.07 4.74s.01 3.5.07 4.74c.04.96.2 1.48.34 1.82.18.46.4.79.75 1.13.34.35.67.57 1.13.75.34.14.86.3 1.82.34 1.24.06 1.6.07 4.74.07s3.5-.01 4.74-.07c.96-.04 1.48-.2 1.82-.34.46-.18.79-.4 1.13-.75.35-.34.57-.67.75-1.13.14-.34.3-.86.34-1.82.06-1.24.07-1.6.07-4.74s-.01-3.5-.07-4.74c-.04-.96-.2-1.48-.34-1.82a3.1 3.1 0 0 0-.75-1.13 3.1 3.1 0 0 0-1.13-.75c-.34-.14-.86-.3-1.82-.34-1.24-.06-1.6-.07-4.74-.07Zm0 3.7a4.3 4.3 0 1 1 0 8.6 4.3 4.3 0 0 1 0-8.6Zm0 1.8a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Zm5.47-1.99a1 1 0 1 1-2.01 0 1 1 0 0 1 2.01 0Z"/></svg>
+    </a>
+  </div>
+  <p class="footer-copy"><b>&copy; 2026. All rights reserved.</b> &middot; <button type="button" class="inline-link-btn footer-legal-btn" onclick="openCopyrightPopup()">Copyright &amp; Terms</button></p>
+  <div class="footer-spacer"></div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+  // Live table of contents + progress bar
+  (function() {
+    const sections = document.querySelectorAll('.content-section[id]');
+    const tocLinks = document.querySelectorAll('.toc-list a');
+    const progressFill = document.getElementById('progress-fill');
+
+    function onScroll() {
+      // Progress bar: how far scrolled through the page
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      if (progressFill) progressFill.style.height = Math.min(100, Math.max(0, pct)) + '%';
+
+      // Active section detection
+      let currentId = sections[0] ? sections[0].id : null;
+      const triggerLine = window.innerHeight * 0.4;
+
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= triggerLine) {
+          currentId = section.id;
+        }
+      });
+
+      tocLinks.forEach(link => {
+        link.classList.toggle('active', link.dataset.section === currentId);
+      });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>
+
+<!-- Copyright / Terms & Conditions popup -->
+<div class="popup-overlay" id="copyright-popup">
+  <div class="popup-box">
+    <h3>Copyright, Terms &amp; Conditions</h3>
+
+    <h4>Copyright Notice</h4>
+    <p>
+      This website, including but not limited to its source code, visual design, layout,
+      original written content, photographs, and any personal information presented herein,
+      is the exclusive property of Damian M&icirc;rza. All rights are reserved. No part of this
+      website may be reproduced, distributed, or transmitted in any form or by any means
+      without the prior written consent of the owner, except as may be permitted by
+      applicable copyright law.
+    </p>
+
+    <h4>Terms and Conditions</h4>
+    <p>
+      This website is provided for informational purposes only. The information contained
+      herein is made available in good faith; however, no representation or warranty of any
+      kind is given as to its accuracy, completeness, or currency, and it may be amended or
+      corrected at any time without prior notice.
+    </p>
+    <p>
+      By accessing this website, you agree that the information provided shall not be used
+      for any unlawful, harmful, deceptive, or otherwise improper purpose. You further agree
+      not to reproduce, redistribute, or otherwise exploit the content of this website beyond
+      what is expressly permitted herein.
+    </p>
+    <p>
+      This website may collect and process the general geographic location from which it is
+      accessed, for the purposes of analytics and service improvement. By continuing to use
+      this website, you acknowledge and consent to this practice.
+    </p>
+
+    <div class="popup-buttons">
+      <button type="button" class="button popup-close-btn" onclick="closeCopyrightPopup()">I Understand</button>
     </div>
   </div>
-  
+</div>
+
+<script>
+  function openCopyrightPopup() {
+    document.getElementById('copyright-popup').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeCopyrightPopup() {
+    document.getElementById('copyright-popup').classList.remove('open');
+    document.body.style.overflow = '';
+    localStorage.setItem('copyrightAcknowledged', 'true');
+  }
+  document.getElementById('copyright-popup').addEventListener('click', (e) => {
+    if (e.target.id === 'copyright-popup') closeCopyrightPopup();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeCopyrightPopup();
+  });
+
+  // Show automatically on first visit (once per browser, not on every page load)
+  if (!localStorage.getItem('copyrightAcknowledged')) {
+    window.addEventListener('DOMContentLoaded', () => {
+      openCopyrightPopup();
+    });
+  }
+</script>
+
 </body>
 </html>
