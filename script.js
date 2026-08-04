@@ -3,113 +3,44 @@ const darkModeToggle = document.getElementById('dark-mode-toggle');
 
 function updateDarkModeButton() {
   if (!darkModeToggle) return;
-  const isDark = document.body.classList.contains('dark-mode');
-  darkModeToggle.textContent = isDark ? 'L' : 'D';
+  const isDark = document.documentElement.classList.contains('dark-mode');
+  const label = darkModeToggle.querySelector('span');
+  if (label) label.textContent = isDark ? 'L' : 'D';
 }
 
 updateDarkModeButton();
 
 if (darkModeToggle) {
   darkModeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    const isDark = document.body.classList.contains('dark-mode');
+    document.documentElement.classList.toggle('dark-mode');
+    const isDark = document.documentElement.classList.contains('dark-mode');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
     updateDarkModeButton();
   });
+
+  // Moving backlight that follows the cursor while hovering
+  darkModeToggle.addEventListener('mousemove', (e) => {
+    const rect = darkModeToggle.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    darkModeToggle.style.setProperty('--mx', `${x}%`);
+    darkModeToggle.style.setProperty('--my', `${y}%`);
+  });
 }
 
-// ================= LANGUAGE TOGGLE =================
-document.querySelectorAll('.lang-button').forEach(button => {
-  button.addEventListener('click', (e) => {
-    console.log('Language button clicked:', e.target.textContent);
-    const lang = button.textContent.toLowerCase();
-    let currentPath = window.location.pathname;
-    console.log('Current pathname:', currentPath);
-    
-    if (currentPath === '/' || currentPath === '') {
-      currentPath = '/index.html';
-      console.log('Path adjusted to /index.html for root URL');
-    }
-    
-    const isEnglish = !currentPath.includes('-ro');
-    console.log('Is English:', isEnglish, 'Lang pressed:', lang);
-    
-    if ((lang === 'ro' && isEnglish) || (lang === 'en' && !isEnglish)) {
-      const newPath = isEnglish ? currentPath.replace('.html', '-ro.html') : currentPath.replace('-ro.html', '.html');
-      console.log('Attempting redirect to:', newPath);
-      try {
-        window.location.href = newPath;
-      } catch (error) {
-        console.error('Redirect failed:', error);
-        window.location.assign(newPath);
-      }
-    } else {
-      console.log('No redirect needed');
-    }
-  });
-});
+// ================= SMOOTH PAGE TRANSITIONS =================
+document.querySelectorAll('a[href]').forEach(link => {
+  const href = link.getAttribute('href');
+  if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || link.target === '_blank') return;
 
-// Detect mobile for hover disabling
-const isMobile = window.innerWidth <= 1024 || 
-                 /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-document.body.classList.toggle('is-mobile', isMobile);
-
-// Language box tap feedback (mobile only)
-document.querySelectorAll('.language-box').forEach(box => {
-  box.addEventListener('click', function() {
-    if (isMobile) {
-      this.style.transform = 'scale(0.98)';
+  link.addEventListener('click', (e) => {
+    // Only intercept same-site .html navigations
+    if (href.endsWith('.html') || href === '/' ) {
+      e.preventDefault();
+      document.body.classList.add('fade-out');
       setTimeout(() => {
-        this.style.transform = '';
-      }, 150);
+        window.location.href = href;
+      }, 280);
     }
   });
 });
-
-// Button tap feedback for all pages
-document.querySelectorAll('.cta-button, .index-button, .button').forEach(button => {
-  button.addEventListener('click', function(e) {
-    if (isMobile) {
-      this.style.transform = 'scale(0.95)';
-      setTimeout(() => {
-        this.style.transform = '';
-      }, 150);
-    }
-  });
-});
-
-// Handle window resize
-window.addEventListener('resize', () => {
-  const newIsMobile = window.innerWidth <= 1024 || 
-                     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  document.body.classList.toggle('is-mobile', newIsMobile);
-});
-
-// ================= COPYRIGHT POPUP =================
-function initCopyrightPopup() {
-  const popup = document.getElementById('copyright-popup');
-  if (!popup) return;
-  
-  const accepted = localStorage.getItem('copyrightAccepted');
-  
-  if (accepted !== 'true') {
-    popup.style.display = 'flex';
-  }
-}
-
-function acceptCopyright() {
-  localStorage.setItem('copyrightAccepted', 'true');
-  const popup = document.getElementById('copyright-popup');
-  if (popup) {
-    popup.style.display = 'none';
-  }
-}
-
-// Initialize on DOM ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initCopyrightPopup);
-} else {
-  initCopyrightPopup();
-}
-
-window.addEventListener('load', initCopyrightPopup);
