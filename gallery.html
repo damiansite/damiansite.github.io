@@ -623,7 +623,7 @@
     const n = i + 1;
     const size = bigImageNumbers.includes(n) ? '2x2' : '1x1';
     return {
-      ssrc: `images/img${n}.${n === 26 ? 'webp' : 'jpg'}`,
+      src: `images/img${n}.${n === 26 ? 'webp' : 'jpg'}`,
       alt: `Photo ${n}`,
       title: featuredTitles[n] || null,
       country: imageInfo[n].country,
