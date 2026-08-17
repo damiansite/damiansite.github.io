@@ -20,62 +20,66 @@
   .page-wrap {
     display: flex;
     width: 100%;
-    min-height: calc(100vh - 78px - 70px); /* minus header/footer approx */
+    min-height: calc(100vh - 78px - 70px);
     position: relative;
   }
 
-  /* Live table of contents - fixed left position */
-.toc-rail {
-  width: 18%;
-  min-width: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; /* changed from center */
-  position: sticky;
-  top: 100px;
-  height: calc(100vh - 100px);
-  align-self: flex-start;
-  padding-left: 2rem;
-  box-sizing: border-box;
-}
+  /* ================= TABLE OF CONTENTS ================= */
 
-.toc-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  width: max-content; /* allows long subchapters to extend right */
-}
+  .toc-rail {
+    width: 18%;
+    min-width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: sticky;
+    top: 100px;
+    height: calc(100vh - 100px);
+    align-self: flex-start;
 
-.toc-list li {
-  width: max-content;
-}
+    /* Shift TOC slightly toward the center without centering it */
+    padding-left: 4rem;
 
-.toc-list a {
-  text-decoration: none;
-  color: var(--link-color);
-  font-weight: 500;
-  font-size: 1.05rem;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  position: relative;
-  padding-left: 1rem;
-  border-left: 2px solid transparent;
-  display: block;
-  white-space: nowrap;
-}
+    box-sizing: border-box;
+  }
 
-.toc-list a.active {
-  color: var(--text-color);
-  font-weight: 700;
-  border-left: 2px solid var(--text-color);
-  transform: translateX(4px);
-}
+  .toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: max-content;
+  }
 
-.toc-list a:hover {
-  color: var(--text-color);
-}
+  .toc-list li {
+    width: max-content;
+  }
+
+  .toc-list a {
+    text-decoration: none;
+    color: var(--link-color);
+    font-weight: 500;
+    font-size: 1.05rem;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    padding-left: 1rem;
+    border-left: 2px solid transparent;
+    display: block;
+    white-space: nowrap;
+  }
+
+  .toc-list a.active {
+    color: var(--text-color);
+    font-weight: 700;
+    border-left: 2px solid var(--text-color);
+    transform: translateX(4px);
+  }
+
+  .toc-list a:hover {
+    color: var(--text-color);
+  }
 
   .toc-subchapter {
     display: block;
@@ -85,10 +89,11 @@
     transform: translateY(-5px);
     margin-left: 1.35rem;
     pointer-events: none;
-    transition: max-height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                opacity 0.35s ease,
-                transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                margin-top 0.45s ease;
+    transition:
+      max-height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      opacity 0.35s ease,
+      transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      margin-top 0.45s ease;
   }
 
   .toc-subchapter.active {
@@ -107,7 +112,10 @@
     font-weight: 500;
     padding-left: 0.8rem;
     border-left: 1px solid var(--accent);
-    transition: color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+    transition:
+      color 0.3s ease,
+      border-color 0.3s ease,
+      transform 0.3s ease;
   }
 
   .toc-subchapter a:hover {
@@ -115,9 +123,8 @@
     transform: translateX(2px);
   }
 
-  
+  /* ================= CONTENT ================= */
 
-  /* Content column - middle 60% (relative to page-wrap, since toc+progress take ~36%) */
   .content-col {
     width: 64%;
     padding: 8vh 2rem;
@@ -127,7 +134,7 @@
     gap: 14vh;
   }
 
-  /* Progress bar rail - fixed on right side, centered vertically */
+  /* Progress bar rail */
   .progress-rail {
     position: fixed;
     right: 5%;
@@ -160,12 +167,22 @@
     transition: height 0.1s linear;
   }
 
-  /* Sections */
+  /* Main sections */
   .content-section {
     scroll-margin-top: 140px;
     max-width: 760px;
     width: 100%;
     text-align: left;
+  }
+
+  /*
+   * IMPORTANT:
+   * Subchapters are inside the Profile section, so they need
+   * their own scroll offset. This prevents the header from
+   * covering the heading when reached through the TOC.
+   */
+  .profile-subsection {
+    scroll-margin-top: 140px;
   }
 
   .content-section h1 {
@@ -191,7 +208,6 @@
     text-justify: inter-word;
   }
 
-  /* Large introductory / descriptive paragraphs throughout the page */
   .content-section .section-intro,
   .content-section .large-text,
   .content-section .achievement-intro,
@@ -208,7 +224,8 @@
     max-width: 760px;
   }
 
-  /* Hero intro at top */
+  /* ================= HERO ================= */
+
   .hero-intro {
     display: flex;
     flex-direction: column;
@@ -246,7 +263,9 @@
     object-fit: cover;
     border-radius: 18px;
     box-shadow: 0 12px 34px rgba(0,0,0,0.15);
-    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition:
+      transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .profile-photo:hover {
@@ -260,6 +279,7 @@
       align-items: flex-start;
       gap: 1.4rem;
     }
+
     .profile-photo {
       width: 120px;
       height: 120px;
@@ -279,13 +299,15 @@
     margin: 0;
   }
 
-  /* Cards used across sections */
+  /* ================= CARDS ================= */
+
   .card {
     background-color: var(--card-bg);
     padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition:
+      all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     text-align: left;
   }
 
@@ -312,6 +334,8 @@
     color: var(--link-color);
     line-height: 1.5;
   }
+
+  /* ================= RESOURCES ================= */
 
   .resource-row {
     display: flex;
@@ -387,6 +411,7 @@
   }
 
   /* ================= PROJECTS ================= */
+
   .project-row {
     display: flex;
     justify-content: space-between;
@@ -421,12 +446,17 @@
   }
 
   .button {
-    background: linear-gradient(135deg, var(--button-bg), var(--button-hover));
+    background: linear-gradient(
+      135deg,
+      var(--button-bg),
+      var(--button-hover)
+    );
     color: var(--bg-color) !important;
     padding: 0.7rem 1.4rem;
     text-decoration: none;
     border-radius: 8px;
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition:
+      all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     font-weight: 600;
     white-space: nowrap;
     border: none;
@@ -443,11 +473,14 @@
     box-shadow: 0 12px 30px rgba(0,0,0,0.22);
   }
 
-  /* Mobile: hide toc + progress rails, stack content full width */
+  /* ================= MOBILE ================= */
+
   @media (max-width: 900px) {
-    .toc-rail, .progress-rail {
+    .toc-rail,
+    .progress-rail {
       display: none;
     }
+
     .content-col {
       width: 100%;
       padding: 6vh 1.2rem;
@@ -455,7 +488,8 @@
     }
   }
 
-  /* Hide progress bar in fullscreen */
+  /* ================= FULLSCREEN ================= */
+
   .page-wrap:fullscreen .progress-rail,
   .page-wrap:-webkit-full-screen .progress-rail,
   .page-wrap:-moz-full-screen .progress-rail,
@@ -464,6 +498,7 @@
   }
 
   /* ================= LANGUAGE LEVELS ================= */
+
   .lang-card-grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -489,18 +524,22 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 0.7rem;
     }
+
     .lang-card {
       padding: 1rem 0.6rem;
     }
+
     .lang-card h3 {
       font-size: 0.85em;
     }
+
     .lang-level-big {
       font-size: 1.4em !important;
     }
   }
 
-  /* ================= PORTFOLIO SHOWCASE BOX ================= */
+  /* ================= PORTFOLIO ================= */
+
   .portfolio-showcase {
     width: 100%;
     margin: 1.5rem 0 0.5rem 0;
@@ -518,7 +557,10 @@
     background: var(--card-bg);
     border: 1px solid var(--accent);
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    transition:
+      transform 0.35s ease,
+      box-shadow 0.35s ease,
+      border-color 0.35s ease;
     padding: 2.5rem 2rem;
     text-align: center;
   }
@@ -544,7 +586,6 @@
     max-width: 480px;
   }
 
-  /* Calm, modern button animation - subtle glow and gentle lift */
   .portfolio-link {
     position: relative;
     display: inline-flex;
@@ -555,13 +596,17 @@
     color: var(--bg-color);
     text-decoration: none;
     font-weight: 600;
-    background: linear-gradient(135deg, var(--button-bg), var(--button-hover));
+    background: linear-gradient(
+      135deg,
+      var(--button-bg),
+      var(--button-hover)
+    );
     font-family: 'Quicksand', sans-serif;
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition:
+      all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     overflow: hidden;
   }
 
-  /* Subtle glow ring that expands on hover */
   .portfolio-link::before {
     content: '';
     position: absolute;
@@ -588,6 +633,7 @@
   }
 
   /* ================= EDUCATION ================= */
+
   .education-list {
     display: flex;
     flex-direction: column;
@@ -598,6 +644,33 @@
     position: relative;
     padding: 1.4rem 1.4rem 1.25rem;
     border-left: 3px solid var(--accent);
+  }
+
+  /*
+   * Photo displayed above the General Secondary Education card.
+   * Replace images/aristotel.jpg with your preferred image path.
+   */
+  .education-photo-wrap {
+    width: 100%;
+    margin-bottom: 1.4rem;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--card-bg);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+
+  .education-photo {
+    display: block;
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  @media (max-width: 640px) {
+    .education-photo {
+      height: 200px;
+    }
   }
 
   .education-stage {
@@ -631,6 +704,7 @@
   }
 
   /* ================= ACHIEVEMENTS ================= */
+
   .achievement-subject {
     margin-bottom: 2rem;
   }
@@ -660,7 +734,9 @@
   .achievement-box::before {
     content: '';
     position: absolute;
-    left: 0; top: 0; bottom: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
     width: 3px;
     background: var(--accent);
   }
@@ -682,9 +758,16 @@
   .achievement-box.highlight::after {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #d4af37, #f0d060, #d4af37);
+    background: linear-gradient(
+      90deg,
+      #d4af37,
+      #f0d060,
+      #d4af37
+    );
     box-shadow: 0 0 16px rgba(212, 175, 55, 0.4);
     border-radius: 10px 10px 0 0;
   }
@@ -729,10 +812,21 @@
     color: var(--link-color);
   }
 
-  .place-1st { color: #d4af37; }
-  .place-2nd { font-weight: 700; }
-  .place-3rd { color: #a07040; }
-  .place-hm { font-weight: 600; }
+  .place-1st {
+    color: #d4af37;
+  }
+
+  .place-2nd {
+    font-weight: 700;
+  }
+
+  .place-3rd {
+    color: #a07040;
+  }
+
+  .place-hm {
+    font-weight: 600;
+  }
 
   .memorial-note {
     font-size: 0.88em;
@@ -742,6 +836,7 @@
   }
 
   /* ================= CAMPS & COURSES ================= */
+
   .camp-list {
     display: flex;
     flex-direction: column;
@@ -786,7 +881,6 @@
     max-width: 640px;
   }
 
-  /* Keep the Mihai Marinciuc heading link visually identical to the heading. */
   .achievement-subject h3 a {
     color: inherit;
     text-decoration: none;
@@ -796,9 +890,14 @@
     color: inherit;
   }
 
-  /* ================= POPUP CLOSE BUTTON ================= */
+  /* ================= POPUP ================= */
+
   .popup-close-btn {
-    background: linear-gradient(135deg, var(--button-bg), var(--button-hover)) !important;
+    background: linear-gradient(
+      135deg,
+      var(--button-bg),
+      var(--button-hover)
+    ) !important;
     color: var(--bg-color) !important;
     padding: 0.7rem 1.4rem;
     border-radius: 8px;
@@ -806,7 +905,8 @@
     cursor: pointer;
     font-weight: 600;
     font-family: 'Quicksand', sans-serif;
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition:
+      all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .popup-close-btn:hover {
@@ -825,6 +925,7 @@
       <li><a href="gallery.html">Gallery</a></li>
     </ul>
   </nav>
+
   <div class="toggles">
     <button id="dark-mode-toggle"><span>D</span></button>
   </div>
@@ -833,589 +934,1389 @@
 <main>
   <div class="page-wrap">
 
-    <!-- Live table of contents (first 20%) -->
+    <!-- ================= TABLE OF CONTENTS ================= -->
+
     <aside class="toc-rail">
       <ul class="toc-list">
+
         <li>
           <a href="#who-i-am" data-section="who-i-am">Profile</a>
-          <span class="toc-subchapter" data-parent="who-i-am"><a href="#education"></a></span>
+
+          <span class="toc-subchapter" data-parent="who-i-am">
+            <a href="#education"></a>
+          </span>
         </li>
+
         <li>
           <a href="#resources" data-section="resources">Resources</a>
-          <span class="toc-subchapter" data-parent="resources"><a href="#resource-physics"></a></span>
+
+          <span class="toc-subchapter" data-parent="resources">
+            <a href="#resource-physics"></a>
+          </span>
         </li>
+
         <li>
           <a href="#projects" data-section="projects">Projects</a>
-          <span class="toc-subchapter" data-parent="projects"><a href="#projects"></a></span>
+
+          <span class="toc-subchapter" data-parent="projects">
+            <a href="#projects"></a>
+          </span>
         </li>
+
       </ul>
     </aside>
 
-    <!-- Content (middle 60%) -->
+    <!-- ================= CONTENT ================= -->
+
     <div class="content-col">
 
+      <!-- ================= PROFILE ================= -->
+
       <section class="content-section hero-intro" id="who-i-am">
+
         <div class="profile-header-row">
+
           <div class="profile-text">
             <h1 style="margin-bottom:0;">Profile</h1>
+
             <p class="section-intro">
-              I am interested in photography and below you can access my gallery. Also I have some academic success in the scientific subjects, with achievements at different competitions shown on this page.
-              Alongside the achievements I also present some of the resources which intrigued me (and I am able to share online based on their copyright) and also some research projects I did. This page was
-              created for easier access to information for me and also to be able to share it to specific people.
+              I am interested in photography and below you can access my gallery.
+              Also I have some academic success in the scientific subjects, with
+              achievements at different competitions shown on this page.
+              Alongside the achievements I also present some of the resources
+              which intrigued me (and I am able to share online based on their
+              copyright) and also some research projects I did. This page was
+              created for easier access to information for me and also to be able
+              to share it to specific people.
             </p>
           </div>
+
           <div class="profile-photo-wrap">
-            <img src="images/person.jpg" alt="Profile photo" class="profile-photo">
+            <img
+              src="images/person.jpg"
+              alt="Profile photo"
+              class="profile-photo"
+            >
           </div>
+
         </div>
 
+        <!-- LANGUAGE LEVELS -->
+
         <div class="card-grid lang-card-grid">
+
           <div class="card lang-card">
             <h3>Romanian</h3>
             <p class="lang-level-big">C2</p>
             <p>Native</p>
           </div>
+
           <div class="card lang-card">
             <h3>English</h3>
             <p class="lang-level-big">C1</p>
             <p>Advanced</p>
           </div>
+
           <div class="card lang-card">
             <h3>Russian</h3>
             <p class="lang-level-big">B1</p>
             <p>Intermediate</p>
           </div>
+
         </div>
 
-        <!-- ================= PORTFOLIO SHOWCASE BOX ================= -->
+        <!-- PORTFOLIO -->
+
         <div class="portfolio-showcase">
+
           <div class="portfolio-card">
+
             <h2>Photography Portfolio</h2>
-            <p>Check out my collection of photos - landscapes, cities, animals, sky, nature and much more.</p>
+
+            <p>
+              Check out my collection of photos - landscapes, cities, animals,
+              sky, nature and much more.
+            </p>
+
             <a href="gallery.html" class="portfolio-link">
               Explore Gallery
             </a>
+
           </div>
+
         </div>
 
         <!-- ================= EDUCATION ================= -->
+
         <div id="education" class="profile-subsection">
+
           <h2 style="margin-bottom:1rem;">Education</h2>
-          <p class="section-intro">My formal education, presented chronologically by educational stage.</p>
+
+          <p class="section-intro">
+            My formal education, presented chronologically by educational stage.
+          </p>
 
           <div class="education-list">
-            <div class="education-entry card">
-              <div class="education-stage">Primary Education</div>
-              <div class="education-years">2015 &mdash; 2019</div>
-              <h3>Public Institution Theoretical Lyceum „Ștefan Cel Mare”</h3>
-              <p><strong>Classes:</strong> I &mdash; IV</p>
-              <p><strong>Website:</strong> <a href="https://ltstefancelmare.md/" target="_blank" rel="noopener"> ltstefancelmare.md/</a></p>
-              <p class="large-text">[Short description of the institution and your studies here.]</p>
-            </div>
+
+            <!-- PRIMARY -->
 
             <div class="education-entry card">
-              <div class="education-stage">Lower Secondary Education</div>
-              <div class="education-years">2019 &mdash; 2024</div>
-              <h3>Public Institution Theoretical Lyceum „Ion Creangă”</h3>
-              <p><strong>Classes:</strong> V &mdash; IX</p>
-              <p><strong>Website:</strong> <a href="https://creanga.md/" target="_blank" rel="noopener"> creanga.md/</a></p>
-              <p class="large-text">[Short description of the institution and your studies here.]</p>
+
+              <div class="education-stage">
+                Primary Education
+              </div>
+
+              <div class="education-years">
+                2015 &mdash; 2019
+              </div>
+
+              <h3>
+                Public Institution Theoretical Lyceum „Ștefan Cel Mare”
+              </h3>
+
+              <p>
+                <strong>Classes:</strong> I &mdash; IV
+              </p>
+
+              <p>
+                <strong>Website:</strong>
+                <a
+                  href="https://ltstefancelmare.md/"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  ltstefancelmare.md/
+                </a>
+              </p>
+
+              <p class="large-text">
+                [Short description of the institution and your studies here.]
+              </p>
+
             </div>
 
+            <!-- LOWER SECONDARY -->
+
             <div class="education-entry card">
-              <div class="education-stage">General Secondary Education</div>
-              <div class="education-years">2024 &mdash; 2027</div>
-              <h3>Public Institution Republican Theoretical Lyceum „Aristotel”</h3>
-              <p><strong>Classes:</strong> X &mdash; XII</p>
-              <p><strong>Website:</strong> <a href="https://www.aristotel.md/" target="_blank" rel="noopener">aristotel.md</a></p>
-              <p class="large-text">A republican theoretical lyceum in Chișinău focused on strong pre-university academic preparation, with real and humanities profiles and an emphasis on academic excellence.</p>
+
+              <div class="education-stage">
+                Lower Secondary Education
+              </div>
+
+              <div class="education-years">
+                2019 &mdash; 2024
+              </div>
+
+              <h3>
+                Public Institution Theoretical Lyceum „Ion Creangă”
+              </h3>
+
+              <p>
+                <strong>Classes:</strong> V &mdash; IX
+              </p>
+
+              <p>
+                <strong>Website:</strong>
+                <a
+                  href="https://creanga.md/"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  creanga.md/
+                </a>
+              </p>
+
+              <p class="large-text">
+                [Short description of the institution and your studies here.]
+              </p>
+
             </div>
+
+            <!-- GENERAL SECONDARY -->
+
+            <div>
+
+              <!--
+                ================================
+                EDUCATION PHOTO
+                ================================
+                Replace "images/aristotel.jpg"
+                with your desired image path.
+              -->
+
+              <div class="education-photo-wrap">
+
+                <img
+                  src="images/aristotel.jpg"
+                  alt="Public Institution Republican Theoretical Lyceum „Aristotel”"
+                  class="education-photo"
+                >
+
+              </div>
+
+              <div class="education-entry card">
+
+                <div class="education-stage">
+                  General Secondary Education
+                </div>
+
+                <div class="education-years">
+                  2024 &mdash; 2027
+                </div>
+
+                <h3>
+                  Public Institution Republican Theoretical Lyceum „Aristotel”
+                </h3>
+
+                <p>
+                  <strong>Classes:</strong> X &mdash; XII
+                </p>
+
+                <p>
+                  <strong>Website:</strong>
+                  <a
+                    href="https://www.aristotel.md/"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    aristotel.md
+                  </a>
+                </p>
+
+                <p class="large-text">
+                  A republican theoretical lyceum in Chișinău focused on strong
+                  pre-university academic preparation, with real and humanities
+                  profiles and an emphasis on academic excellence.
+                </p>
+
+              </div>
+
+            </div>
+
           </div>
+
         </div>
 
         <!-- ================= ACHIEVEMENTS ================= -->
+
         <div id="achievements" class="profile-subsection">
+
           <h2 style="margin-bottom:1rem;">Achievements</h2>
-          <p class="achievement-intro" style="margin-bottom:1.5rem; color:var(--link-color);">
-            An overview of my results in academic competitions across the years. 
+
+          <p
+            class="achievement-intro"
+            style="margin-bottom:1.5rem; color:var(--link-color);"
+          >
+            An overview of my results in academic competitions across the years.
           </p>
 
           <!-- MATHEMATICS -->
+
           <div class="achievement-subject">
+
             <h3>Mathematics</h3>
 
             <div class="achievement-box highlight">
+
               <span class="phase">Republican</span>
+
               <div class="achievement-entries">
-                <div class="achievement-entry"><span class="year">2026</span><span class="place">#11 rank</span><span class="rank">(from 40+)</span></div>
+
+                <div class="achievement-entry">
+                  <span class="year">2026</span>
+                  <span class="place">#11 rank</span>
+                  <span class="rank">(from 40+)</span>
+                </div>
+
               </div>
+
             </div>
 
             <div class="achievement-box">
+
               <span class="phase">Municipal</span>
+
               <div class="achievement-entries">
-                <div class="achievement-entry"><span class="year">2026</span><span class="place place-2nd">2nd Place</span><span class="rank">(#2/28)</span></div>
-                <div class="achievement-entry"><span class="year">2025</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#9/31)</span></div>
-                <div class="achievement-entry"><span class="year">2024</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#9/31)</span></div>
+
+                <div class="achievement-entry">
+                  <span class="year">2026</span>
+                  <span class="place place-2nd">2nd Place</span>
+                  <span class="rank">(#2/28)</span>
+                </div>
+
+                <div class="achievement-entry">
+                  <span class="year">2025</span>
+                  <span class="place place-hm">Honorary Mention</span>
+                  <span class="rank">(#9/31)</span>
+                </div>
+
+                <div class="achievement-entry">
+                  <span class="year">2024</span>
+                  <span class="place place-hm">Honorary Mention</span>
+                  <span class="rank">(#9/31)</span>
+                </div>
+
               </div>
+
             </div>
 
             <div class="achievement-box">
+
               <span class="phase">District</span>
+
               <div class="achievement-entries">
-                <div class="achievement-entry"><span class="year">2026</span><span class="place place-1st">1st Place</span><span class="rank">(#4/106)</span></div>
-                <div class="achievement-entry"><span class="year">2025</span><span class="place place-3rd">3rd Place</span><span class="rank">(#21/165)</span></div>
-                <div class="achievement-entry"><span class="year">2024</span><span class="place place-2nd">2nd Place</span><span class="rank">(#9/173)</span></div>
-                <div class="achievement-entry"><span class="year">2023</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#36/165)</span></div>
+
+                <div class="achievement-entry">
+                  <span class="year">2026</span>
+                  <span class="place place-1st">1st Place</span>
+                  <span class="rank">(#4/106)</span>
+                </div>
+
+                <div class="achievement-entry">
+                  <span class="year">2025</span>
+                  <span class="place place-3rd">3rd Place</span>
+                  <span class="rank">(#21/165)</span>
+                </div>
+
+                <div class="achievement-entry">
+                  <span class="year">2024</span>
+                  <span class="place place-2nd">2nd Place</span>
+                  <span class="rank">(#9/173)</span>
+                </div>
+
+                <div class="achievement-entry">
+                  <span class="year">2023</span>
+                  <span class="place place-hm">Honorary Mention</span>
+                  <span class="rank">(#36/165)</span>
+                </div>
+
               </div>
+
             </div>
+
           </div>
 
           <!-- PHYSICS -->
+
           <div class="achievement-subject">
+
             <h3>Physics</h3>
 
             <div class="achievement-box highlight">
               <span class="phase">Balkan</span>
+
               <div class="achievement-entries">
-                <div class="achievement-entry"><span class="year">2026</span><span class="place">Special Prize</span></div>
+                <div class="achievement-entry">
+                  <span class="year">2026</span>
+                  <span class="place">Special Prize</span>
+                </div>
               </div>
             </div>
 
             <div class="achievement-box highlight">
+
               <span class="phase">Olympic Slot Selection</span>
+
               <div class="achievement-entries">
-                <div class="achievement-entry"><span class="year">2026</span><span class="place">#12 rank</span><span class="rank">(from 40)</span></div>
+                <div class="achievement-entry">
+                  <span class="year">2026</span>
+                  <span class="place">#12 rank</span>
+                  <span class="rank">(from 40)</span>
+                </div>
               </div>
+
             </div>
 
             <div class="achievement-box highlight">
+
               <span class="phase">Republican</span>
+
               <div class="achievement-entries">
-                <div class="achievement-entry"><span class="year">2026</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#9/40+)</span></div>
+                <div class="achievement-entry">
+                  <span class="year">2026</span>
+                  <span class="place place-hm">Honorary Mention</span>
+                  <span class="rank">(#9/40+)</span>
+                </div>
               </div>
+
             </div>
 
             <div class="achievement-box">
+
               <span class="phase">Municipal</span>
+
               <div class="achievement-entries">
-                <div class="achievement-entry"><span class="year">2026</span><span class="place place-2nd">2nd Place</span><span class="rank">(#3/26)</span></div>
-                <div class="achievement-entry"><span class="year">2025</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#9/38)</span></div>
-                <div class="achievement-entry"><span class="year">2024</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#8/30)</span></div>
+
+                <div class="achievement-entry">
+                  <span class="year">2026</span>
+                  <span class="place place-2nd">2nd Place</span>
+                  <span class="rank">(#3/26)</span>
+                </div>
+
+                <div class="achievement-entry">
+                  <span class="year">2025</span>
+                  <span class="place place-hm">Honorary Mention</span>
+                  <span class="rank">(#9/38)</span>
+                </div>
+
+                <div class="achievement-entry">
+                  <span class="year">2024</span>
+                  <span class="place place-hm">Honorary Mention</span>
+                  <span class="rank">(#8/30)</span>
+                </div>
+
               </div>
+
             </div>
 
             <div class="achievement-box">
+
               <span class="phase">District</span>
+
               <div class="achievement-entries">
-                <div class="achievement-entry"><span class="year">2026</span><span class="place place-3rd">3rd Place</span><span class="rank">(#10/78)</span></div>
-                <div class="achievement-entry"><span class="year">2025</span><span class="place place-3rd">3rd Place</span><span class="rank">(#26/99)</span></div>
-                <div class="achievement-entry"><span class="year">2024</span><span class="place place-2nd">2nd Place</span><span class="rank">(#15/107)</span></div>
+
+                <div class="achievement-entry">
+                  <span class="year">2026</span>
+                  <span class="place place-3rd">3rd Place</span>
+                  <span class="rank">(#10/78)</span>
+                </div>
+
+                <div class="achievement-entry">
+                  <span class="year">2025</span>
+                  <span class="place place-3rd">3rd Place</span>
+                  <span class="rank">(#26/99)</span>
+                </div>
+
+                <div class="achievement-entry">
+                  <span class="year">2024</span>
+                  <span class="place place-2nd">2nd Place</span>
+                  <span class="rank">(#15/107)</span>
+                </div>
+
               </div>
+
             </div>
+
           </div>
 
           <!-- INFORMATICS -->
+
           <div class="achievement-subject">
+
             <h3>Informatics</h3>
 
             <div class="achievement-box">
+
               <span class="phase">District</span>
+
               <div class="achievement-entries">
-                <div class="achievement-entry"><span class="year">2026</span><span class="place place-2nd">2nd Place</span><span class="rank">(#9/65)</span></div>
-                <div class="achievement-entry"><span class="year">2025</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#23/60)</span></div>
+
+                <div class="achievement-entry">
+                  <span class="year">2026</span>
+                  <span class="place place-2nd">2nd Place</span>
+                  <span class="rank">(#9/65)</span>
+                </div>
+
+                <div class="achievement-entry">
+                  <span class="year">2025</span>
+                  <span class="place place-hm">Honorary Mention</span>
+                  <span class="rank">(#23/60)</span>
+                </div>
+
               </div>
+
             </div>
+
           </div>
 
           <!-- ASTRONOMY -->
+
           <div class="achievement-subject">
+
             <h3>Astronomy and Astrophysics</h3>
 
             <div class="achievement-box highlight">
+
               <span class="phase">Republican</span>
+
               <div class="achievement-entries">
-                <div class="achievement-entry"><span class="year">2026</span><span class="place place-3rd">Bronze Medal</span><span class="rank">(#8/35)</span></div>
-                <div class="achievement-entry"><span class="year">2025</span><span class="place place-2nd">Silver Medal</span><span class="rank">(#9/30)</span></div>
+
+                <div class="achievement-entry">
+                  <span class="year">2026</span>
+                  <span class="place place-3rd">Bronze Medal</span>
+                  <span class="rank">(#8/35)</span>
+                </div>
+
+                <div class="achievement-entry">
+                  <span class="year">2025</span>
+                  <span class="place place-2nd">Silver Medal</span>
+                  <span class="rank">(#9/30)</span>
+                </div>
+
               </div>
+
             </div>
+
           </div>
 
           <!-- CHEMISTRY -->
+
           <div class="achievement-subject">
+
             <h3>Chemistry</h3>
 
             <div class="achievement-box">
+
               <span class="phase">District</span>
+
               <div class="achievement-entries">
-                <div class="achievement-entry"><span class="year">2023</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#44/80)</span></div>
+
+                <div class="achievement-entry">
+                  <span class="year">2023</span>
+                  <span class="place place-hm">Honorary Mention</span>
+                  <span class="rank">(#44/80)</span>
+                </div>
+
               </div>
+
             </div>
+
           </div>
 
-          <!-- MIHAI MARINCIUC MEMORIAL -->
+          <!-- MIHAI MARINCIUC -->
+
           <div class="achievement-subject">
-            <h3><a href="https://fizica.utm.md/data/concurs_marinciuc.php" target="_blank" rel="noopener">"Mihai Marinciuc" Memorial Physics Competition</a></h3>
-            <p class="memorial-note">Equivalent in level to the Republican Physics Olympiad.</p>
+
+            <h3>
+              <a
+                href="https://fizica.utm.md/data/concurs_marinciuc.php"
+                target="_blank"
+                rel="noopener"
+              >
+                "Mihai Marinciuc" Memorial Physics Competition
+              </a>
+            </h3>
+
+            <p class="memorial-note">
+              Equivalent in level to the Republican Physics Olympiad.
+            </p>
 
             <div class="achievement-box highlight">
+
               <span class="phase">Contest</span>
+
               <div class="achievement-entries">
-                <div class="achievement-entry"><span class="year">2026</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#5)</span></div>
-                <div class="achievement-entry"><span class="year">2025</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#7)</span></div>
-                <div class="achievement-entry"><span class="year">2024</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#7)</span></div>
-                <div class="achievement-entry"><span class="year">2023</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#10)</span></div>
-                <div class="achievement-entry"><span class="year">2021</span><span class="place place-hm">Honorary Mention</span><span class="rank">(#15)</span></div>
+
+                <div class="achievement-entry">
+                  <span class="year">2026</span>
+                  <span class="place place-hm">Honorary Mention</span>
+                  <span class="rank">(#5)</span>
+                </div>
+
+                <div class="achievement-entry">
+                  <span class="year">2025</span>
+                  <span class="place place-hm">Honorary Mention</span>
+                  <span class="rank">(#7)</span>
+                </div>
+
+                <div class="achievement-entry">
+                  <span class="year">2024</span>
+                  <span class="place place-hm">Honorary Mention</span>
+                  <span class="rank">(#7)</span>
+                </div>
+
+                <div class="achievement-entry">
+                  <span class="year">2023</span>
+                  <span class="place place-hm">Honorary Mention</span>
+                  <span class="rank">(#10)</span>
+                </div>
+
+                <div class="achievement-entry">
+                  <span class="year">2021</span>
+                  <span class="place place-hm">Honorary Mention</span>
+                  <span class="rank">(#15)</span>
+                </div>
+
               </div>
+
             </div>
+
           </div>
+
         </div>
 
         <!-- ================= CAMPS AND COURSES ================= -->
+
         <div id="camps-courses" class="profile-subsection">
-          <h2 style="margin-bottom:1rem;">Camps and Courses</h2>
-          <p class="camps-courses-intro">Below are presented the main Camps and Courses I attended and are worth sharing.</p>
+
+          <h2 style="margin-bottom:1rem;">
+            Camps and Courses
+          </h2>
+
+          <p class="camps-courses-intro">
+            Below are presented the main Camps and Courses I attended and are worth sharing.
+          </p>
+
           <div class="camp-list">
+
             <div class="camp-entry">
-              <p class="camp-title">Third Edition of the Summer School "The Path to Scientific Discoveries"</p>
-              <p class="camp-meta">June 2025 &mdash; Organised by the Academy of Sciences of Moldova</p>
-              <p class="camp-desc">
-                I participated at a summer school program bringing together Noble Prize Laureates, scientists from diverse fields and other experts.
-                They presented instruction in scientific development, research methodology, and
-                the relationship between science and society through lectures and discussions.
-                The program succesfully deepened my interest in the field of research.
+
+              <p class="camp-title">
+                Third Edition of the Summer School "The Path to Scientific Discoveries"
               </p>
+
+              <p class="camp-meta">
+                June 2025 &mdash; Organised by the Academy of Sciences of Moldova
+              </p>
+
+              <p class="camp-desc">
+                I participated at a summer school program bringing together Noble
+                Prize Laureates, scientists from diverse fields and other experts.
+                They presented instruction in scientific development, research
+                methodology, and the relationship between science and society
+                through lectures and discussions. The program succesfully deepened
+                my interest in the field of research.
+              </p>
+
             </div>
+
             <div class="camp-entry">
-              <p class="camp-title">Second Balkan Student Summer School on Quantum Physics</p>
-              <p class="camp-meta">August 2025 &mdash; Organised by the Balkan Physical Union, European Physical Society, Hellenic Physical Society, and others</p>
-              <p class="camp-desc">
-                I was a selected participant in an international summer school on the fundamentals of quantum
-                physics and its applications, bringing together students from across the Balkan
-                region. Gained an understanding of fundamental knowledge, and their relevance to modern quantum technologies such as quantum
-                computing and quantum sensing. Attended lectures and laboratory sessions
-                reproducing classic experiments, including the photoelectric effect, the
-                double-slit experiment, and the Franck&ndash;Hertz experiment in an intuitive way, testing future ways of teaching and learning.
+
+              <p class="camp-title">
+                Second Balkan Student Summer School on Quantum Physics
               </p>
+
+              <p class="camp-meta">
+                August 2025 &mdash; Organised by the Balkan Physical Union,
+                European Physical Society, Hellenic Physical Society, and others
+              </p>
+
+              <p class="camp-desc">
+                I was a selected participant in an international summer school
+                on the fundamentals of quantum physics and its applications,
+                bringing together students from across the Balkan region.
+                Gained an understanding of fundamental knowledge, and their
+                relevance to modern quantum technologies such as quantum
+                computing and quantum sensing. Attended lectures and laboratory
+                sessions reproducing classic experiments, including the
+                photoelectric effect, the double-slit experiment, and the
+                Franck&ndash;Hertz experiment in an intuitive way, testing future
+                ways of teaching and learning.
+              </p>
+
             </div>
+
           </div>
+
         </div>
+
       </section>
 
+      <!-- ================= RESOURCES ================= -->
+
       <section class="content-section" id="resources">
+
         <h1>Resources</h1>
+
         <p>
-          A selection of books I have found valuable, organised by subject. This section is
-          still being expanded. Some books might not be presented here, yet I may have them so contact to receive additional informations. <button type="button" class="inline-link-btn footer-legal-btn" onclick="openBookCopyrightPopup()" style="color:red"><b>Book's Copyright</b></button> <b>AT THE MOMENT THE BOOKS HAVE NOT BEEN INTRODUCED. IN NEAR FUTURE MIGHT APPEAR.</b>
+          A selection of books I have found valuable, organised by subject.
+          This section is still being expanded. Some books might not be presented
+          here, yet I may have them so contact to receive additional informations.
+          <button
+            type="button"
+            class="inline-link-btn footer-legal-btn"
+            onclick="openBookCopyrightPopup()"
+            style="color:red"
+          >
+            <b>Book's Copyright</b>
+          </button>
+
+          <b>
+            AT THE MOMENT THE BOOKS HAVE NOT BEEN INTRODUCED.
+            IN NEAR FUTURE MIGHT APPEAR.
+          </b>
         </p>
 
         <div class="resource-topics">
 
           <div class="resource-topic" id="resource-physics">
+
             <h3>Physics</h3>
+
             <div class="resource-list">
+
               <div class="card resource-row">
+
                 <div class="book-info">
                   <p class="book-title">Book Title</p>
                   <p class="book-author">Author</p>
                 </div>
-                <!-- <a href="#" class="button">Open</a> -->
+
                 <i>Not yet available</i>
+
               </div>
+
             </div>
+
           </div>
 
           <div class="resource-topic" id="resource-mathematics">
+
             <h3>Mathematics</h3>
+
             <div class="resource-list">
+
               <div class="card resource-row">
+
                 <div class="book-info">
                   <p class="book-title">Book Title</p>
                   <p class="book-author">Author</p>
                 </div>
-                <!-- <a href="#" class="button">Open</a> -->
+
                 <i>Not yet available</i>
+
               </div>
+
             </div>
+
           </div>
 
           <div class="resource-topic" id="resource-astronomy">
+
             <h3>Astronomy</h3>
+
             <div class="resource-list">
+
               <div class="card resource-row">
+
                 <div class="book-info">
                   <p class="book-title">Book Title</p>
                   <p class="book-author">Author</p>
                 </div>
-                <!-- <a href="#" class="button">Open</a> -->
+
                 <i>Not yet available</i>
+
               </div>
+
             </div>
+
           </div>
 
           <div class="resource-topic" id="resource-computer-science">
+
             <h3>Computer Science</h3>
+
             <div class="resource-list">
+
               <div class="card resource-row">
+
                 <div class="book-info">
                   <p class="book-title">Book Title</p>
                   <p class="book-author">Author</p>
                 </div>
-                <!-- <a href="#" class="button">Open</a> -->
+
                 <i>Not yet available</i>
+
               </div>
+
             </div>
+
           </div>
 
         </div>
+
       </section>
 
+      <!-- ================= PROJECTS ================= -->
+
       <section class="content-section" id="projects">
+
         <h1>Projects</h1>
-        <p>A selection of independent projects I have worked on.</p>
-        <p style="font-size:0.9em; color:var(--link-color); margin-top:-0.6rem;">
-          Write-ups are still being finalised. PDF links will be enabled as they become <b>available</b>.
+
+        <p>
+          A selection of independent projects I have worked on.
         </p>
-        <div style="display:flex; flex-direction:column; gap:1rem;">
+
+        <p
+          style="
+            font-size:0.9em;
+            color:var(--link-color);
+            margin-top:-0.6rem;
+          "
+        >
+          Write-ups are still being finalised. PDF links will be enabled as they
+          become <b>available</b>.
+        </p>
+
+        <div
+          style="
+            display:flex;
+            flex-direction:column;
+            gap:1rem;
+          "
+        >
 
           <div class="card project-row">
+
             <div class="project-info">
-              <p class="project-title">Project One</p>
-              <p class="project-meta">Damian M&icirc;rza &middot; 2026</p>
+
+              <p class="project-title">
+                Project One
+              </p>
+
+              <p class="project-meta">
+                Damian M&icirc;rza &middot; 2026
+              </p>
+
             </div>
-            <!-- <a href="" class="button project-pdf-btn" aria-disabled="true"><i>Last touches</i></a> -->
+
             <i>Last touches</i>
+
           </div>
 
           <div class="card project-row">
+
             <div class="project-info">
-              <p class="project-title">Project Two</p>
-              <p class="project-meta">Damian M&icirc;rza &middot; 2027</p>
+
+              <p class="project-title">
+                Project Two
+              </p>
+
+              <p class="project-meta">
+                Damian M&icirc;rza &middot; 2027
+              </p>
+
             </div>
-           <!-- <a href="#" class="button project-pdf-btn" aria-disabled="true">View PDF</a> -->
+
             <i>In development</i>
+
           </div>
 
         </div>
+
       </section>
 
     </div>
 
-    <!-- Progress bar -->
+    <!-- ================= PROGRESS BAR ================= -->
+
     <aside class="progress-rail">
+
       <div class="progress-track">
         <div class="progress-fill" id="progress-fill"></div>
       </div>
+
     </aside>
 
   </div>
 </main>
 
+<!-- ================= FOOTER ================= -->
+
 <footer>
+
   <div class="social-links">
-    <a href="mailto:dometian09@gmail.com" aria-label="Email">
-      <svg viewBox="0 0 24 24"><path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Zm2 0v.01L12 12l8-5.99V6H4Zm16 2.24-7.4 5.55a1 1 0 0 1-1.2 0L4 8.24V18h16V8.24Z"/></svg>
+
+    <a
+      href="mailto:dometian09@gmail.com"
+      aria-label="Email"
+    >
+      <svg viewBox="0 0 24 24">
+        <path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Zm2 0v.01L12 12l8-5.99V6H4Zm16 2.24-7.4 5.55a1 1 0 0 1-1.2 0L4 8.24V18h16V8.24Z"/>
+      </svg>
     </a>
-    <a href="https://www.facebook.com/damian.mirza.5/" target="_blank" rel="noopener" aria-label="Facebook">
-      <svg viewBox="0 0 24 24"><path d="M13.5 21v-7.5H16l.4-3H13.5V8.5c0-.87.24-1.46 1.5-1.46h1.6V4.35C16.3 4.24 15.3 4.1 14.15 4.1c-2.4 0-4.05 1.46-4.05 4.15v2.35H7.6v3h2.5V21h3.4Z"/></svg>
+
+    <a
+      href="https://www.facebook.com/damian.mirza.5/"
+      target="_blank"
+      rel="noopener"
+      aria-label="Facebook"
+    >
+      <svg viewBox="0 0 24 24">
+        <path d="M13.5 21v-7.5H16l.4-3H13.5V8.5c0-.87.24-1.46 1.5-1.46h1.6V4.35C16.3 4.24 15.3 4.1 14.15 4.1c-2.4 0-4.05 1.46-4.05 4.15v2.35H7.6v3h2.5V21h3.4Z"/>
+      </svg>
     </a>
-    <a href="https://www.instagram.com/damian_w_m/" target="_blank" rel="noopener" aria-label="Instagram">
-      <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.58.01 4.85.07 1.17.05 1.97.24 2.43.4a4.9 4.9 0 0 1 1.77 1.15 4.9 4.9 0 0 1 1.15 1.77c.16.46.35 1.26.4 2.43.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.24 1.97-.4 2.43a4.9 4.9 0 0 1-1.15 1.77 4.9 4.9 0 0 1-1.77 1.15c-.46.16-1.26.35-2.43.4-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.97-.24-2.43-.4a4.9 4.9 0 0 1-1.77-1.15 4.9 4.9 0 0 1-1.15-1.77c-.16-.46-.35-1.26-.4-2.43C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.85c.05-1.17.24-1.97.4-2.43a4.9 4.9 0 0 1 1.15-1.77A4.9 4.9 0 0 1 5.6 1.8c.46-.16 1.26-.35 2.43-.4C9.3 1.34 9.68 1.33 12 1.33Zm0 1.8c-3.15 0-3.5.01-4.74.07-.96.04-1.48.2-1.82.34-.46.18-.79.4-1.13.75-.35.34-.57.67-.75 1.13-.14.34-.3.86-.34 1.82-.06 1.24-.07 1.6-.07 4.74s.01 3.5.07 4.74c.04.96.2 1.48.34 1.82.18.46.4.79.75 1.13.34.35.67.57 1.13.75.34.14.86.3 1.82.34 1.24.06 1.6.07 4.74.07s3.5-.01 4.74-.07c.96-.04 1.48-.2 1.82-.34.46-.18.79-.4 1.13-.75.35-.34.57-.67.75-1.13.14-.34.3-.86.34-1.82.06-1.24.07-1.6.07-4.74s-.01-3.5-.07-4.74c-.04-.96-.2-1.48-.34-1.82a3.1 3.1 0 0 0-.75-1.13 3.1 3.1 0 0 0-1.13-.75c-.34-.14-.86-.3-1.82-.34-1.24-.06-1.6-.07-4.74-.07Zm0 3.7a4.3 4.3 0 1 1 0 8.6 4.3 4.3 0 0 1 0-8.6Zm0 1.8a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Zm5.47-1.99a1 1 0 1 1-2.01 0 1 1 0 0 1 2.01 0Z"/></svg>
+
+    <a
+      href="https://www.instagram.com/damian_w_m/"
+      target="_blank"
+      rel="noopener"
+      aria-label="Instagram"
+    >
+      <svg viewBox="0 0 24 24">
+        <path d="M12 2.2c3.2 0 3.58.01 4.85.07 1.17.05 1.97.24 2.43.4a4.9 4.9 0 0 1 1.77 1.15 4.9 4.9 0 0 1 1.15 1.77c.16.46.35 1.26.4 2.43.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.24 1.97-.4 2.43a4.9 4.9 0 0 1-1.15 1.77 4.9 4.9 0 0 1-1.77 1.15c-.46.16-1.26.35-2.43.4-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.97-.24-2.43-.4a4.9 4.9 0 0 1-1.77-1.15 4.9 4.9 0 0 1-1.15-1.77c-.16-.46-.35-1.26-.4-2.43C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.85c.05-1.17.24-1.97.4-2.43a4.9 4.9 0 0 1 1.15-1.77A4.9 4.9 0 0 1 5.6 1.8c.46-.14 1.26-.3 2.43-.35C9.3 1.4 9.68 1.33 12 1.33Zm0 1.8c-3.15 0-3.5.01-4.74.07-.96.04-1.48.2-1.82.34-.46.18-.79.4-1.13.75-.35.34-.57.67-.75 1.13-.14.34-.3.86-.34 1.82-.06 1.24-.07 1.6-.07 4.74s.01 3.5.07 4.74c.04.96.2 1.48.34 1.82.18.46.4.79.75 1.13.34.35.67.57 1.13.75.34.14.86.3 1.82.34 1.24.06 1.6.07 4.74.07s3.5-.01 4.74-.07c.96-.04 1.48-.2 1.82-.34.46-.18.79-.4 1.13-.75.35-.34.57-.67.75-1.13.14-.34.3-.86.34-1.82.06-1.24.07-1.6.07-4.74s-.01-3.5-.07-4.74c-.04-.96-.2-1.48-.34-1.82a3.1 3.1 0 0 0-.75-1.13 3.1 3.1 0 0 0-1.13-.75c-.34-.14-.86-.3-1.82-.34-1.24-.06-1.6-.07-4.74-.07Zm0 3.7a4.3 4.3 0 1 1 0 8.6 4.3 4.3 0 0 1 0-8.6Zm0 1.8a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Zm5.47-1.99a1 1 0 1 1-2.01 0 1 1 0 0 1 2.01 0Z"/>
+      </svg>
     </a>
+
   </div>
-  <p class="footer-copy"><b>&copy; 2026. All rights reserved.</b> &middot; <button type="button" class="inline-link-btn footer-legal-btn" onclick="openCopyrightPopup()">Copyright &amp; Terms</button></p>
+
+  <p class="footer-copy">
+    <b>&copy; 2026. All rights reserved.</b>
+    &middot;
+    <button
+      type="button"
+      class="inline-link-btn footer-legal-btn"
+      onclick="openCopyrightPopup()"
+    >
+      Copyright &amp; Terms
+    </button>
+  </p>
+
   <div class="footer-spacer"></div>
+
 </footer>
 
 <script src="script.js"></script>
+
+<!-- ================= TOC + PROGRESS ================= -->
+
 <script>
-  // Live table of contents + progress bar + smooth active subchapter
-  (function() {
-    const sections = document.querySelectorAll('.content-section[id]');
-    const tocLinks = document.querySelectorAll('.toc-list > li > a[data-section]');
-    const tocSubchapters = document.querySelectorAll('.toc-subchapter');
-    const progressFill = document.getElementById('progress-fill');
+(function() {
 
-    const subchapters = [
-      { parent: 'who-i-am', id: 'education', label: 'Education' },
-      { parent: 'who-i-am', id: 'achievements', label: 'Achievements' },
-      { parent: 'who-i-am', id: 'camps-courses', label: 'Camps and Courses' },
-      { parent: 'resources', id: 'resource-physics', label: 'Physics' },
-      { parent: 'resources', id: 'resource-mathematics', label: 'Mathematics' },
-      { parent: 'resources', id: 'resource-astronomy', label: 'Astronomy' },
-      { parent: 'resources', id: 'resource-computer-science', label: 'Computer Science' }
-    ];
+  const sections =
+    document.querySelectorAll('.content-section[id]');
 
-    function onScroll() {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      if (progressFill) progressFill.style.height = Math.min(100, Math.max(0, pct)) + '%';
+  const tocLinks =
+    document.querySelectorAll('.toc-list > li > a[data-section]');
 
-      const triggerLine = window.innerHeight * 0.4;
-      let currentId = sections[0] ? sections[0].id : null;
+  const tocSubchapters =
+    document.querySelectorAll('.toc-subchapter');
 
-      sections.forEach(section => {
-        if (section.getBoundingClientRect().top <= triggerLine) currentId = section.id;
-      });
+  const progressFill =
+    document.getElementById('progress-fill');
 
-      tocLinks.forEach(link => {
-        link.classList.toggle('active', link.dataset.section === currentId);
-      });
+  const subchapters = [
 
-      // Within the active main section, show only the currently active subchapter.
-      let activeSub = null;
-      subchapters.forEach(item => {
-        const el = document.getElementById(item.id);
-        if (el && item.parent === currentId && el.getBoundingClientRect().top <= triggerLine) {
-          activeSub = item;
-        }
-      });
+    {
+      parent: 'who-i-am',
+      id: 'education',
+      label: 'Education'
+    },
 
-      // At the beginning of a main section, show its first subchapter rather than leaving it blank.
-      if (!activeSub) {
-        activeSub = subchapters.find(item => item.parent === currentId) || null;
+    {
+      parent: 'who-i-am',
+      id: 'achievements',
+      label: 'Achievements'
+    },
+
+    {
+      parent: 'who-i-am',
+      id: 'camps-courses',
+      label: 'Camps and Courses'
+    },
+
+    {
+      parent: 'resources',
+      id: 'resource-physics',
+      label: 'Physics'
+    },
+
+    {
+      parent: 'resources',
+      id: 'resource-mathematics',
+      label: 'Mathematics'
+    },
+
+    {
+      parent: 'resources',
+      id: 'resource-astronomy',
+      label: 'Astronomy'
+    },
+
+    {
+      parent: 'resources',
+      id: 'resource-computer-science',
+      label: 'Computer Science'
+    }
+
+  ];
+
+  function onScroll() {
+
+    const scrollTop =
+      window.scrollY;
+
+    const docHeight =
+      document.documentElement.scrollHeight -
+      window.innerHeight;
+
+    const pct =
+      docHeight > 0
+        ? (scrollTop / docHeight) * 100
+        : 0;
+
+    if (progressFill) {
+      progressFill.style.height =
+        Math.min(100, Math.max(0, pct)) + '%';
+    }
+
+    const triggerLine =
+      window.innerHeight * 0.4;
+
+    let currentId =
+      sections[0]
+        ? sections[0].id
+        : null;
+
+    sections.forEach(section => {
+
+      if (
+        section.getBoundingClientRect().top <=
+        triggerLine
+      ) {
+        currentId = section.id;
       }
 
-      tocSubchapters.forEach(container => {
-        const isParent = container.dataset.parent === currentId;
-        const link = container.querySelector('a');
-        const shouldShow = isParent && activeSub;
+    });
 
-        if (shouldShow) {
-          link.textContent = activeSub.label;
-          link.href = '#' + activeSub.id;
-        } else {
-          link.textContent = '';
-        }
-        container.classList.toggle('active', shouldShow);
-      });
+    tocLinks.forEach(link => {
+
+      link.classList.toggle(
+        'active',
+        link.dataset.section === currentId
+      );
+
+    });
+
+    let activeSub = null;
+
+    subchapters.forEach(item => {
+
+      const el =
+        document.getElementById(item.id);
+
+      if (
+        el &&
+        item.parent === currentId &&
+        el.getBoundingClientRect().top <= triggerLine
+      ) {
+        activeSub = item;
+      }
+
+    });
+
+    /*
+     * At the beginning of a main section,
+     * show its first subchapter.
+     */
+    if (!activeSub) {
+
+      activeSub =
+        subchapters.find(
+          item => item.parent === currentId
+        ) || null;
+
     }
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-    onScroll();
-  })();
+    tocSubchapters.forEach(container => {
+
+      const isParent =
+        container.dataset.parent === currentId;
+
+      const link =
+        container.querySelector('a');
+
+      const shouldShow =
+        isParent && activeSub;
+
+      if (shouldShow) {
+
+        link.textContent =
+          activeSub.label;
+
+        link.href =
+          '#' + activeSub.id;
+
+      } else {
+
+        link.textContent =
+          '';
+
+      }
+
+      container.classList.toggle(
+        'active',
+        shouldShow
+      );
+
+    });
+
+  }
+
+  window.addEventListener(
+    'scroll',
+    onScroll,
+    { passive: true }
+  );
+
+  window.addEventListener(
+    'resize',
+    onScroll,
+    { passive: true }
+  );
+
+  onScroll();
+
+})();
 </script>
 
-<!-- Copyright / Terms & Conditions popup -->
-<div class="popup-overlay" id="copyright-popup">
+<!-- ================= COPYRIGHT POPUP ================= -->
+
+<div
+  class="popup-overlay"
+  id="copyright-popup"
+>
+
   <div class="popup-box">
-<h4>Copyright Notice</h4>
-<p>
-  Unless otherwise stated, the source code, website design, layout, original text,
-  photographs, graphics, and other original content published on this website are the
-  intellectual property of Damian M&icirc;rza and are protected by applicable copyright laws,
-  including the laws of the European Union and the Republic of Moldova. All rights are
-  reserved.
-</p>
 
-<p>
-  No part of this website may be copied, reproduced, modified, distributed, republished,
-  or transmitted in any form or by any means without prior written permission, except
-  where such use is expressly permitted by applicable law.
-</p>
+    <h4>Copyright Notice</h4>
 
-<h4>Terms and Conditions</h4>
-<p>
-  This website is provided for informational purposes only. While reasonable efforts are
-  made to ensure that the information published is accurate and up to date, no guarantee
-  or warranty is given regarding its accuracy, completeness, reliability, or suitability.
-  The content may be corrected, updated, or removed at any time without prior notice.
-</p>
+    <p>
+      Unless otherwise stated, the source code, website design, layout,
+      original text, photographs, graphics, and other original content
+      published on this website are the intellectual property of Damian
+      M&icirc;rza and are protected by applicable copyright laws,
+      including the laws of the European Union and the Republic of Moldova.
+      All rights are reserved.
+    </p>
 
-<p>
-  By accessing this website, you agree to use its content only for lawful purposes and
-  not to copy, redistribute, modify, or otherwise exploit any material except where
-  permitted by applicable law or with the prior written permission of the owner.
-</p>
+    <p>
+      No part of this website may be copied, reproduced, modified,
+      distributed, republished, or transmitted in any form or by any means
+      without prior written permission, except where such use is expressly
+      permitted by applicable law.
+    </p>
 
-<p>
-  This website is intended to provide convenient access to publicly shared information
-  and portfolio materials made available by the owner.
-</p>
+    <h4>Terms and Conditions</h4>
 
-<p>
-  This website may process limited technical information, including IP address,
-  approximate geographic location, browser type, and device information, for analytics,
-  security, and website improvement purposes. Where required by applicable law,
-  including the General Data Protection Regulation (GDPR), such processing is carried
-  out in accordance with the applicable legal requirements.
-</p>
-    <p style="color:red">If you do <b>NOT</b> agree to the Copryight rights and Terms &amp; Conditions, please exit the website.</p>
+    <p>
+      This website is provided for informational purposes only. While
+      reasonable efforts are made to ensure that the information published
+      is accurate and up to date, no guarantee or warranty is given regarding
+      its accuracy, completeness, reliability, or suitability. The content
+      may be corrected, updated, or removed at any time without prior notice.
+    </p>
+
+    <p>
+      By accessing this website, you agree to use its content only for lawful
+      purposes and not to copy, redistribute, modify, or otherwise exploit
+      any material except where permitted by applicable law or with the prior
+      written permission of the owner.
+    </p>
+
+    <p>
+      This website is intended to provide convenient access to publicly
+      shared information and portfolio materials made available by the owner.
+    </p>
+
+    <p>
+      This website may process limited technical information, including IP
+      address, approximate geographic location, browser type, and device
+      information, for analytics, security, and website improvement purposes.
+      Where required by applicable law, including the General Data Protection
+      Regulation (GDPR), such processing is carried out in accordance with
+      the applicable legal requirements.
+    </p>
+
+    <p style="color:red">
+      If you do <b>NOT</b> agree to the Copyright rights and Terms &amp;
+      Conditions, please exit the website.
+    </p>
+
     <div class="popup-buttons">
-      <button type="button" class="button popup-close-btn" onclick="closeCopyrightPopup()">I Understand</button>
+
+      <button
+        type="button"
+        class="button popup-close-btn"
+        onclick="closeCopyrightPopup()"
+      >
+        I Understand
+      </button>
+
     </div>
+
   </div>
+
 </div>
 
-<div class="popup-overlay" id="book-copyright-popup">
+<!-- ================= BOOK COPYRIGHT POPUP ================= -->
+
+<div
+  class="popup-overlay"
+  id="book-copyright-popup"
+>
+
   <div class="popup-box">
+
     <h3>Copyright Notice &mdash; Books</h3>
 
-<p>
-  <strong>All books and other literary works referenced or linked on this website remain the intellectual property of their respective authors, publishers, and copyright holders.</strong> No ownership or copyright is claimed over any third-party material presented here.
-</p>
+    <p>
+      <strong>
+        All books and other literary works referenced or linked on this
+        website remain the intellectual property of their respective authors,
+        publishers, and copyright holders.
+      </strong>
+      No ownership or copyright is claimed over any third-party material
+      presented here.
+    </p>
 
-<p>
-  Any material made available through this website is provided solely for purposes that are lawful and, where applicable, educational or informational. Before downloading, copying, sharing, printing, or otherwise using any file, <strong>you are solely responsible for verifying that your intended use is legally permitted</strong> under the copyright laws applicable in your country or jurisdiction.
-</p>
+    <p>
+      Any material made available through this website is provided solely for
+      purposes that are lawful and, where applicable, educational or
+      informational. Before downloading, copying, sharing, printing, or
+      otherwise using any file,
+      <strong>
+        you are solely responsible for verifying that your intended use is
+        legally permitted
+      </strong>
+      under the copyright laws applicable in your country or jurisdiction.
+    </p>
 
-<p>
-  Users within the European Union should be aware that copyright protection is governed by national legislation implementing <strong>Directive (EU) 2019/790 on Copyright and Related Rights in the Digital Single Market (DSM Directive)</strong>, together with other applicable European Union and national copyright laws. Educational use, private use, quotation, research, library exceptions, or other statutory exceptions <strong>do not automatically permit unrestricted copying or distribution</strong> and may vary between jurisdictions.
-</p>
+    <p>
+      Users within the European Union should be aware that copyright
+      protection is governed by national legislation implementing
+      <strong>
+        Directive (EU) 2019/790 on Copyright and Related Rights in the Digital
+        Single Market (DSM Directive)
+      </strong>,
+      together with other applicable European Union and national copyright
+      laws. Educational use, private use, quotation, research, library
+      exceptions, or other statutory exceptions
+      <strong>
+        do not automatically permit unrestricted copying or distribution
+      </strong>
+      and may vary between jurisdictions.
+    </p>
 
-<p>
-  If a work is protected by copyright and no applicable licence, permission, or legal exception applies, it <strong>must not</strong> be downloaded, reproduced, distributed, publicly shared, or used in any manner that infringes the rights of the copyright holder. It is your responsibility to ensure compliance with all applicable copyright laws before using any material.
-</p>
+    <p>
+      If a work is protected by copyright and no applicable licence,
+      permission, or legal exception applies, it
+      <strong>
+        must not be downloaded, reproduced, distributed, publicly shared,
+        or used in any manner that infringes the rights of the copyright
+        holder.
+      </strong>
+      It is your responsibility to ensure compliance with all applicable
+      copyright laws before using any material.
+    </p>
 
-<p>
-  If you are a copyright owner and believe that any content referenced on this website infringes your rights, please contact us. Upon receiving a legitimate notice, we will promptly review the matter and take appropriate action, including removing or disabling access to the material where necessary.
-</p>
-
+    <p>
+      If you are a copyright owner and believe that any content referenced
+      on this website infringes your rights, please contact us. Upon receiving
+      a legitimate notice, we will promptly review the matter and take
+      appropriate action, including removing or disabling access to the
+      material where necessary.
+    </p>
 
     <div class="popup-buttons">
-      <button type="button" class="button popup-close-btn" onclick="closeBookCopyrightPopup()">I Understand</button>
+
+      <button
+        type="button"
+        class="button popup-close-btn"
+        onclick="closeBookCopyrightPopup()"
+      >
+        I Understand
+      </button>
+
     </div>
+
   </div>
+
 </div>
 
+<!-- ================= POPUP JAVASCRIPT ================= -->
+
 <script>
-  function openCopyrightPopup() {
-    document.getElementById('copyright-popup').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeCopyrightPopup() {
-    document.getElementById('copyright-popup').classList.remove('open');
-    document.body.style.overflow = '';
-    localStorage.setItem('copyrightAcknowledged', 'true');
-  }
-  document.getElementById('copyright-popup').addEventListener('click', (e) => {
-    if (e.target.id === 'copyright-popup') closeCopyrightPopup();
+
+function openCopyrightPopup() {
+
+  document
+    .getElementById('copyright-popup')
+    .classList.add('open');
+
+  document.body.style.overflow = 'hidden';
+
+}
+
+function closeCopyrightPopup() {
+
+  document
+    .getElementById('copyright-popup')
+    .classList.remove('open');
+
+  document.body.style.overflow = '';
+
+  localStorage.setItem(
+    'copyrightAcknowledged',
+    'true'
+  );
+
+}
+
+document
+  .getElementById('copyright-popup')
+  .addEventListener('click', (e) => {
+
+    if (e.target.id === 'copyright-popup') {
+      closeCopyrightPopup();
+    }
+
   });
 
-  // Show automatically on first visit (once per browser, not on every page load)
-  if (!localStorage.getItem('copyrightAcknowledged')) {
-    window.addEventListener('DOMContentLoaded', () => {
-      openCopyrightPopup();
-    });
-  }
 
-  function openBookCopyrightPopup() {
-    document.getElementById('book-copyright-popup').classList.add('open');
-    document.body.style.overflow = 'hidden';
+/* Show automatically on first visit */
+
+if (
+  !localStorage.getItem(
+    'copyrightAcknowledged'
+  )
+) {
+
+  window.addEventListener(
+    'DOMContentLoaded',
+    () => {
+      openCopyrightPopup();
+    }
+  );
+
 }
+
+
+function openBookCopyrightPopup() {
+
+  document
+    .getElementById('book-copyright-popup')
+    .classList.add('open');
+
+  document.body.style.overflow = 'hidden';
+
+}
+
 
 function closeBookCopyrightPopup() {
-    document.getElementById('book-copyright-popup').classList.remove('open');
-    document.body.style.overflow = '';
+
+  document
+    .getElementById('book-copyright-popup')
+    .classList.remove('open');
+
+  document.body.style.overflow = '';
+
 }
 
-document.getElementById('book-copyright-popup').addEventListener('click', (e) => {
-    if (e.target.id === 'book-copyright-popup') {
-        closeBookCopyrightPopup();
+
+document
+  .getElementById('book-copyright-popup')
+  .addEventListener('click', (e) => {
+
+    if (
+      e.target.id ===
+      'book-copyright-popup'
+    ) {
+      closeBookCopyrightPopup();
     }
-});
+
+  });
+
 </script>
 
 </body>
