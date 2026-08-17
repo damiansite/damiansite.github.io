@@ -46,6 +46,50 @@
     gap: 1.5rem;
   }
 
+  .toc-list > li {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .toc-subchapter {
+    display: block;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-5px);
+    margin-left: 1.35rem;
+    pointer-events: none;
+    transition: max-height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.35s ease,
+                transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                margin-top 0.45s ease;
+  }
+
+  .toc-subchapter.active {
+    max-height: 2.5rem;
+    opacity: 1;
+    transform: translateY(0);
+    margin-top: 0.35rem;
+    pointer-events: auto;
+  }
+
+  .toc-subchapter a {
+    display: block;
+    text-decoration: none;
+    color: var(--link-color);
+    font-size: 0.86rem;
+    font-weight: 500;
+    padding-left: 0.8rem;
+    border-left: 1px solid var(--accent);
+    transition: color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .toc-subchapter a:hover {
+    color: var(--text-color);
+    transform: translateX(2px);
+  }
+
   .toc-list a {
     text-decoration: none;
     color: var(--link-color);
@@ -137,7 +181,26 @@
     font-size: 1.1em;
     line-height: 1.7em;
     margin: 0 0 1.2rem;
-    max-width: 640px;
+    max-width: 760px;
+    text-align: justify;
+    text-justify: inter-word;
+  }
+
+  /* Large introductory / descriptive paragraphs throughout the page */
+  .content-section .section-intro,
+  .content-section .large-text,
+  .content-section .achievement-intro,
+  .content-section .camps-courses-intro,
+  .content-section .camp-desc {
+    text-align: justify;
+    text-justify: inter-word;
+  }
+
+  .content-section .achievement-intro,
+  .content-section .camps-courses-intro {
+    font-size: 1.1em;
+    line-height: 1.7em;
+    max-width: 760px;
   }
 
   /* Hero intro at top */
@@ -519,6 +582,49 @@
     transform: scale(0.97);
   }
 
+  /* ================= EDUCATION ================= */
+  .education-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+  }
+
+  .education-entry {
+    position: relative;
+    padding: 1.4rem 1.4rem 1.25rem;
+    border-left: 3px solid var(--accent);
+  }
+
+  .education-stage {
+    font-size: 0.78em;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--link-color);
+    margin-bottom: 0.3rem;
+  }
+
+  .education-years {
+    font-size: 0.9em;
+    font-weight: 600;
+    margin-bottom: 0.55rem;
+  }
+
+  .education-entry h3 {
+    margin: 0 0 0.7rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.18em;
+  }
+
+  .education-entry p {
+    margin: 0 0 0.45rem;
+    line-height: 1.6em;
+  }
+
+  .education-entry a {
+    color: var(--link-color);
+  }
+
   /* ================= ACHIEVEMENTS ================= */
   .achievement-subject {
     margin-bottom: 2rem;
@@ -725,9 +831,18 @@
     <!-- Live table of contents (first 20%) -->
     <aside class="toc-rail">
       <ul class="toc-list">
-        <li><a href="#who-i-am" data-section="who-i-am">Profile</a></li>
-        <li><a href="#resources" data-section="resources">Resources</a></li>
-        <li><a href="#projects" data-section="projects">Projects</a></li>
+        <li>
+          <a href="#who-i-am" data-section="who-i-am">Profile</a>
+          <span class="toc-subchapter" data-parent="who-i-am"><a href="#education"></a></span>
+        </li>
+        <li>
+          <a href="#resources" data-section="resources">Resources</a>
+          <span class="toc-subchapter" data-parent="resources"><a href="#resource-physics"></a></span>
+        </li>
+        <li>
+          <a href="#projects" data-section="projects">Projects</a>
+          <span class="toc-subchapter" data-parent="projects"><a href="#projects"></a></span>
+        </li>
       </ul>
     </aside>
 
@@ -738,7 +853,7 @@
         <div class="profile-header-row">
           <div class="profile-text">
             <h1 style="margin-bottom:0;">Profile</h1>
-            <p>
+            <p class="section-intro">
               I am interested in photography and below you can access my gallery. Also I have some academic success in the scientific subjects, with achievements at different competitions shown on this page.
               Alongside the achievements I also present some of the resources which intrigued me (and I am able to share online based on their copyright) and also some research projects I did. This page was
               created for easier access to information for me and also to be able to share it to specific people.
@@ -778,10 +893,45 @@
           </div>
         </div>
 
+        <!-- ================= EDUCATION ================= -->
+        <div id="education" class="profile-subsection">
+          <h2 style="margin-bottom:1rem;">Education</h2>
+          <p class="section-intro">My formal education, presented chronologically by educational stage.</p>
+
+          <div class="education-list">
+            <div class="education-entry card">
+              <div class="education-stage">Primary Education</div>
+              <div class="education-years">[Years of study]</div>
+              <h3>[Full name of lyceum / school]</h3>
+              <p><strong>Classes:</strong> [Classes]</p>
+              <p><strong>Website:</strong> <a href="#">[Website]</a></p>
+              <p class="large-text">[Short description of the institution and your studies here.]</p>
+            </div>
+
+            <div class="education-entry card">
+              <div class="education-stage">Lower Secondary Education</div>
+              <div class="education-years">[Years of study]</div>
+              <h3>[Full name of lyceum / school]</h3>
+              <p><strong>Classes:</strong> [Classes]</p>
+              <p><strong>Website:</strong> <a href="#">[Website]</a></p>
+              <p class="large-text">[Short description of the institution and your studies here.]</p>
+            </div>
+
+            <div class="education-entry card">
+              <div class="education-stage">General Secondary Education</div>
+              <div class="education-years">2024 &mdash; 2027</div>
+              <h3>Instituția Publică Liceul Teoretic Republican „Aristotel”</h3>
+              <p><strong>Classes:</strong> X &mdash; XII (currently XI &bdquo;B&rdquo;)</p>
+              <p><strong>Website:</strong> <a href="https://www.aristotel.md/" target="_blank" rel="noopener">aristotel.md</a></p>
+              <p class="large-text">A republican theoretical lyceum in Chișinău focused on strong pre-university academic preparation, with real and humanities profiles and an emphasis on academic excellence.</p>
+            </div>
+          </div>
+        </div>
+
         <!-- ================= ACHIEVEMENTS ================= -->
-        <div>
+        <div id="achievements" class="profile-subsection">
           <h2 style="margin-bottom:1rem;">Achievements</h2>
-          <p style="margin-bottom:1.5rem; color:var(--link-color); font-size:0.98em;">
+          <p class="achievement-intro" style="margin-bottom:1.5rem; color:var(--link-color);">
             An overview of my results in academic competitions.
           </p>
 
@@ -917,11 +1067,10 @@
         </div>
 
         <!-- ================= CAMPS AND COURSES ================= -->
-        <div>
+        <div id="camps-courses" class="profile-subsection">
           <h2 style="margin-bottom:1rem;">Camps and Courses</h2>
           <p class="camps-courses-intro">Below are presented the main Camps and Courses I attended and are worth sharing.</p>
           <div class="camp-list">
-            <div class="camp-entry"></div>
             <div class="camp-entry">
               <p class="camp-title">Third Edition of the Summer School "The Path to Scientific Discoveries"</p>
               <p class="camp-meta">June 2025 &mdash; Organised by the Academy of Sciences of Moldova</p>
@@ -957,7 +1106,7 @@
 
         <div class="resource-topics">
 
-          <div class="resource-topic">
+          <div class="resource-topic" id="resource-physics">
             <h3>Physics</h3>
             <div class="resource-list">
               <div class="card resource-row">
@@ -971,7 +1120,7 @@
             </div>
           </div>
 
-          <div class="resource-topic">
+          <div class="resource-topic" id="resource-mathematics">
             <h3>Mathematics</h3>
             <div class="resource-list">
               <div class="card resource-row">
@@ -985,7 +1134,7 @@
             </div>
           </div>
 
-          <div class="resource-topic">
+          <div class="resource-topic" id="resource-astronomy">
             <h3>Astronomy</h3>
             <div class="resource-list">
               <div class="card resource-row">
@@ -999,7 +1148,7 @@
             </div>
           </div>
 
-          <div class="resource-topic">
+          <div class="resource-topic" id="resource-computer-science">
             <h3>Computer Science</h3>
             <div class="resource-list">
               <div class="card resource-row">
@@ -1075,32 +1224,66 @@
 
 <script src="script.js"></script>
 <script>
-  // Live table of contents + progress bar
+  // Live table of contents + progress bar + smooth active subchapter
   (function() {
     const sections = document.querySelectorAll('.content-section[id]');
-    const tocLinks = document.querySelectorAll('.toc-list a');
+    const tocLinks = document.querySelectorAll('.toc-list > li > a[data-section]');
+    const tocSubchapters = document.querySelectorAll('.toc-subchapter');
     const progressFill = document.getElementById('progress-fill');
 
+    const subchapters = [
+      { parent: 'who-i-am', id: 'education', label: 'Education' },
+      { parent: 'who-i-am', id: 'achievements', label: 'Achievements' },
+      { parent: 'who-i-am', id: 'camps-courses', label: 'Camps and Courses' },
+      { parent: 'resources', id: 'resource-physics', label: 'Physics' },
+      { parent: 'resources', id: 'resource-mathematics', label: 'Mathematics' },
+      { parent: 'resources', id: 'resource-astronomy', label: 'Astronomy' },
+      { parent: 'resources', id: 'resource-computer-science', label: 'Computer Science' }
+    ];
+
     function onScroll() {
-      // Progress bar: how far scrolled through the page
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
       if (progressFill) progressFill.style.height = Math.min(100, Math.max(0, pct)) + '%';
 
-      // Active section detection
-      let currentId = sections[0] ? sections[0].id : null;
       const triggerLine = window.innerHeight * 0.4;
+      let currentId = sections[0] ? sections[0].id : null;
 
       sections.forEach(section => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top <= triggerLine) {
-          currentId = section.id;
-        }
+        if (section.getBoundingClientRect().top <= triggerLine) currentId = section.id;
       });
 
       tocLinks.forEach(link => {
         link.classList.toggle('active', link.dataset.section === currentId);
+      });
+
+      // Within the active main section, show only the currently active subchapter.
+      let activeSub = null;
+      subchapters.forEach(item => {
+        const el = document.getElementById(item.id);
+        if (el && item.parent === currentId && el.getBoundingClientRect().top <= triggerLine) {
+          activeSub = item;
+        }
+      });
+
+      // At the beginning of a main section, show its first subchapter rather than leaving it blank.
+      if (!activeSub) {
+        activeSub = subchapters.find(item => item.parent === currentId) || null;
+      }
+
+      tocSubchapters.forEach(container => {
+        const isParent = container.dataset.parent === currentId;
+        const link = container.querySelector('a');
+        const shouldShow = isParent && activeSub;
+
+        if (shouldShow) {
+          link.textContent = activeSub.label;
+          link.href = '#' + activeSub.id;
+        } else {
+          link.textContent = '';
+        }
+        container.classList.toggle('active', shouldShow);
       });
     }
 
