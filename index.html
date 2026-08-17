@@ -24,33 +24,58 @@
     position: relative;
   }
 
-  /* Live table of contents - fixed left, centered in first 20% */
-  .toc-rail {
-    width: 18%;
-    min-width: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: sticky;
-    top: 100px;
-    height: calc(100vh - 100px);
-    align-self: flex-start;
-  }
+  /* Live table of contents - fixed left position */
+.toc-rail {
+  width: 18%;
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* changed from center */
+  position: sticky;
+  top: 100px;
+  height: calc(100vh - 100px);
+  align-self: flex-start;
+  padding-left: 2rem;
+  box-sizing: border-box;
+}
 
-  .toc-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
+.toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: max-content; /* allows long subchapters to extend right */
+}
 
-  .toc-list > li {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.toc-list li {
+  width: max-content;
+}
+
+.toc-list a {
+  text-decoration: none;
+  color: var(--link-color);
+  font-weight: 500;
+  font-size: 1.05rem;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  padding-left: 1rem;
+  border-left: 2px solid transparent;
+  display: block;
+  white-space: nowrap;
+}
+
+.toc-list a.active {
+  color: var(--text-color);
+  font-weight: 700;
+  border-left: 2px solid var(--text-color);
+  transform: translateX(4px);
+}
+
+.toc-list a:hover {
+  color: var(--text-color);
+}
 
   .toc-subchapter {
     display: block;
@@ -90,27 +115,7 @@
     transform: translateX(2px);
   }
 
-  .toc-list a {
-    text-decoration: none;
-    color: var(--link-color);
-    font-weight: 500;
-    font-size: 1.05rem;
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    position: relative;
-    padding-left: 1rem;
-    border-left: 2px solid transparent;
-  }
-
-  .toc-list a.active {
-    color: var(--text-color);
-    font-weight: 700;
-    border-left: 2px solid var(--text-color);
-    transform: translateX(4px);
-  }
-
-  .toc-list a:hover {
-    color: var(--text-color);
-  }
+  
 
   /* Content column - middle 60% (relative to page-wrap, since toc+progress take ~36%) */
   .content-col {
