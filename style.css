@@ -377,3 +377,8 @@ body.fade-out {
   background: var(--header-bg);
   color: var(--text-color) !important;
 }
+
+.card,
+.button {
+  will-change: transform;
+}
