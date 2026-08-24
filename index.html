@@ -1952,8 +1952,10 @@
       '.toc-list > li > a[data-section]'
     );
 
-  const tocSubchapters =
-    document.querySelectorAll('.toc-subchapter');
+  const tocSubchapterData = Array.from(tocSubchapters).map(container => ({
+  container,
+  link: container.querySelector('a')
+}));
 
   const progressFill =
     document.getElementById('progress-fill');
@@ -1962,50 +1964,17 @@
     All seven subchapters are explicitly listed here.
   */
   const subchapters = [
-
-    {
-      parent: 'who-i-am',
-      id: 'education',
-      label: 'Education'
-    },
-
-    {
-      parent: 'who-i-am',
-      id: 'achievements',
-      label: 'Achievements'
-    },
-
-    {
-      parent: 'who-i-am',
-      id: 'camps-courses',
-      label: 'Camps and Courses'
-    },
-
-    {
-      parent: 'resources',
-      id: 'resource-physics',
-      label: 'Physics'
-    },
-
-    {
-      parent: 'resources',
-      id: 'resource-mathematics',
-      label: 'Mathematics'
-    },
-
-    {
-      parent: 'resources',
-      id: 'resource-astronomy',
-      label: 'Astronomy'
-    },
-
-    {
-      parent: 'resources',
-      id: 'resource-computer-science',
-      label: 'Computer Science'
-    }
-
-  ];
+  { parent: 'who-i-am', id: 'education', label: 'Education' },
+  { parent: 'who-i-am', id: 'achievements', label: 'Achievements' },
+  { parent: 'who-i-am', id: 'camps-courses', label: 'Camps and Courses' },
+  { parent: 'resources', id: 'resource-physics', label: 'Physics' },
+  { parent: 'resources', id: 'resource-mathematics', label: 'Mathematics' },
+  { parent: 'resources', id: 'resource-astronomy', label: 'Astronomy' },
+  { parent: 'resources', id: 'resource-computer-science', label: 'Computer Science' }
+].map(item => ({
+  ...item,
+  el: document.getElementById(item.id)
+}));
 
   function onScroll() {
 
@@ -2038,7 +2007,7 @@
         : null;
 
     /*
-      Determine the active MAIN section.
+      Determine the ctive MAIN section.
     */
     sections.forEach(section => {
 
@@ -2070,8 +2039,7 @@
 
     subchapters.forEach(item => {
 
-      const el =
-        document.getElementById(item.id);
+      const el = item.el;
 
       if (
         el &&
@@ -2100,13 +2068,10 @@
     /*
       Update the visible TOC subchapter.
     */
-    tocSubchapters.forEach(container => {
+    tocSubchapterData.forEach(({ container, link }) => {
 
       const isParent =
         container.dataset.parent === currentId;
-
-      const link =
-        container.querySelector('a');
 
       const shouldShow =
         isParent && activeSub;
@@ -2134,19 +2099,21 @@
 
   }
 
-  window.addEventListener(
-    'scroll',
-    onScroll,
-    { passive: true }
-  );
+  let ticking = false;
 
-  window.addEventListener(
-    'resize',
-    onScroll,
-    { passive: true }
-  );
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    window.requestAnimationFrame(() => {
+      onScroll();
+      ticking = false;
+    });
+    ticking = true;
+  }
+}, { passive: true });
 
-  onScroll();
+window.addEventListener('resize', onScroll, { passive: true });
+
+onScroll();
 
 })();
 </script>
