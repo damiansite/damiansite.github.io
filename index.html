@@ -1952,168 +1952,102 @@
       '.toc-list > li > a[data-section]'
     );
 
+  const tocSubchapters =
+    document.querySelectorAll('.toc-subchapter'); // <-- THIS LINE WAS MISSING
+
   const tocSubchapterData = Array.from(tocSubchapters).map(container => ({
-  container,
-  link: container.querySelector('a')
-}));
+    container,
+    link: container.querySelector('a')
+  }));
 
   const progressFill =
     document.getElementById('progress-fill');
 
-  /*
-    All seven subchapters are explicitly listed here.
-  */
   const subchapters = [
-  { parent: 'who-i-am', id: 'education', label: 'Education' },
-  { parent: 'who-i-am', id: 'achievements', label: 'Achievements' },
-  { parent: 'who-i-am', id: 'camps-courses', label: 'Camps and Courses' },
-  { parent: 'resources', id: 'resource-physics', label: 'Physics' },
-  { parent: 'resources', id: 'resource-mathematics', label: 'Mathematics' },
-  { parent: 'resources', id: 'resource-astronomy', label: 'Astronomy' },
-  { parent: 'resources', id: 'resource-computer-science', label: 'Computer Science' }
-].map(item => ({
-  ...item,
-  el: document.getElementById(item.id)
-}));
+    { parent: 'who-i-am', id: 'education', label: 'Education' },
+    { parent: 'who-i-am', id: 'achievements', label: 'Achievements' },
+    { parent: 'who-i-am', id: 'camps-courses', label: 'Camps and Courses' },
+    { parent: 'resources', id: 'resource-physics', label: 'Physics' },
+    { parent: 'resources', id: 'resource-mathematics', label: 'Mathematics' },
+    { parent: 'resources', id: 'resource-astronomy', label: 'Astronomy' },
+    { parent: 'resources', id: 'resource-computer-science', label: 'Computer Science' }
+  ].map(item => ({
+    ...item,
+    el: document.getElementById(item.id)
+  }));
 
   function onScroll() {
 
-    const scrollTop =
-      window.scrollY;
+    const scrollTop = window.scrollY;
 
     const docHeight =
-      document.documentElement.scrollHeight -
-      window.innerHeight;
+      document.documentElement.scrollHeight - window.innerHeight;
 
-    const pct =
-      docHeight > 0
-        ? (scrollTop / docHeight) * 100
-        : 0;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
 
     if (progressFill) {
       progressFill.style.height =
-        Math.min(
-          100,
-          Math.max(0, pct)
-        ) + '%';
+        Math.min(100, Math.max(0, pct)) + '%';
     }
 
-    const triggerLine =
-      window.innerHeight * 0.4;
+    const triggerLine = window.innerHeight * 0.4;
 
-    let currentId =
-      sections[0]
-        ? sections[0].id
-        : null;
+    let currentId = sections[0] ? sections[0].id : null;
 
-    /*
-      Determine the ctive MAIN section.
-    */
     sections.forEach(section => {
-
-      if (
-        section.getBoundingClientRect().top
-        <= triggerLine
-      ) {
+      if (section.getBoundingClientRect().top <= triggerLine) {
         currentId = section.id;
       }
-
     });
 
-    /*
-      Highlight the main TOC item.
-    */
     tocLinks.forEach(link => {
-
-      link.classList.toggle(
-        'active',
-        link.dataset.section === currentId
-      );
-
+      link.classList.toggle('active', link.dataset.section === currentId);
     });
 
-    /*
-      Determine which subchapter is currently active.
-    */
     let activeSub = null;
 
     subchapters.forEach(item => {
-
       const el = item.el;
-
-      if (
-        el &&
-        item.parent === currentId &&
-        el.getBoundingClientRect().top
-        <= triggerLine
-      ) {
+      if (el && item.parent === currentId && el.getBoundingClientRect().top <= triggerLine) {
         activeSub = item;
       }
-
     });
 
-    /*
-      At the beginning of a main section,
-      display its first subchapter.
-    */
     if (!activeSub) {
-
-      activeSub =
-        subchapters.find(
-          item => item.parent === currentId
-        ) || null;
-
+      activeSub = subchapters.find(item => item.parent === currentId) || null;
     }
 
-    /*
-      Update the visible TOC subchapter.
-    */
     tocSubchapterData.forEach(({ container, link }) => {
-
-      const isParent =
-        container.dataset.parent === currentId;
-
-      const shouldShow =
-        isParent && activeSub;
+      const isParent = container.dataset.parent === currentId;
+      const shouldShow = isParent && activeSub;
 
       if (shouldShow) {
-
-        link.textContent =
-          activeSub.label;
-
-        link.href =
-          '#' + activeSub.id;
-
+        link.textContent = activeSub.label;
+        link.href = '#' + activeSub.id;
       } else {
-
         link.textContent = '';
-
       }
 
-      container.classList.toggle(
-        'active',
-        shouldShow
-      );
-
+      container.classList.toggle('active', shouldShow);
     });
 
   }
 
   let ticking = false;
 
-window.addEventListener('scroll', () => {
-  if (!ticking) {
-    window.requestAnimationFrame(() => {
-      onScroll();
-      ticking = false;
-    });
-    ticking = true;
-  }
-}, { passive: true });
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        onScroll();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
 
-window.addEventListener('resize', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
 
-onScroll();
+  onScroll();
 
 })();
 </script>
